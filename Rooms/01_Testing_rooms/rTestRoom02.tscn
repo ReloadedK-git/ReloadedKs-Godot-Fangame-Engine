@@ -1,0 +1,166 @@
+[gd_scene load_steps=19 format=3 uid="uid://c7x2p1xnrh2l4"]
+
+[ext_resource type="PackedScene" uid="uid://bm40t36a6m8sc" path="res://Objects/Tiles/til32x32.tscn" id="1_eguov"]
+[ext_resource type="PackedScene" uid="uid://bp5rqk4l7tesk" path="res://Objects/Player/objPlayer.tscn" id="4_62n00"]
+[ext_resource type="PackedScene" uid="uid://bo3vrmvp7ayf8" path="res://Objects/Room_objects/objWarp.tscn" id="4_cy3jd"]
+[ext_resource type="PackedScene" uid="uid://uc3dfxqfjl7l" path="res://Objects/Backgrounds/objBackgroundTexture.tscn" id="4_dbyva"]
+[ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="5_nsdgs"]
+[ext_resource type="PackedScene" uid="uid://cdx3h81o7hqb4" path="res://Objects/Room_objects/objCameraDynamic.tscn" id="5_x1x80"]
+[ext_resource type="AudioStream" uid="uid://cbtxeavsqivpn" path="res://Audio/Music/musLevel01.ogg" id="6_8ejd4"]
+[ext_resource type="PackedScene" uid="uid://dr8oelp87b8uc" path="res://Objects/Gimmicks/objCoin.tscn" id="8_g8ylq"]
+[ext_resource type="PackedScene" uid="uid://b31w5fm4w5857" path="res://Objects/Room_objects/objSavePoint.tscn" id="8_yym6q"]
+[ext_resource type="PackedScene" uid="uid://dvh5p5m0s4ju3" path="res://Objects/Collectables/objCollectableItem.tscn" id="10_lunno"]
+[ext_resource type="PackedScene" uid="uid://dvoglwrd5xiy4" path="res://Objects/Gimmicks/tilVines.tscn" id="11_hgcl1"]
+[ext_resource type="PackedScene" uid="uid://blwcesaom6rxd" path="res://Objects/Gimmicks/objWater.tscn" id="12_vixq5"]
+[ext_resource type="PackedScene" uid="uid://bjbhbgxqbori8" path="res://Objects/Trigger_system/objTriggerBlock.tscn" id="13_iyam4"]
+[ext_resource type="PackedScene" uid="uid://da1qaif83tf17" path="res://Objects/Trigger_system/objTrigger.tscn" id="13_yv60o"]
+[ext_resource type="PackedScene" uid="uid://blj3cyjlb8uil" path="res://Objects/Gimmicks/objInvisibleBlock.tscn" id="16_ispj3"]
+[ext_resource type="AudioStream" uid="uid://cdt6et828ao0j" path="res://Audio/Sounds/sndBlockChange.wav" id="16_vq0hl"]
+[ext_resource type="PackedScene" uid="uid://chskqaeqby1wj" path="res://Objects/Hazards/objJumpSwitchSpikeUp.tscn" id="17_t33oq"]
+[ext_resource type="PackedScene" uid="uid://dh3qghmnw4kej" path="res://Objects/Hazards/objJumpSwitchSpikeDown.tscn" id="18_3lka1"]
+
+[node name="rTestRoom02" type="Node2D"]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="objMusicPlayer" parent="Environment" instance=ExtResource("5_nsdgs")]
+position = Vector2(-16, 16)
+song_id = ExtResource("6_8ejd4")
+
+[node name="til32x32" parent="Environment" instance=ExtResource("1_eguov")]
+layer_0/tile_data = PackedInt32Array(1114112, 65536, 1, 1114136, 65536, 1, 1, 65536, 1, 1179649, 65536, 1, 1179671, 65536, 1, 23, 65536, 1, 22, 65536, 1, 21, 65536, 1, 20, 65536, 1, 19, 65536, 1, 18, 65536, 1, 17, 65536, 1, 16, 65536, 1, 15, 65536, 1, 14, 65536, 1, 13, 65536, 1, 12, 65536, 1, 11, 65536, 1, 10, 65536, 1, 9, 65536, 1, 8, 65536, 1, 7, 65536, 1, 6, 65536, 1, 5, 65536, 1, 4, 65536, 1, 3, 65536, 1, 2, 65536, 1, 24, 65536, 1, 65560, 65536, 1, 131096, 65536, 1, 196632, 65536, 1, 262168, 65536, 1, 327704, 65536, 1, 393240, 65536, 1, 458776, 65536, 1, 524312, 65536, 1, 589848, 65536, 1, 655384, 65536, 1, 720920, 65536, 1, 786456, 65536, 1, 851992, 65536, 1, 917528, 65536, 1, 983064, 65536, 1, 1048600, 65536, 1, 1179672, 65536, 1, 1179670, 65536, 1, 1179669, 65536, 1, 1179668, 65536, 1, 1179667, 65536, 1, 1179666, 65536, 1, 1179665, 65536, 1, 1179664, 65536, 1, 1179663, 65536, 1, 1179662, 65536, 1, 1179661, 65536, 1, 1179660, 65536, 1, 1179659, 65536, 1, 1179658, 65536, 1, 1179657, 65536, 1, 1179656, 65536, 1, 1179655, 65536, 1, 1179654, 65536, 1, 1179653, 65536, 1, 1179652, 65536, 1, 1179651, 65536, 1, 1179650, 65536, 1, 1179648, 65536, 1, 1048576, 65536, 1, 983040, 65536, 1, 917504, 65536, 1, 851968, 65536, 1, 786432, 65536, 1, 720896, 65536, 1, 655360, 65536, 1, 589824, 65536, 1, 524288, 65536, 1, 458752, 65536, 1, 393216, 65536, 1, 327680, 65536, 1, 262144, 65536, 1, 196608, 65536, 1, 131072, 65536, 1, 65536, 65536, 1, 0, 65536, 1, 720904, 0, 1, 720912, 0, 1, 917515, 0, 1, 917516, 0, 1, 917517, 0, 1, 720903, 0, 1, 720913, 0, 1, 917518, 0, 1, 917514, 0, 1, 720905, 0, 1, 720911, 0, 1, 1114113, 0, 1, 1114114, 0, 1, 1114115, 0, 1, 1114116, 0, 1, 1114117, 0, 1, 1114118, 0, 1, 1114119, 0, 1, 1114120, 0, 1, 1114121, 0, 1, 1114122, 0, 1, 1114123, 0, 1, 1114124, 0, 1, 1114125, 0, 1, 1114126, 0, 1, 1114127, 0, 1, 1114128, 0, 1, 1114129, 0, 1, 1114130, 0, 1, 1114131, 0, 1, 1114132, 0, 1, 1114133, 0, 1, 1114134, 0, 1, 1114135, 0, 1, 589827, 65536, 1, 655363, 65536, 1, 720899, 65536, 1, 786435, 65536, 1, 851971, 65536, 1, 917507, 65536, 1, 983043, 65536, 1, 458755, 65536, 1, 524291, 65536, 1, 327683, 0, 1, 393219, 65536, 1, 65556, 65536, 1, 131092, 65536, 1, 196628, 65536, 1, 262164, 65536, 1, 327700, 65536, 1, 720916, 0, 1, 720917, 0, 1, 720918, 0, 1, 720919, 0, 1, 655383, 196608, 2, 589835, 0, 1, 589836, 0, 1, 589837, 0, 1, 458761, 0, 1, 458760, 0, 1, 458759, 0, 1, 458767, 0, 1, 458768, 0, 1, 458769, 0, 1, 262155, 0, 1, 262156, 0, 1, 262157, 0, 1)
+
+[node name="objBackgroundTexture" parent="Environment" instance=ExtResource("4_dbyva")]
+offset_right = 800.0
+offset_bottom = 608.0
+
+[node name="Room_related" type="Node2D" parent="."]
+
+[node name="objPlayer" parent="Room_related" instance=ExtResource("4_62n00")]
+position = Vector2(400, 528)
+
+[node name="objCameraDynamic" parent="Room_related" node_paths=PackedStringArray("target_node") instance=ExtResource("5_x1x80")]
+position = Vector2(-16, 48)
+target_node = NodePath("../objPlayer")
+stop_left_at = 0
+stop_up_at = 0
+stop_right_at = 800
+stop_down_at = 608
+
+[node name="objSavePoint" parent="Room_related" instance=ExtResource("8_yym6q")]
+position = Vector2(400, 496)
+
+[node name="objWarp" parent="Room_related" instance=ExtResource("4_cy3jd")]
+position = Vector2(400, 432)
+warp_to = "res://Rooms/01_Testing_rooms/rTestRoom01.tscn"
+warp_transition = true
+warp_to_point = Vector2(224, 176)
+
+[node name="Gimmicks" type="Node2D" parent="."]
+
+[node name="Coins" type="Node2D" parent="Gimmicks"]
+
+[node name="objCoin" parent="Gimmicks/Coins" node_paths=PackedStringArray("scene_to_destroy") instance=ExtResource("8_g8ylq")]
+position = Vector2(272, 336)
+scene_to_destroy = NodePath("../tilDestroyedByCoins")
+
+[node name="objCoin2" parent="Gimmicks/Coins" node_paths=PackedStringArray("scene_to_destroy") instance=ExtResource("8_g8ylq")]
+position = Vector2(272, 208)
+scene_to_destroy = NodePath("../tilDestroyedByCoins")
+
+[node name="objCoin3" parent="Gimmicks/Coins" node_paths=PackedStringArray("scene_to_destroy") instance=ExtResource("8_g8ylq")]
+position = Vector2(400, 272)
+scene_to_destroy = NodePath("../tilDestroyedByCoins")
+
+[node name="objCoin4" parent="Gimmicks/Coins" node_paths=PackedStringArray("scene_to_destroy") instance=ExtResource("8_g8ylq")]
+position = Vector2(528, 208)
+scene_to_destroy = NodePath("../tilDestroyedByCoins")
+
+[node name="objCoin5" parent="Gimmicks/Coins" node_paths=PackedStringArray("scene_to_destroy") instance=ExtResource("8_g8ylq")]
+position = Vector2(528, 336)
+scene_to_destroy = NodePath("../tilDestroyedByCoins")
+
+[node name="tilDestroyedByCoins" parent="Gimmicks/Coins" instance=ExtResource("1_eguov")]
+layer_0/tile_data = PackedInt32Array(851979, 196608, 3, 851981, 196608, 3, 786443, 131072, 3, 786444, 131072, 3, 786445, 131072, 3)
+
+[node name="objCollectableItem" parent="Gimmicks" instance=ExtResource("10_lunno")]
+position = Vector2(720, 80)
+item_name = "item_01"
+
+[node name="tilVines" parent="Gimmicks" instance=ExtResource("11_hgcl1")]
+layer_0/tile_data = PackedInt32Array(327681, 65536, 0, 393217, 65536, 0, 458753, 65536, 0, 524289, 65536, 0, 589825, 65536, 0, 655361, 65536, 0, 720897, 65536, 0, 786433, 65536, 0, 851969, 65536, 0, 917505, 65536, 0, 983041, 65536, 0, 1048577, 65536, 0, 327686, 0, 0, 393222, 0, 0, 458758, 0, 0, 524294, 0, 0, 589830, 0, 0, 655366, 0, 0, 720902, 0, 0, 786438, 0, 0, 851974, 0, 0, 917510, 0, 0, 983046, 0, 0)
+
+[node name="objWater" parent="Gimmicks" instance=ExtResource("12_vixq5")]
+position = Vector2(32, 32)
+scale = Vector2(2, 2)
+
+[node name="objInvisibleBlock" parent="Gimmicks" instance=ExtResource("16_ispj3")]
+position = Vector2(592, 464)
+
+[node name="objInvisibleBlock2" parent="Gimmicks" instance=ExtResource("16_ispj3")]
+position = Vector2(624, 464)
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="objJumpSwitchSpikeUp" parent="Hazards" instance=ExtResource("17_t33oq")]
+position = Vector2(720, 528)
+
+[node name="objJumpSwitchSpikeUp2" parent="Hazards" instance=ExtResource("17_t33oq")]
+modulate = Color(1, 1, 1, 0.313726)
+position = Vector2(752, 528)
+spike_hidden = true
+
+[node name="objJumpSwitchSpikeDown" parent="Hazards" instance=ExtResource("18_3lka1")]
+position = Vector2(720, 400)
+
+[node name="objJumpSwitchSpikeDown2" parent="Hazards" instance=ExtResource("18_3lka1")]
+modulate = Color(1, 1, 1, 0.313726)
+position = Vector2(752, 400)
+spike_hidden = true
+
+[node name="Trigger_related" type="Node2D" parent="."]
+
+[node name="objTriggerBlock" parent="Trigger_related" instance=ExtResource("13_iyam4")]
+position = Vector2(656, 208)
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock" index="2"]
+points = PackedVector2Array(0, 0, 32, 64)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock" index="3"]
+position = Vector2(32, 64)
+
+[node name="objTriggerBlock2" parent="Trigger_related" instance=ExtResource("13_iyam4")]
+position = Vector2(688, 208)
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock2" index="2"]
+points = PackedVector2Array(0, 0, 32, 64)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock2" index="3"]
+position = Vector2(32, 64)
+
+[node name="objTriggerBlock3" parent="Trigger_related" instance=ExtResource("13_iyam4")]
+position = Vector2(720, 208)
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock3" index="2"]
+points = PackedVector2Array(0, 0, 0, -32)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock3" index="3"]
+position = Vector2(0, -32)
+
+[node name="objTriggerBlock4" parent="Trigger_related" instance=ExtResource("13_iyam4")]
+position = Vector2(752, 208)
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock4" index="2"]
+points = PackedVector2Array(0, 0, 0, -32)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock4" index="3"]
+position = Vector2(0, -32)
+
+[node name="objTrigger" parent="Trigger_related" instance=ExtResource("13_yv60o")]
+position = Vector2(752, 336)
+trigger_sound = ExtResource("16_vq0hl")
+
+[editable path="Trigger_related/objTriggerBlock"]
+[editable path="Trigger_related/objTriggerBlock2"]
+[editable path="Trigger_related/objTriggerBlock3"]
+[editable path="Trigger_related/objTriggerBlock4"]

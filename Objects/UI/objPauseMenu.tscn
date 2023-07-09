@@ -1,0 +1,85 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6e8hsgoxslt3"]
+
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="1_m788q"]
+[ext_resource type="Script" path="res://Scripts/UI/scrPauseMenu.gd" id="1_yte7v"]
+[ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objGenericMenuButton.tscn" id="3_vn420"]
+
+[node name="objPauseMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_yte7v")
+main_menu = "res://Rooms/00_Title_and_menus/rMainMenu.tscn"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+custom_minimum_size = Vector2(800, 608)
+offset_right = 800.0
+offset_bottom = 608.0
+color = Color(0, 0, 0, 0.588235)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -304.0
+offset_right = 400.0
+offset_bottom = 304.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="GamePaused" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 14
+theme_override_fonts/font = ExtResource("1_m788q")
+theme_override_font_sizes/font_size = 80
+text = "Game Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicVolume" parent="CanvasLayer/VBoxContainer" instance=ExtResource("3_vn420")]
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ResumeGame")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../SoundVolume")
+action_mode = 0
+
+[node name="SoundVolume" parent="CanvasLayer/VBoxContainer" instance=ExtResource("3_vn420")]
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../MusicVolume")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../QuitToMenu")
+action_mode = 0
+
+[node name="QuitToMenu" parent="CanvasLayer/VBoxContainer" instance=ExtResource("3_vn420")]
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../SoundVolume")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ResumeGame")
+action_mode = 0
+
+[node name="ResumeGame" parent="CanvasLayer/VBoxContainer" instance=ExtResource("3_vn420")]
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../QuitToMenu")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../MusicVolume")
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="gui_input" from="CanvasLayer/VBoxContainer/MusicVolume" to="." method="_on_music_volume_gui_input"]
+[connection signal="gui_input" from="CanvasLayer/VBoxContainer/SoundVolume" to="." method="_on_sound_volume_gui_input"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/QuitToMenu" to="." method="_on_quit_to_menu_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/ResumeGame" to="." method="_on_resume_game_pressed"]

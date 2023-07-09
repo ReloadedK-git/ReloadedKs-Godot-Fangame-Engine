@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://nc5enh8swv78"]
+
+[node name="objBackgroundColor" type="ColorRect"]
+editor_description = "1) Add to the room
+2) Stretch to the desired dimensions
+3) Pick the color"
+z_index = -100
+offset_right = 64.0
+offset_bottom = 64.0
+color = Color(0.839216, 0.792157, 0.745098, 1)

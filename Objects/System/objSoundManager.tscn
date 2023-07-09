@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://v76rkjcj1yms"]
+
+[ext_resource type="Script" path="res://Scripts/Globals/scrSoundManager.gd" id="1_5balp"]
+
+[node name="objSoundManager" type="Node"]
+script = ExtResource("1_5balp")
+
+[node name="audioPlayerList" type="Node" parent="."]
+
+[node name="1" type="AudioStreamPlayer" parent="audioPlayerList"]
+bus = &"Sounds"
+
+[node name="2" type="AudioStreamPlayer" parent="audioPlayerList"]
+bus = &"Sounds"
+
+[node name="3" type="AudioStreamPlayer" parent="audioPlayerList"]
+bus = &"Sounds"
+
+[node name="4" type="AudioStreamPlayer" parent="audioPlayerList"]
+bus = &"Sounds"
+
+[node name="5" type="AudioStreamPlayer" parent="audioPlayerList"]
+bus = &"Sounds"
+
+[node name="6" type="AudioStreamPlayer" parent="audioPlayerList"]
+bus = &"Sounds"
+
+[node name="7" type="AudioStreamPlayer" parent="audioPlayerList"]
+bus = &"Sounds"
+
+[node name="8" type="AudioStreamPlayer" parent="audioPlayerList"]
+bus = &"Sounds"

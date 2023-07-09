@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo0yb0dkqtcdt"]
+
+[ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="1_rc3xc"]
+[ext_resource type="PackedScene" uid="uid://yab7pya0yr1j" path="res://Objects/Room_objects/objCameraFixed.tscn" id="2_757wq"]
+
+[node name="rTemplate" type="Node2D"]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="objMusicPlayer" parent="Environment" instance=ExtResource("1_rc3xc")]
+position = Vector2(-16, 16)
+
+[node name="Room_related" type="Node2D" parent="."]
+
+[node name="objCameraFixed" parent="Room_related" instance=ExtResource("2_757wq")]
+position = Vector2(-16, 48)
+
+[node name="Gimmicks" type="Node2D" parent="."]
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="Trigger_related" type="Node2D" parent="."]

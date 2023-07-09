@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdx3h81o7hqb4"]
+
+[ext_resource type="Script" path="res://Scripts/Room_objects/scrCameraDynamic.gd" id="1_335kd"]
+[ext_resource type="Texture2D" uid="uid://b6wjn6wemp8tk" path="res://Graphics/Sprites/Room_objects/sprCamera.png" id="2_uq2mm"]
+
+[node name="objCameraDynamic" type="Camera2D"]
+script = ExtResource("1_335kd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_uq2mm")

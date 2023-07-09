@@ -1,0 +1,123 @@
+[gd_scene load_steps=15 format=3 uid="uid://bo0xmwa0251wv"]
+
+[ext_resource type="Script" path="res://Scripts/Hazards/scrDummyEnemy.gd" id="1_m3cl5"]
+[ext_resource type="Shader" path="res://Scripts/Shaders/shHitBlink.gdshader" id="2_33tsx"]
+[ext_resource type="Texture2D" uid="uid://duaprtq8m8lgj" path="res://Graphics/Sprites/Enemies/sprDummyEnemy.png" id="3_cxvf5"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="4_c4tad"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sywoh"]
+shader = ExtResource("2_33tsx")
+shader_parameter/hit_opacity = 0.0
+shader_parameter/hit_color = Color(1, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8rg0"]
+atlas = ExtResource("3_cxvf5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slxx6"]
+atlas = ExtResource("3_cxvf5")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mm6ve"]
+atlas = ExtResource("3_cxvf5")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajyp2"]
+atlas = ExtResource("3_cxvf5")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xhhqx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8rg0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slxx6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mm6ve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ajyp2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwk32"]
+size = Vector2(12, 20)
+
+[sub_resource type="Animation" id="Animation_piwi7"]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/hit_opacity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_881sp"]
+resource_name = "hitBlink"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/hit_opacity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0jwpp"]
+_data = {
+"RESET": SubResource("Animation_piwi7"),
+"hitBlink": SubResource("Animation_881sp")
+}
+
+[node name="objEnemyDummy" type="AnimatableBody2D" groups=["Killers"]]
+collision_layer = 40
+collision_mask = 17
+script = ExtResource("1_m3cl5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_sywoh")
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_xhhqx")
+autoplay = "default"
+frame_progress = 0.14833
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 12)
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_gwk32")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_0jwpp")
+}
+
+[node name="Label" type="Label" parent="."]
+offset_left = -32.0
+offset_top = -37.0
+offset_right = 32.0
+offset_bottom = -10.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("4_c4tad")
+theme_override_font_sizes/font_size = 10
+text = "Dummy"
+horizontal_alignment = 1
+vertical_alignment = 1

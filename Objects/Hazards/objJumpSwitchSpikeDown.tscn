@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh3qghmnw4kej"]
+
+[ext_resource type="Script" path="res://Scripts/Hazards/scrJumpSwitchSpikeDown.gd" id="1_fp68n"]
+[ext_resource type="Texture2D" uid="uid://bwa11pu58olr" path="res://Graphics/Sprites/Hazards/sprSpikeDown.png" id="2_7aax4"]
+
+[node name="objJumpSwitchSpikeDown" type="AnimatableBody2D"]
+z_index = -1
+collision_layer = 8
+collision_mask = 0
+sync_to_physics = false
+script = ExtResource("1_fp68n")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_7aax4")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, 16, 16, -16, -16, -16)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1.43051e-06, 1.43051e-06)
+scale = Vector2(1.6, 1.6)
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

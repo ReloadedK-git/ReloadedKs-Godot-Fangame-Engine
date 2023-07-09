@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://4frecr1v7p44"]
+
+[ext_resource type="Script" path="res://Scripts/Hazards/scrBouncingCherry.gd" id="1_uplw4"]
+[ext_resource type="Texture2D" uid="uid://bwlyhgiw23fwi" path="res://Graphics/Sprites/Hazards/sprCherry.png" id="2_xqd8d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmtqc"]
+atlas = ExtResource("2_xqd8d")
+region = Rect2(0, 0, 21, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el1rh"]
+atlas = ExtResource("2_xqd8d")
+region = Rect2(21, 0, 21, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qvfqi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmtqc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el1rh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ybf80"]
+
+[node name="objBouncingCherry" type="CharacterBody2D" groups=["Killers"]]
+collision_layer = 8
+collision_mask = 64
+script = ExtResource("1_uplw4")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qvfqi")
+autoplay = "default"
+frame_progress = 0.11997
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ybf80")

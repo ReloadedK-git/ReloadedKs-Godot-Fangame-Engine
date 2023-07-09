@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Dialog/scrSign.gd" id="1_2joc5"]
+[ext_resource type="Texture2D" uid="uid://ox7qqy44wanl" path="res://Graphics/Sprites/Dialog_system/sprSign.png" id="1_86i65"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="3_dg8qb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tt1lf"]
+size = Vector2(32, 32)
+
+[node name="objSign" type="Area2D"]
+script = ExtResource("1_2joc5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_86i65")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tt1lf")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -56.0
+offset_top = -48.0
+offset_right = 56.0
+offset_bottom = -16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_dg8qb")
+theme_override_font_sizes/font_size = 20
+text = "Press \"key\""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

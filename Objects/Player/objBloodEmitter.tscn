@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbvtlqr51yf26"]
+
+[ext_resource type="Material" uid="uid://iomu88koaflo" path="res://Resources/Materials/matBloodEmitter.tres" id="1_1qf6g"]
+[ext_resource type="Script" path="res://Scripts/Player/scrBloodEmitter.gd" id="1_sa465"]
+[ext_resource type="Texture2D" uid="uid://burygy08cq204" path="res://Graphics/Sprites/Player/sprPlayerFall.png" id="2_bl6xv"]
+
+[node name="objBloodEmitter" type="GPUParticles2D"]
+z_index = 2
+amount = 50
+process_material = ExtResource("1_1qf6g")
+lifetime = 0.4
+script = ExtResource("1_sa465")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_bl6xv")
+hframes = 2
+
+[node name="TimerBlink" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="TimerAutoreset" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="TimerEmitterStop" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+autostart = true
+
+[node name="TimerDestroy" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="TimerBlink" to="." method="_on_timer_blink_timeout"]
+[connection signal="timeout" from="TimerAutoreset" to="." method="_on_timer_autoreset_timeout"]
+[connection signal="timeout" from="TimerEmitterStop" to="." method="_on_timer_emitter_stop_timeout"]
+[connection signal="timeout" from="TimerDestroy" to="." method="_on_timer_destroy_timeout"]

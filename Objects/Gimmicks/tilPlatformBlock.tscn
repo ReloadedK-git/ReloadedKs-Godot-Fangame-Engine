@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Texture2D" uid="uid://dwbd007gqb7k5" path="res://Graphics/Tilemaps/tilPlatformBlock.png" id="1_rn1wv"]
+[ext_resource type="Script" path="res://Scripts/Tilemaps/scrHideTilemap.gd" id="2_p0m6r"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ecn4o"]
+texture = ExtResource("1_rn1wv")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_gfgas"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 64
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_ecn4o")
+
+[node name="platformBlockTilemap" type="TileMap" groups=["PlatformBlock"]]
+tile_set = SubResource("TileSet_gfgas")
+cell_quadrant_size = 32
+format = 2
+script = ExtResource("2_p0m6r")

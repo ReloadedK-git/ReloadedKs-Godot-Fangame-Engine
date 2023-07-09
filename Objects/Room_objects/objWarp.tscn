@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bo3vrmvp7ayf8"]
+
+[ext_resource type="Script" path="res://Scripts/Room_objects/scrWarp.gd" id="1_nreut"]
+[ext_resource type="Texture2D" uid="uid://c875wnojpp2fg" path="res://Graphics/Sprites/Room_objects/sprWarp.png" id="2_gaf37"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nlxww"]
+
+[node name="objWarp" type="Node2D"]
+script = ExtResource("1_nreut")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_gaf37")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_nlxww")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

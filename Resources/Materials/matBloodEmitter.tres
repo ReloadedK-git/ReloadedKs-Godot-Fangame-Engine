@@ -1,0 +1,15 @@
+[gd_resource type="ParticleProcessMaterial" format=3 uid="uid://iomu88koaflo"]
+
+[resource]
+lifetime_randomness = 0.8
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 600, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 4.0
+color = Color(1, 0, 0, 1)
+attractor_interaction_enabled = false

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://uc3dfxqfjl7l"]
+
+[ext_resource type="Texture2D" uid="uid://bukwyfjur2ycm" path="res://Graphics/Backgrounds/bckDefaultGrid.png" id="1_i6acm"]
+
+[node name="objBackgroundTexture" type="TextureRect"]
+editor_description = "1) Pick your background texture and drag it to the Texture property
+2) Add to the room
+3) Stretch to the dimensions you need"
+z_index = -100
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("1_i6acm")
+stretch_mode = 1

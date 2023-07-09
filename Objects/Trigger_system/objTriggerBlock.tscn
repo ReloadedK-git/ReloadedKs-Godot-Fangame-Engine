@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjbhbgxqbori8"]
+
+[ext_resource type="Script" path="res://Scripts/Triggers/scrTriggerBlock.gd" id="1_n08s8"]
+[ext_resource type="Texture2D" uid="uid://8f26yn08j41a" path="res://Graphics/Sprites/Gimmicks/sprMovingBlock.png" id="2_cfknf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0nv2"]
+size = Vector2(32, 32)
+
+[node name="objTriggerBlock" type="AnimatableBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_n08s8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_cfknf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_p0nv2")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0, 1, 0.0156863, 0.419608)
+
+[node name="Target" type="Sprite2D" parent="."]
+self_modulate = Color(0, 1, 0.0156863, 0.419608)
+texture = ExtResource("2_cfknf")

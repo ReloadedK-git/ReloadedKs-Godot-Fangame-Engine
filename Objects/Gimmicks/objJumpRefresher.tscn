@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cuixijthhxfki"]
+
+[ext_resource type="Script" path="res://Scripts/Gimmicks/scrJumpRefresher.gd" id="1_e6w2v"]
+[ext_resource type="Texture2D" uid="uid://chu7voxv2wc2g" path="res://Graphics/Sprites/Gimmicks/sprJumpRefresher16.png" id="2_egvfn"]
+[ext_resource type="Material" uid="uid://bi0d5fwmegvac" path="res://Resources/Materials/matJumpRefresher.tres" id="3_amscu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qtjew"]
+radius = 8.0
+
+[node name="objJumpRefresher" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_e6w2v")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_egvfn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_qtjew")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+process_material = ExtResource("3_amscu")
+lifetime = 3.0
+speed_scale = 3.0
+explosiveness = 1.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

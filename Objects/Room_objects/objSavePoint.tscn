@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://b31w5fm4w5857"]
+
+[ext_resource type="Script" path="res://Scripts/Room_objects/scrSavePoint.gd" id="1_ldsdy"]
+[ext_resource type="Texture2D" uid="uid://d1jo7vo305wif" path="res://Graphics/Sprites/Room_objects/sprSave.png" id="1_tdmdo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_50khl"]
+size = Vector2(28, 22)
+
+[node name="objSavePoint" type="Node2D"]
+script = ExtResource("1_ldsdy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tdmdo")
+hframes = 2
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 17
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_50khl")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

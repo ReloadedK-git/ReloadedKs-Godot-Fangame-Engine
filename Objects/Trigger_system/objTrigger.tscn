@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://da1qaif83tf17"]
+
+[ext_resource type="Script" path="res://Scripts/Triggers/scrTrigger.gd" id="1_gxir2"]
+[ext_resource type="Texture2D" uid="uid://pw4roxfykbii" path="res://Graphics/Sprites/Trigger_system/sprTrigger.png" id="1_ubx01"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_favs1"]
+size = Vector2(32, 32)
+
+[node name="objTrigger" type="Area2D"]
+script = ExtResource("1_gxir2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ubx01")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_favs1")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

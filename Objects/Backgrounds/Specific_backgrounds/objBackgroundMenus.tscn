@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Backgrounds/scrBackgroundMenus.gd" id="1_skdyl"]
+[ext_resource type="Texture2D" uid="uid://dlit77pi2a0te" path="res://Graphics/Backgrounds/bckPixelStarfield.png" id="2_1odoo"]
+
+[node name="objMainMenuBackground" type="ParallaxBackground"]
+scroll_ignore_camera_zoom = true
+script = ExtResource("1_skdyl")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 608.0
+color = Color(0, 0, 0, 1)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(200, 0)
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxLayer"]
+offset_right = 800.0
+offset_bottom = 608.0
+texture = ExtResource("2_1odoo")
+stretch_mode = 1
+metadata/_edit_use_anchors_ = true

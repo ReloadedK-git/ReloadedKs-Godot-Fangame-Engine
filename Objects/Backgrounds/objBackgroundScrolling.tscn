@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjgn1pokbuu0p"]
+
+[ext_resource type="Texture2D" uid="uid://bukwyfjur2ycm" path="res://Graphics/Backgrounds/bckDefaultGrid.png" id="1_atobg"]
+[ext_resource type="Script" path="res://Scripts/Backgrounds/scrBackgroundScrolling.gd" id="1_w4tvi"]
+
+[node name="objScrollingBackground" type="ParallaxBackground"]
+script = ExtResource("1_w4tvi")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+z_index = -100
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxLayer"]
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("1_atobg")
+stretch_mode = 1
+metadata/_edit_use_anchors_ = true
