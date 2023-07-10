@@ -111,7 +111,7 @@ move_speed = Vector2(3, 0)
 collision_interaction = 3
 
 [node name="objMovingPlatform" parent="Gimmicks" instance=ExtResource("10_ikp4a")]
-position = Vector2(176, 392)
+position = Vector2(48, 392)
 move_speed = Vector2(2, 0)
 
 [node name="objSign" parent="Gimmicks" instance=ExtResource("20_ddxsj")]

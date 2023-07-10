@@ -8,10 +8,9 @@ var start_moving: bool = false
 func _ready():
 	
 	# If move_speed is zero, we don't really need to check for collisions, so
-	# we queue_free() their nodes. This saves memory
+	# we queue_free() their nodes saving some memory
 	if (move_speed == Vector2.ZERO):
 		$playerDetector.queue_free()
-		$platformBlockDetector.queue_free()
 
 
 func _physics_process(_delta):
@@ -37,12 +36,20 @@ func _physics_process(_delta):
 		# If the object is moving, we do stuff related to block collisions
 		if (start_moving == true):
 			
-			# Offsets the position of the move_direction vector linearly
-			# Mimics pixel perfect collisions rather well!
-			$platformBlockDetector.set_target_position(Vector2(move_speed))
+			# Godot will complain about physics bodies using move_and_collide() 
+			# while sync_to_physics is enabled. A hacky but somehow accurate 
+			# solution to this is disabling sync_to_physics, using 
+			# move_and_collide(), re-enabling sync_to_physics and using the values 
+			# it returned later on.
+			set_sync_to_physics(false);
+			var collision_check = move_and_collide(move_speed / 2, true, 0.04);
 			
-			# Checks for collision interactions
-			if ($platformBlockDetector.is_colliding() == true):
+			# Re-enable sync_to_physics
+			set_sync_to_physics(true);
+			
+			# If a collision with a platform block was detected, the movement speed
+			# gets reversed
+			if collision_check:
 				
 				# Stops when colliding with a platform block
 				if (collision_interaction == 2):

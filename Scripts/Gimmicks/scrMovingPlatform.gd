@@ -2,24 +2,26 @@ extends AnimatableBody2D
 
 @export var move_speed: Vector2 = Vector2.ZERO
 
-func _ready():
-	if (move_speed == Vector2.ZERO):
-		$platformBlockDetector.queue_free()
-
 
 func _physics_process(_delta):
 	if (move_speed != Vector2.ZERO):
-		$platformBlockDetector.set_target_position(Vector2(move_speed))
-	
-		if $platformBlockDetector.is_colliding():
+		
+		# Godot will complain about physics bodies using move_and_collide() 
+		# while sync_to_physics is enabled. A hacky but somehow accurate 
+		# solution to this is disabling sync_to_physics, using 
+		# move_and_collide(), re-enabling sync_to_physics and using the values 
+		# it returned later on.
+		set_sync_to_physics(false);
+		var collision_check = move_and_collide(move_speed / 2, true);
+		
+		# Re-enable sync_to_physics
+		set_sync_to_physics(true);
+		
+		# If a collision with a platform block was detected, the movement speed
+		# gets reversed
+		if collision_check:
 			move_speed = -move_speed
 		
+		# Change local position directly
 		position += move_speed
-	
-		# The shapecast node is disabled by default until the platform moves for
-		# at least a single frame. Once it does, it gets re-enabled and ready
-		# to detect collisions and bounce
-		if $platformBlockDetector.collide_with_bodies == false:
-			$platformBlockDetector.collide_with_bodies = true
-	
-
+		

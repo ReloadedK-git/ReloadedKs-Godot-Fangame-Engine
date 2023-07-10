@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqylv5tq4q10j"]
+[gd_scene load_steps=5 format=3 uid="uid://bqylv5tq4q10j"]
 
 [ext_resource type="Script" path="res://Scripts/Gimmicks/scrMovingBlock.gd" id="1_qv5aa"]
 [ext_resource type="Texture2D" uid="uid://8f26yn08j41a" path="res://Graphics/Sprites/Gimmicks/sprMovingBlock.png" id="2_7l6qg"]
@@ -9,12 +9,10 @@ size = Vector2(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2of5f"]
 size = Vector2(32, 32)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0uvp5"]
-size = Vector2(30, 30)
-
 [node name="objMovingBlock" type="AnimatableBody2D"]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 64
+sync_to_physics = false
 script = ExtResource("1_qv5aa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -28,13 +26,6 @@ visible = false
 shape = SubResource("RectangleShape2D_2of5f")
 target_position = Vector2(0, -16)
 max_results = 1
-
-[node name="platformBlockDetector" type="ShapeCast2D" parent="."]
-visible = false
-shape = SubResource("RectangleShape2D_0uvp5")
-target_position = Vector2(0, 0)
-max_results = 1
-collision_mask = 64
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(3.8147e-06, 9.53674e-07)
