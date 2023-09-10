@@ -18,8 +18,6 @@ const DEFAULT_AUTORESET: bool = false
 # Window related variables, for handling window modes
 var INITIAL_WINDOW_WIDTH: int = DisplayServer.window_get_size().x
 var INITIAL_WINDOW_HEIGHT: int = DisplayServer.window_get_size().y
-var INITIAL_WINDOW_XPOSITION: int = DisplayServer.window_get_position().x
-var INITIAL_WINDOW_YPOSITION: int = DisplayServer.window_get_position().y
 
 
 
@@ -106,7 +104,6 @@ func set_window_mode():
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		DisplayServer.window_set_size(Vector2(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT))
-		DisplayServer.window_set_position(Vector2(INITIAL_WINDOW_XPOSITION, INITIAL_WINDOW_YPOSITION))
 
 
 # Sets the game's vsync mode by checking the VSYNC boolean

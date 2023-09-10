@@ -1,9 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://bo0xmwa0251wv"]
+[gd_scene load_steps=14 format=3 uid="uid://bo0xmwa0251wv"]
 
 [ext_resource type="Script" path="res://Scripts/Hazards/scrDummyEnemy.gd" id="1_m3cl5"]
 [ext_resource type="Shader" path="res://Scripts/Shaders/shHitBlink.gdshader" id="2_33tsx"]
 [ext_resource type="Texture2D" uid="uid://duaprtq8m8lgj" path="res://Graphics/Sprites/Enemies/sprDummyEnemy.png" id="3_cxvf5"]
-[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="4_c4tad"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sywoh"]
 shader = ExtResource("2_33tsx")
@@ -108,16 +107,3 @@ reset_on_save = false
 libraries = {
 "": SubResource("AnimationLibrary_0jwpp")
 }
-
-[node name="Label" type="Label" parent="."]
-offset_left = -32.0
-offset_top = -37.0
-offset_right = 32.0
-offset_bottom = -10.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("4_c4tad")
-theme_override_font_sizes/font_size = 10
-text = "Dummy"
-horizontal_alignment = 1
-vertical_alignment = 1

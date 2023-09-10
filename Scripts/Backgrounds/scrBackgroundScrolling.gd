@@ -8,11 +8,7 @@ extends ParallaxBackground
 func _ready():
 	$ParallaxLayer.motion_scale = Vector2(parallax_amount, parallax_amount)
 	$ParallaxLayer.motion_mirroring = background_size
-	
-	if background_index != null:
-		$ParallaxLayer/TextureRect.texture = background_index
-	else:
-		print("objScrollingBackground's texture was not set. Using default grid texture")
+	$ParallaxLayer/TextureRect.texture = background_index
 	
 	# Sets the background's size to the the equivalent of a single room.
 	# We get the width and height from our project settings directly, so

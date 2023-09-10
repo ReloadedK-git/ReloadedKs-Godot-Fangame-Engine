@@ -21,7 +21,7 @@ func handle_debug_mode() -> void:
 			$Display.set_visible(true)
 			$Display/MarginContainer/VBoxContainer/textDebug1.text = str(" Player X: ", round(GLOBAL_INSTANCES.objPlayerID.position.x), " ")
 			$Display/MarginContainer/VBoxContainer/textDebug2.text = str(" Player Y: ", round(GLOBAL_INSTANCES.objPlayerID.position.y), " ")
-			$Display/MarginContainer/VBoxContainer/textDebug3.text = str(" FPS: %d" % Engine.get_frames_per_second(), " | ", Engine.max_fps, " ")
+			$Display/MarginContainer/VBoxContainer/textDebug3.text = str(" FPS: %d" % Engine.get_frames_per_second(), " ")
 			$Display/MarginContainer/VBoxContainer/textDebug4.text = str(" Room: ", get_tree().get_current_scene().name, " ")
 			
 			$Sprite2D.set_visible(true)
