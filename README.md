@@ -19,4 +19,13 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Updated to work with Godot 4.1.
 * Changed default renderer to ***Compatibility***.
 * Changed ***objMovingPlatform*** and ***objMovingBlock***.
+* Minor change to ***objHUD***.
 
+### v1.2 (09-09-23)
+
+* Window position is kept when switching from windowed to fullscreen mode.
+
+### v1.3 (30-09-23)
+
+* Changed ***objInvisibleBlock***
+* Slightly reduced volume for ***sndBlockChange***

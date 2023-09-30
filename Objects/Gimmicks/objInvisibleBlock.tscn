@@ -1,9 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://blj3cyjlb8uil"]
+[gd_scene load_steps=5 format=3 uid="uid://blj3cyjlb8uil"]
 
 [ext_resource type="Texture2D" uid="uid://8f26yn08j41a" path="res://Graphics/Sprites/Gimmicks/sprMovingBlock.png" id="1_vwmp4"]
 [ext_resource type="Script" path="res://Scripts/Gimmicks/scrInvisibleBlock.gd" id="1_wv0ev"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6y0rf"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c8leh"]
 size = Vector2(32, 32)
 
 [node name="objInvisibleBlock" type="StaticBody2D"]
@@ -17,9 +20,17 @@ texture = ExtResource("1_vwmp4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_6y0rf")
 
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_c8leh")
+debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(1.43051e-06, 1.43051e-06)
 scale = Vector2(1.6, 1.6)
 
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
