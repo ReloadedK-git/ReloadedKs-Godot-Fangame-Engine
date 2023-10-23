@@ -1,4 +1,4 @@
-# ReloadedK's Godot Fangame Engine (v1.1)
+# ReloadedK's Godot Fangame Engine
 
 A Godot 4.x fangame engine, created by ReloadedK.
 
@@ -27,5 +27,12 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 
 ### v1.3 (30-09-23)
 
-* Changed ***objInvisibleBlock***
-* Slightly reduced volume for ***sndBlockChange***
+* Changed ***objInvisibleBlock***.
+* Slightly reduced volume for ***sndBlockChange***.
+
+### v1.4 (23-10-23)
+
+* Numpad arrows and controller stick can be used to control the player or interact with different objects, if the setting is toggled on.
+* Added an "extra keys" option in the settings menu.
+* Added extra functionality to the player (movement, walljumping) and dialog sign (interaction).
+* Added extra actions in the input map.

@@ -42,7 +42,7 @@ offset_top = -10.0
 offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 72
+theme_override_constants/separation = 64
 alignment = 1
 
 [node name="MusicVolume" parent="SettingsContainer" instance=ExtResource("4_k2tdr")]
@@ -82,13 +82,21 @@ layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../Vsync")
 focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ExtraKeys")
+action_mode = 0
+
+[node name="ExtraKeys" parent="SettingsContainer" instance=ExtResource("4_k2tdr")]
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../AutoReset")
+focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../Reset")
 action_mode = 0
 
 [node name="Reset" parent="SettingsContainer" instance=ExtResource("4_k2tdr")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../AutoReset")
+focus_neighbor_top = NodePath("../ExtraKeys")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../Controls")
 action_mode = 0
@@ -114,6 +122,7 @@ action_mode = 0
 [connection signal="pressed" from="SettingsContainer/Fullscreen" to="." method="_on_fullscreen_pressed"]
 [connection signal="pressed" from="SettingsContainer/Vsync" to="." method="_on_vsync_pressed"]
 [connection signal="pressed" from="SettingsContainer/AutoReset" to="." method="_on_auto_reset_pressed"]
+[connection signal="pressed" from="SettingsContainer/ExtraKeys" to="." method="_on_extra_keys_pressed"]
 [connection signal="pressed" from="SettingsContainer/Reset" to="." method="_on_defaults_pressed"]
 [connection signal="pressed" from="SettingsContainer/Controls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="SettingsContainer/Back" to="." method="_on_back_pressed"]

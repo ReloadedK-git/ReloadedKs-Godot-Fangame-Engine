@@ -149,12 +149,37 @@ func handle_movement() -> void:
 	
 	# Get the input direction and handle the movement
 	var main_direction = Input.get_axis("button_left", "button_right")
-	velocity.x = main_direction * h_speed
+	var extra_direction_keys = Input.get_axis("button_left_extra", "button_right_extra")
 	
-	# Set where the player is looking at (for things like flipping the sprite
-	# or setting the direction bullets should fire towards)
-	if velocity.x != 0:
-		xscale = main_direction
+	# Lambda function, also called "anonymous function".
+	# It's a method that only works inside of this event, declared inside
+	# of a variable and executed by using "call()".
+	# Useful for keeping code cleaner and less repetitive in certain cases,
+	# but it's not mandatory.
+	# Changes xscale using a direction argument
+	var xscale_to_direction = func(h_direction):
+		if velocity.x != 0:
+			xscale = h_direction
+	
+	# Extra keys off/on
+	if !GLOBAL_SETTINGS.EXTRA_KEYS:
+		velocity.x = main_direction * h_speed
+		xscale_to_direction.call(main_direction)
+	else:
+		
+		# If not pressing/activating extra keys, use normal direction vector.
+		# Also ensures that the controller's deadzone is either -1, 0 or 1, so
+		# the player's speed will always remain constant
+		if (extra_direction_keys > -1) and (extra_direction_keys < 1):
+			velocity.x = main_direction * h_speed
+			xscale_to_direction.call(main_direction)
+		
+		# Adds velocity from extra_direction_keys, the secondary direction 
+		# vector
+		else:
+			velocity.x = extra_direction_keys * h_speed
+			xscale_to_direction.call(extra_direction_keys)
+
 
 
 # Jumping logic
@@ -235,29 +260,54 @@ func handle_walljumping():
 		# Walljumping should only happen if we hold the jump button first
 		if Input.is_action_pressed("button_jump"):
 			
-			# Walljump to the right
-			if Input.is_action_pressed("button_right") and (jump_direction == Vector2.RIGHT):
-				if !Input.is_action_pressed("button_left"):
-					walljumping_action.call()
-			
-			# Walljump to the left
-			if Input.is_action_pressed("button_left") and (jump_direction == Vector2.LEFT):
-				if !Input.is_action_pressed("button_right"):
-					walljumping_action.call()
+			# Extra keys off/on
+			if !GLOBAL_SETTINGS.EXTRA_KEYS:
+				
+				# Walljump to the right
+				if (Input.is_action_pressed("button_right")) and (jump_direction == Vector2.RIGHT):
+					if !Input.is_action_pressed("button_left"):
+						walljumping_action.call()
+				
+				# Walljump to the left
+				if Input.is_action_pressed("button_left") and (jump_direction == Vector2.LEFT):
+					if !Input.is_action_pressed("button_right"):
+						walljumping_action.call()
+			else:
+				
+				# Walljump to the right
+				if (Input.is_action_pressed("button_right") or Input.is_action_pressed("button_right_extra")) and (jump_direction == Vector2.RIGHT):
+					if (!Input.is_action_pressed("button_left") or !Input.is_action_pressed("button_left_extra")):
+						walljumping_action.call()
+				
+				# Walljump to the left
+				if (Input.is_action_pressed("button_left") or Input.is_action_pressed("button_left_extra")) and (jump_direction == Vector2.LEFT):
+					if (!Input.is_action_pressed("button_right") or !Input.is_action_pressed("button_right_extra")):
+						walljumping_action.call()
 		else:
 			
-			# Not holding the jump button, but pressing left or right on the 
-			# opposite direction to the vine, leaves it and stops the
-			# walljumping state.
-			# This won't work if both the left and right buttons are pressed 
-			# at the same time. Feels cleaner this way
-			if Input.is_action_pressed("button_right") and (jump_direction == Vector2.RIGHT):
-				if !Input.is_action_pressed("button_left"):
-					is_walljumping = false
-			
-			if Input.is_action_pressed("button_left") and (jump_direction == Vector2.LEFT):
-				if !Input.is_action_pressed("button_right"):
-					is_walljumping = false
+			# Extra keys off/on
+			if !GLOBAL_SETTINGS.EXTRA_KEYS:
+				
+				# Not holding the jump button, but pressing left or right on the 
+				# opposite direction to the vine, leaves it and stops the
+				# walljumping state.
+				# This won't work if both the left and right buttons are pressed 
+				# at the same time. Feels cleaner this way
+				if Input.is_action_pressed("button_right") and (jump_direction == Vector2.RIGHT):
+					if !Input.is_action_pressed("button_left"):
+						is_walljumping = false
+				
+				if Input.is_action_pressed("button_left") and (jump_direction == Vector2.LEFT):
+					if !Input.is_action_pressed("button_right"):
+						is_walljumping = false
+			else:
+				if (Input.is_action_pressed("button_right") or Input.is_action_pressed("button_right_extra")) and (jump_direction == Vector2.RIGHT):
+					if (!Input.is_action_pressed("button_left") or !Input.is_action_pressed("button_left_extra")):
+						is_walljumping = false
+				
+				if (Input.is_action_pressed("button_left") or Input.is_action_pressed("button_left_extra")) and (jump_direction == Vector2.LEFT):
+					if (!Input.is_action_pressed("button_right") or !Input.is_action_pressed("button_right_extra")):
+						is_walljumping = false
 	else:
 		
 		# Sets things back to normal (not walljumping anymore).

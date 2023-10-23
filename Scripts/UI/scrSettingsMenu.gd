@@ -14,6 +14,7 @@ var volume_step: float = 0.1
 var fullscreen_on: bool = false
 var vsync_on: bool = true
 var autoreset_on: bool = false
+var extra_keys_on: bool = false
 
 
 
@@ -92,7 +93,12 @@ func _on_vsync_pressed():
 # Autoreset on/off
 func _on_auto_reset_pressed():
 	autoreset_on = !autoreset_on
-	
+
+
+# Extra keys on/off
+func _on_extra_keys_pressed():
+	extra_keys_on = !extra_keys_on
+
 
 # Reset the setting's values back to their default ones. Also plays a
 # confirmation sound effect
@@ -131,6 +137,7 @@ func load_from_global_settings():
 	fullscreen_on = GLOBAL_SETTINGS.FULLSCREEN
 	vsync_on = GLOBAL_SETTINGS.VSYNC
 	autoreset_on = GLOBAL_SETTINGS.AUTORESET
+	extra_keys_on = GLOBAL_SETTINGS.EXTRA_KEYS
 
 
 # Sets and updates the text from each one of the button's labels
@@ -140,6 +147,7 @@ func set_labels_text():
 	$SettingsContainer/Fullscreen/Label.text = "Fullscreen: " + str(bool_to_on_off(fullscreen_on))
 	$SettingsContainer/Vsync/Label.text = "Vsync: " + str(bool_to_on_off(vsync_on))
 	$SettingsContainer/AutoReset/Label.text = "Reset on Death: " + str(bool_to_on_off(autoreset_on))
+	$SettingsContainer/ExtraKeys/Label.text = "Extra keys: " + str(bool_to_on_off(extra_keys_on))
 	$SettingsContainer/Reset/Label.text = "Reset"
 	$SettingsContainer/Controls/Label.text = "Controls"
 	$SettingsContainer/Back/Label.text = "Back"
@@ -152,6 +160,7 @@ func save_on_exit():
 	GLOBAL_SETTINGS.MUSIC_VOLUME = music_volume
 	GLOBAL_SETTINGS.SOUND_VOLUME = sound_volume
 	GLOBAL_SETTINGS.AUTORESET = autoreset_on
+	GLOBAL_SETTINGS.EXTRA_KEYS = extra_keys_on
 	
 	# Saving (includes fullscreen and vsync, but we don't need to set them
 	# from here again)
@@ -166,6 +175,7 @@ func reset_settings_to_default():
 	fullscreen_on = false
 	vsync_on = true
 	autoreset_on = false
+	extra_keys_on = false
 	
 	GLOBAL_SETTINGS.default_settings()
 
@@ -176,6 +186,9 @@ func bool_to_on_off(bool_value):
 		return "On"
 	else:
 		return "Off"
+
+
+
 
 
 

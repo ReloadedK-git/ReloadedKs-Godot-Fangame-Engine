@@ -7,13 +7,15 @@ var SOUND_VOLUME: float = 1.0
 var FULLSCREEN: bool = false
 var VSYNC: bool = true
 var AUTORESET: bool = false
+var EXTRA_KEYS: bool = false
 
 # Default values, for when you need to reset them from the settings menu
 const DEFAULT_MUSIC_VOLUME: float = 1.0
 const DEFAULT_SOUND_VOLUME: float = 1.0
-var DEFAULT_FULLSCREEN: bool = false
+const DEFAULT_FULLSCREEN: bool = false
 const DEFAULT_VSYNC: bool = true
 const DEFAULT_AUTORESET: bool = false
+const DEFAULT_EXTRA_KEYS: bool = false
 
 # Window related variables, for handling window modes
 var INITIAL_WINDOW_WIDTH: int = DisplayServer.window_get_size().x
@@ -46,6 +48,7 @@ func save_settings() -> void:
 	configFile.set_value("settings", "fullscreen", FULLSCREEN)
 	configFile.set_value("settings", "vsync", VSYNC)
 	configFile.set_value("settings", "autoreset", AUTORESET)
+	configFile.set_value("settings", "extra_keys", EXTRA_KEYS)
 	
 	for action in InputMap.get_actions():
 		configFile.set_value("controls", action, InputMap.action_get_events(action))
@@ -63,6 +66,7 @@ func load_settings() -> void:
 	FULLSCREEN = configFile.get_value("settings", "fullscreen", FULLSCREEN)
 	VSYNC = configFile.get_value("settings", "vsync", VSYNC)
 	AUTORESET = configFile.get_value("settings", "autoreset", AUTORESET)
+	EXTRA_KEYS = configFile.get_value("settings", "extra_keys", EXTRA_KEYS)
 	
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), linear_to_db(SOUND_VOLUME))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(MUSIC_VOLUME))
@@ -86,6 +90,7 @@ func default_settings() -> void:
 	FULLSCREEN = DEFAULT_FULLSCREEN
 	VSYNC = DEFAULT_VSYNC
 	AUTORESET = DEFAULT_AUTORESET
+	EXTRA_KEYS = DEFAULT_EXTRA_KEYS
 	
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(MUSIC_VOLUME))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), linear_to_db(SOUND_VOLUME))

@@ -22,10 +22,18 @@ func _physics_process(_delta):
 	# pressed
 	if player_is_colliding:
 		if dialog_scene != null:
-			if Input.is_action_just_pressed("button_up"):
-				if get_tree().get_nodes_in_group("Dialog").size() < 1:
-					var dialog_box_id = dialog_scene.instantiate()
-					get_parent().add_child(dialog_box_id)
+			
+			# Extra keys off/on
+			if !GLOBAL_SETTINGS.EXTRA_KEYS:
+				if Input.is_action_just_pressed("button_up"):
+					if get_tree().get_nodes_in_group("Dialog").size() < 1:
+						var dialog_box_id = dialog_scene.instantiate()
+						get_parent().add_child(dialog_box_id)
+			else:
+				if (Input.is_action_just_pressed("button_up") or Input.is_action_just_pressed("button_up_extra")):
+					if get_tree().get_nodes_in_group("Dialog").size() < 1:
+						var dialog_box_id = dialog_scene.instantiate()
+						get_parent().add_child(dialog_box_id)
 		
 		# Toggles the label's visibility by checking if the player exists and
 		# is frozen
