@@ -36,3 +36,7 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Added an "extra keys" option in the settings menu.
 * Added extra functionality to the player (movement, walljumping) and dialog sign (interaction).
 * Added extra actions in the input map.
+
+### v1.5 (24-10-23)
+
+* Small fix for the player script. The input for the controller stick doesn't need to go all the way to get detected.

@@ -148,8 +148,8 @@ func handle_gravity(delta) -> void:
 func handle_movement() -> void:
 	
 	# Get the input direction and handle the movement
-	var main_direction = Input.get_axis("button_left", "button_right")
-	var extra_direction_keys = Input.get_axis("button_left_extra", "button_right_extra")
+	var main_direction: float = Input.get_axis("button_left", "button_right")
+	var extra_direction_keys: float = Input.get_axis("button_left_extra", "button_right_extra")
 	
 	# Lambda function, also called "anonymous function".
 	# It's a method that only works inside of this event, declared inside
@@ -167,16 +167,20 @@ func handle_movement() -> void:
 		xscale_to_direction.call(main_direction)
 	else:
 		
-		# If not pressing/activating extra keys, use normal direction vector.
-		# Also ensures that the controller's deadzone is either -1, 0 or 1, so
-		# the player's speed will always remain constant
-		if (extra_direction_keys > -1) and (extra_direction_keys < 1):
+		# If not pressing/activating extra keys, use normal direction vector
+		if extra_direction_keys == 0:
 			velocity.x = main_direction * h_speed
 			xscale_to_direction.call(main_direction)
-		
-		# Adds velocity from extra_direction_keys, the secondary direction 
-		# vector
 		else:
+			
+			# Controller stick deadzone correction (values go from -1.0 to 1.0)
+			if extra_direction_keys > 0:
+				extra_direction_keys = 1
+			elif extra_direction_keys < 0:
+				extra_direction_keys = -1
+			
+			# Adds velocity from extra_direction_keys, the secondary direction 
+			# vector
 			velocity.x = extra_direction_keys * h_speed
 			xscale_to_direction.call(extra_direction_keys)
 
