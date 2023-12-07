@@ -13,7 +13,7 @@ config_version=5
 config/name="ReloadedK's Godot Fangame Engine"
 config/tags=PackedStringArray("fangame_engine")
 run/main_scene="res://Rooms/00_Title_and_menus/rMainMenu.tscn"
-config/features=PackedStringArray("4.1", "Mobile")
+config/features=PackedStringArray("4.2", "Mobile")
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 boot_splash/show_image=false
 config/icon="res://Resources/Project/icon.png"
@@ -44,6 +44,17 @@ window/size/viewport_width=800
 window/size/viewport_height=608
 window/size/resizable=false
 window/stretch/mode="viewport"
+
+[file_customization]
+
+folder_colors={
+"res://Audio/": "blue",
+"res://Graphics/": "yellow",
+"res://Objects/": "red",
+"res://Resources/": "purple",
+"res://Rooms/": "green",
+"res://Scripts/": "gray"
+}
 
 [filesystem]
 

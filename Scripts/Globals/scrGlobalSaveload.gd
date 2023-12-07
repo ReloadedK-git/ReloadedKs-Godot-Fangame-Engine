@@ -18,7 +18,7 @@ const defaultGameData = {
 	"first_time_saving" : true,
 	"player_x" : 0,
 	"player_y" : 0,
-	"player_sprite_flipped" : 1,
+	"player_sprite_flipped" : false,
 	"room_name" : ""
 }
 
@@ -39,11 +39,9 @@ func _ready():
 	# We store our settings, saves and screenshots here
 	if not dir.dir_exists("user://Data"):
 		dir.make_dir("Data")
-	
 
 
 
-##############################################################################################################################
 # Loads a save file (1, 2 or 3, depends on saveFileID), and if it doesn't
 # exist (is "null"), creates a save file with default data
 func load_data():
@@ -91,8 +89,6 @@ func save_default_data():
 	file = null 
 
 
-
-##############################################################################################################################
 # Deletes save data after checking if such files exist (both savefiles and save
 # previews/screenshots)
 func delete_data():
@@ -105,6 +101,7 @@ func delete_data():
 		dir.remove(DATA_PATH + str(saveFileID) + ".png")
 
 
+
 # Takes a screenshot and resizes it. Made to be shown on the main menu screen.
 # You should tell this autoload to take screenshots when you want it to and
 # not automatically, for more control (e.g. on objSavePoint when saving)
@@ -113,7 +110,6 @@ func take_screenshot() -> void:
 	img.resize(SCREENSHOT_WIDTH, SCREENSHOT_HEIGHT, Image.INTERPOLATE_NEAREST)
 	img.save_png(DATA_PATH + str(saveFileID) + ".png")
 	return ImageTexture.create_from_image(img)
-##############################################################################################################################
 
 
 # Saves the player's coordinates, sprite state and room name. Also takes a

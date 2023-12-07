@@ -7,7 +7,6 @@ func _ready():
 	one_shot = true
 
 
-func _physics_process(_delta):
-	if not emitting:
-		queue_free()
-
+# Frees particles using a timer
+func _on_timer_timeout():
+	queue_free()

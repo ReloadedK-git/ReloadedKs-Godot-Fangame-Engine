@@ -9,11 +9,9 @@ gradient = SubResource("Gradient_3l5tl")
 [resource]
 particle_flag_disable_z = true
 spread = 180.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 16.0
 initial_velocity_max = 48.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 damping_min = 20.0
 damping_max = 40.0
 scale_min = 4.0

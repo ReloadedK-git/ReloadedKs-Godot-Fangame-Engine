@@ -40,3 +40,16 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 ### v1.5 (24-10-23)
 
 * Small fix for the player script. The input for the controller stick doesn't need to go all the way to get detected.
+
+### v1.6 (07-12-23)
+
+* Engine ported to Godot v4.2 while maintaining compatibility with older versions.
+* Modified ***objPlayer***. The xscale variable is now a boolean instead of a float. The function ***set_first_time_saving()*** is called from ***_physics_process()*** due to v4.2's changes.
+* Jump particles generated from the player now use a timer to free themselves.
+* Save points don't autostart their timers by default.
+* Renamed some variables for ***objInvisibleBlock*** so they don't conflict with engine variable names.
+* Modified ***objWarp***'s script to be compatible with v4.2.
+* ***objHUD***'s debug mode mouse pointer now follows ***objPlayer***'s xscale, and is compatible with v4.2.
+* Modified ***scrGlobalGame*** to work with v4.2.
+* ***scrSettingsMenu*** now shows "Reset to Defaults" instead of "Reset".
+* FileSystem folders are now colored.

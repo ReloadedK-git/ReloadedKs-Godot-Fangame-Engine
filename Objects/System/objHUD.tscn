@@ -18,7 +18,7 @@ anchor_right = 1.0
 offset_left = -120.0
 offset_top = 8.0
 offset_right = -8.0
-offset_bottom = 116.0
+offset_bottom = 108.0
 grow_horizontal = 0
 theme_override_constants/margin_top = 0
 

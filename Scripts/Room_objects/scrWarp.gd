@@ -9,6 +9,16 @@ extends Node2D
 @export_file("*.tscn") var warp_to: String
 @export var warp_transition: bool = false
 @export var warp_to_point: Vector2 = Vector2.ZERO
+var is_warping: bool = false
+
+
+# Changes the scene after a player collision. This didn't need to exist
+# before, but since v4.2, it's not a good idea to change the entire scene
+# tree inside a collision event, so we just set a variable there and activate
+# the "warping" here
+func _physics_process(_delta):
+	if (is_warping == true):
+		get_tree().change_scene_to_file(warp_to)
 
 
 # When colliding with the player, it changes the scene
@@ -41,5 +51,5 @@ func _on_area_2d_body_entered(_body):
 	# Clear/reset our global trigger array
 	GLOBAL_GAME.triggered_events.clear()
 	
-	get_tree().change_scene_to_file(warp_to)
-	
+	# Tells the warp it should change the scene on the next physics frame
+	is_warping = true

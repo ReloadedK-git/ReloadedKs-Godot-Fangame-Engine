@@ -9,7 +9,7 @@ var h_speed: int = 150
 var s_jump_speed: int = 400
 var d_jump_speed: int = 330
 var jump_release_falloff: float = 0.50
-var xscale: float = 1.0
+var xscale: bool = true
 var frozen: bool = false
 var d_jump: bool = true
 var d_jump_aux: bool = false
@@ -26,13 +26,9 @@ func _ready():
 	
 	# If a savefile exists (we've saved at least once), we move the player to
 	# the saved position, and also set its sprite state (flipped or not).
-	# If we haven't saved before, it makes a special type of save which sets
-	# things up for the rest of the game
 	if (GLOBAL_SAVELOAD.variableGameData.first_time_saving == false):
 		set_position_on_load()
 		flip_sprites_on_creation()
-	else:
-		set_first_time_saving()
 	
 	# Sets a very important global variable. Lets everything know that the
 	# player does in fact exist and assigns it with its "id"
@@ -43,6 +39,14 @@ func _ready():
 ---------- MAIN LOGIC LOOP ----------
 """
 func _physics_process(delta):
+	
+	# If we haven't saved before, it makes a special type of save which sets
+	# things up for the rest of the game. 
+	# NOTE: This function used to be executed in _ready(), but due to some of 
+	# the timing related changes made in v4.2, this was moved here and works
+	# again.
+	if (GLOBAL_SAVELOAD.variableGameData.first_time_saving == true):
+		set_first_time_saving()
 	
 	# More specific logic is handled inside of methods, which keeps the main
 	# loop clean and easier to read.
@@ -113,23 +117,21 @@ func set_position_on_load():
 # This is done to prevent a common issue that happens when restarting with a 
 # clean save (otherwise it would teleport the player to 0,0 and to an undefined
 # room).
-# A room reload is also required to update the values inside GLOBAL_SAVELOAD
 func set_first_time_saving():
+	
 	GLOBAL_SAVELOAD.variableGameData.player_x = position.x
 	GLOBAL_SAVELOAD.variableGameData.player_y = position.y
 	GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped = xscale
 	GLOBAL_SAVELOAD.variableGameData.room_name = get_tree().get_current_scene().get_scene_file_path()
 	GLOBAL_SAVELOAD.variableGameData.first_time_saving = false
+	
+	# After changing the variable game data to the proper values, we save them.
 	GLOBAL_SAVELOAD.save_data()
 	
-	# After saving for the fist time in-game, a reload is needed.
+	# Then, after saving for the fist time in-game, a reload is needed.
 	# What this does is replacing the old default values with the new ones
 	# we just saved, reading them once through loading.
 	GLOBAL_SAVELOAD.load_data()
-	
-	# Finally, we reload the same room we were in to update GLOBAL_SAVELOAD's
-	# "room_name"
-	get_tree().change_scene_to_file(get_tree().get_current_scene().get_scene_file_path())
 
 
 # Handles gravity / falling
@@ -156,10 +158,13 @@ func handle_movement() -> void:
 	# of a variable and executed by using "call()".
 	# Useful for keeping code cleaner and less repetitive in certain cases,
 	# but it's not mandatory.
-	# Changes xscale using a direction argument
+	# Changes xscale using a direction argument, as long as the player is
+	# moving
 	var xscale_to_direction = func(h_direction):
+		
+		# Player needs to be moving in order to flip the xscale
 		if velocity.x != 0:
-			xscale = h_direction
+			xscale = h_direction > 0
 	
 	# Extra keys off/on
 	if !GLOBAL_SETTINGS.EXTRA_KEYS:
@@ -176,14 +181,13 @@ func handle_movement() -> void:
 			# Controller stick deadzone correction (values go from -1.0 to 1.0)
 			if extra_direction_keys > 0:
 				extra_direction_keys = 1
-			elif extra_direction_keys < 0:
+			if extra_direction_keys < 0:
 				extra_direction_keys = -1
 			
 			# Adds velocity from extra_direction_keys, the secondary direction 
 			# vector
 			velocity.x = extra_direction_keys * h_speed
 			xscale_to_direction.call(extra_direction_keys)
-
 
 
 # Jumping logic
@@ -333,7 +337,10 @@ func handle_shooting():
 			# and global position, makes a sound and then adds it to the main scene 
 			# (the actual game)
 			var create_bullet_id: AnimatableBody2D = create_bullet.instantiate()
-			create_bullet_id.looking_at = xscale
+			if xscale:
+				create_bullet_id.looking_at = 1
+			else:
+				create_bullet_id.looking_at = -1
 			
 			# Bullet's x coordinate:
 			#	-Takes into account the global x
@@ -368,28 +375,17 @@ func handle_animations() -> void:
 		
 		# If we are slidding/walljumping, we set the proper animation
 		animated_sprite.play("slidding")
-	
-	
-	# Flips the player sprite using the "looking_at" variable
-	if xscale == -1:
-		animated_sprite.flip_h = true
-	elif xscale == 1:
-		animated_sprite.flip_h = false
+		
+	# Flips the player sprite using the "xscale" variable
+	animated_sprite.flip_h = !xscale
 
 
 # Checks the scrGlobalSaveload autoload in order to know if the sprite should
-# be flipped horizontally on creation. Also sets "looking_at" accordingly
+# be flipped horizontally on creation
 func flip_sprites_on_creation() -> void:
-	if (GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped == 1):
-		
-		# Right
-		animated_sprite.flip_h = false
-		xscale = 1
-	else:
-		
-		# Left
-		animated_sprite.flip_h = true
-		xscale = -1
+	
+	animated_sprite.flip_h = !GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped
+	xscale = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped
 	
 	# Also rotates masks
 	handle_masks()
@@ -400,11 +396,14 @@ func flip_sprites_on_creation() -> void:
 # Keep in mind, masks inside $extraCollisions might have different shapes,
 # intended for different purposes
 func handle_masks() -> void:
-	$playerMask.position.x = xscale
+	if xscale == true:
+		$playerMask.position.x = 1
+	else:
+		$playerMask.position.x = -1
 	
 	# We rotate the scale for the collision containers, so we don't have to
 	# reference each one of them
-	$extraCollisions.scale.x = xscale
+	$extraCollisions.scale.x = $playerMask.position.x
 
 
 # Interaction with water
@@ -436,7 +435,10 @@ func on_death():
 		var blood_emitter = load("res://Objects/Player/objBloodEmitter.tscn")
 		var blood_emitter_id = blood_emitter.instantiate()
 		blood_emitter_id.position = Vector2(position.x, position.y)
-		blood_emitter_id.side = xscale
+		if xscale:
+			blood_emitter_id.side = 1
+		else:
+			blood_emitter_id.side = -1
 		
 		# We add a sibling node to the player, not a child node, since the
 		# player object gets freed!

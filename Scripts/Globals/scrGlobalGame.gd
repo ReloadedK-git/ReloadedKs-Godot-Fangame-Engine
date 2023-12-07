@@ -217,17 +217,21 @@ func set_vsync():
 # Checks the current scene/room's name. We use this to make sure we're not
 # doing things like restarting or pausing on menu related scenes
 func is_valid_room():
-	current_scene_name = get_tree().get_current_scene().name
 	
-	match current_scene_name:
-		"rMainMenu":
-			return false
-		"rSettingsMenu":
-			return false
-		"rControlsMenu":
-			return false
-		_:
-			return true
+	# We also need to check if our scene tree is not null. Only then it gets
+	# its name (needed for godot v4.2 onwards)
+	if get_tree().get_current_scene() != null:
+		current_scene_name = get_tree().get_current_scene().name
+		
+		match current_scene_name:
+			"rMainMenu":
+				return false
+			"rSettingsMenu":
+				return false
+			"rControlsMenu":
+				return false
+			_:
+				return true
 
 
 # Returns a string of text, according to our input device.
@@ -243,6 +247,3 @@ func get_input_name(button_id, input_device):
 	# Controller
 	if input_device == CONTROLLER:
 		return str(InputMap.action_get_events(button_id)[input_device].as_text().trim_prefix("Joypad ").left(9).trim_suffix(" "))
-	
-
-

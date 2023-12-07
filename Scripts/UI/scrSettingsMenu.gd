@@ -148,7 +148,7 @@ func set_labels_text():
 	$SettingsContainer/Vsync/Label.text = "Vsync: " + str(bool_to_on_off(vsync_on))
 	$SettingsContainer/AutoReset/Label.text = "Reset on Death: " + str(bool_to_on_off(autoreset_on))
 	$SettingsContainer/ExtraKeys/Label.text = "Extra keys: " + str(bool_to_on_off(extra_keys_on))
-	$SettingsContainer/Reset/Label.text = "Reset"
+	$SettingsContainer/Reset/Label.text = "Reset to Defaults"
 	$SettingsContainer/Controls/Label.text = "Controls"
 	$SettingsContainer/Back/Label.text = "Back"
 	
