@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cvx8in7r4d7ml"]
+[gd_scene load_steps=5 format=3 uid="uid://cvx8in7r4d7ml"]
 
 [ext_resource type="Script" path="res://Scripts/System/scrHUD.gd" id="1_mo0wy"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="2_1aw6v"]
+[ext_resource type="Texture2D" uid="uid://cs7d7k2kmj13y" path="res://Graphics/Sprites/Collectables/sprSecretItem.png" id="3_2my7r"]
 [ext_resource type="Texture2D" uid="uid://dd3vx3fvdxdrh" path="res://Graphics/Sprites/Player/sprPlayerIdle.png" id="3_ncdqv"]
 
 [node name="objHUD" type="Control"]
@@ -20,10 +21,11 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 108.0
 grow_horizontal = 0
+pivot_offset = Vector2(184, 0)
 theme_override_constants/margin_top = 0
 
 [node name="Panel" type="Panel" parent="Display/MarginContainer"]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(112, 96)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 5.73
@@ -62,8 +64,47 @@ theme_override_font_sizes/font_size = 20
 text = "Room Name"
 horizontal_alignment = 2
 
+[node name="MarginContainer2" type="MarginContainer" parent="Display"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -72.0
+offset_right = 200.0
+offset_bottom = -8.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 64)
+
+[node name="Panel" type="Panel" parent="Display/MarginContainer2"]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Display/MarginContainer2/Panel"]
+position = Vector2(24, 32)
+texture = ExtResource("3_2my7r")
+
+[node name="Label" type="Label" parent="Display/MarginContainer2/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_right = 192.0
+offset_bottom = 64.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_1aw6v")
+theme_override_font_sizes/font_size = 20
+text = "Item info"
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+
+[node name="Timer" type="Timer" parent="Display/MarginContainer2"]
+process_callback = 0
+wait_time = 5.0
+one_shot = true
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.392157)
 z_index = 100
 texture = ExtResource("3_ncdqv")
 hframes = 4
+
+[connection signal="timeout" from="Display/MarginContainer2/Timer" to="." method="_on_timer_timeout"]

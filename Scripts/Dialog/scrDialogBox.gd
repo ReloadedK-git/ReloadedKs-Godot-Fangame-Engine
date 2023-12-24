@@ -4,21 +4,22 @@ extends Control
 @export var portrait: Array[Texture2D]
 @onready var text_node = $CanvasLayer/Panel/RichTextLabel
 @onready var portrait_node = $CanvasLayer/Panel/Sprite2D
-
 var typewritter_on = false
 var typewritter_timer: float = 0.02
 var dialog_index = 0
 var dialog_skipping: bool = false
+
+
 
 func _ready():
 	
 	# Freezes objPlayer in place
 	if is_instance_valid(GLOBAL_INSTANCES.objPlayerID):
 		GLOBAL_INSTANCES.objPlayerID.frozen = true
+		GLOBAL_INSTANCES.objPlayerID.velocity.x = 0
 	
 	# Shows the text as soon as the node is loaded
 	load_dialog()
-
 
 
 func _physics_process(_delta):
@@ -39,11 +40,9 @@ func _physics_process(_delta):
 			# resetting its behaviour to the normal typewritter one
 			dialog_skipping = true
 	
-	
 	# Full dialog skip
 	if Input.is_action_just_pressed("button_shoot"):
 		dialog_finished()
-
 
 
 func load_dialog():
@@ -99,7 +98,6 @@ func load_dialog():
 			
 			# Function triggered once the dialog has finished
 			dialog_finished()
-
 
 
 func dialog_finished():

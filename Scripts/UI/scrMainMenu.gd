@@ -9,6 +9,9 @@ var last_button_id: int
 # Prepares some things at startup
 func _ready():
 	
+	# Resets objHUD's notifications, needed due to it being an autoload
+	GLOBAL_GAME.reset_HUD()
+	
 	# Updates the bottom labels to show the proper key ids
 	bottom_text_labels_update()
 	

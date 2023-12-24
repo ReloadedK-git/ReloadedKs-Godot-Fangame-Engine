@@ -14,6 +14,7 @@ var global_trigger: Array = []
 @export var trigger_sound: AudioStreamWAV = null
 
 
+
 # This makes the trigger invisible when the game is running, but not in the
 # editor itself.
 # Also sets global_trigger from GLOBAL_GAME's main array (ONLY if the game is
@@ -40,4 +41,4 @@ func _on_body_entered(body):
 				GLOBAL_SOUNDS.play_sound(trigger_sound)
 		
 		queue_free()
-
+	

@@ -53,3 +53,21 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Modified ***scrGlobalGame*** to work with v4.2.
 * ***scrSettingsMenu*** now shows "Reset to Defaults" instead of "Reset".
 * FileSystem folders are now colored.
+
+### v1.7 (24-12-23)
+
+* Added multi-trigger system.
+* Added a simpler, collision activated text sign.
+* Modified ***objHUD*** and added a notification popup when finding items or collectables.
+* Cameras and HUD can be scaled now.
+* Added raycast-based lasers (static and dynamic).
+* Very minor edits to ***objPlayer***
+* Fixed a major bug with ***objCollectableItem***, and slightly changed the way it works due to ***objHUD***'s updates.
+* ***objBackgroundMenus*** now uses a scroll shader.
+* Both ***objCameraDynamic*** and ***objCameraFixed*** have been updated to work with the new camera zoom scaling.
+* Changed the font for the triggers and made the text easier to read.
+* Added extra settings to the settings menu (Camera Zoom and HUD Scaling).
+* Updated the settings and controls menu to allow for infinite options, alongside visual improvements.
+* Camera zoom is now 1x by default.
+* Added new rooms (***rRoomSelection***, ***rTestRoom03***).
+* Minor updates to several objects.

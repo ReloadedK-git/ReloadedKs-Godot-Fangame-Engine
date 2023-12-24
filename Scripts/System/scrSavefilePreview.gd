@@ -5,8 +5,10 @@ extends Node2D
 var default_sprite = load("res://Graphics/Sprites/System/sprSaveFile.png")
 
 
+
 func _ready():
 	screenshot_loading()
+
 
 
 func screenshot_loading():

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b6wjn6wemp8tk" path="res://Graphics/Sprites/Room_objects/sprCamera.png" id="1_dxfkf"]
 
 [node name="objCameraFixed" type="Camera2D"]
+process_callback = 0
 script = ExtResource("1_70ng6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

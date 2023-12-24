@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://d2676jrukcata"]
 
 [ext_resource type="Script" path="res://Scripts/Dialog/scrSign.gd" id="1_2joc5"]
 [ext_resource type="Texture2D" uid="uid://ox7qqy44wanl" path="res://Graphics/Sprites/Dialog_system/sprSign.png" id="1_86i65"]
@@ -8,9 +8,11 @@
 size = Vector2(32, 32)
 
 [node name="objSign" type="Area2D"]
+collision_layer = 0
 script = ExtResource("1_2joc5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 texture = ExtResource("1_86i65")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

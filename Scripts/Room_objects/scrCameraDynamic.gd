@@ -1,7 +1,6 @@
 extends Camera2D
 
 @export var target_node: Node = null
-@export var camera_zoom: Vector2 = Vector2(2, 2)
 
 # The big numbers inside of these variables means the camera will scroll freely
 # inside of a room, without any border limit.
@@ -12,9 +11,9 @@ extends Camera2D
 @export var stop_up_at: int = -10000000
 @export var stop_right_at: int = -10000000
 @export var stop_down_at: int = -10000000
-
 var focus_speed: float = 0.1
 var get_xy: Vector2 = Vector2.ZERO
+
 
 
 func _ready():
@@ -28,7 +27,7 @@ func _ready():
 			target_node = self
 		
 		# Camera zoom at start
-		zoom = camera_zoom
+		zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
 		
 		# Invisible sprite, just for room creation
 		$Sprite2D.visible = false
@@ -38,10 +37,11 @@ func _ready():
 		set_limit(SIDE_TOP, stop_up_at)
 		set_limit(SIDE_RIGHT, stop_right_at)
 		set_limit(SIDE_BOTTOM, stop_down_at)
-		
 
+
+# Updates the camera target
 func _physics_process(_delta):
-
+	
 	# Godot's "instance_exists"
 	# Gets objPlayer's position, stores it on a local variable, follows it while
 	# adding some linear interpolation
@@ -54,4 +54,4 @@ func _physics_process(_delta):
 		# get_xy, which no longer updates, but it still stored the player's
 		# last position, so we continue lerping to it
 		position = lerp(position, get_xy, focus_speed)
-		
+	

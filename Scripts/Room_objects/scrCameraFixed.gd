@@ -1,44 +1,45 @@
 extends Camera2D
 
 @export var target_node: Node = null
-@export var camera_width: float = 800
-@export var camera_height: float = 608
 @export var scrolling_speed: int = 10
-@export var camera_zoom: Vector2 = Vector2(1, 1)
+var camera_width: float = 800
+var camera_height: float = 608
 
 
+
+# Sets the zoom scaling and position smoothing speed once
 func _ready():
 	
-	# Sets initial zoom and scrolling speed
-	zoom = camera_zoom
-	position_smoothing_speed = scrolling_speed
-	
-	# Sets the camera target. If it's valid, it then sets the initial position
-	# to the center of the screen relative to the target's position
+	# Sets the camera for each reset
 	if is_instance_valid(target_node):
 		set_camera_target()
-		
-		# Turns off smoothing temporarily, until the camera is placed correctly
-		position_smoothing_enabled = false
 	else:
 		target_node = self
 	
-	# Invisible sprite, just for room creation
-	$Sprite2D.visible = false
+	# Sets initial zoom and scrolling speed
+	zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
+	position_smoothing_speed = scrolling_speed
 	
-	# Sets position smoothing after the camera is already set to the initial
-	# position
-	await get_tree().create_timer(0.01).timeout
-	position_smoothing_enabled = true
+	# Hides the sprite
+	$Sprite2D.visible = false
 
 
+# Updates the camera target and enables position smoothing if disabled
 func _physics_process(_delta):
 	if is_instance_valid(target_node):
 		set_camera_target()
+	
+	if !is_position_smoothing_enabled():
+		position_smoothing_enabled = true
+
 
 
 # Sets the camera target. If it's valid, it then sets the position to the
 # center of the screen relative to the target's position
 func set_camera_target():
-	position.x = floor(target_node.position.x / camera_width) * camera_width + (camera_width / 2)
-	position.y = floor(target_node.position.y / camera_height) * camera_height + (camera_height / 2)
+	
+	var camera_width_zoom: float = camera_width / GLOBAL_SETTINGS.ZOOM_SCALING
+	var camera_height_zoom: float = camera_height / GLOBAL_SETTINGS.ZOOM_SCALING
+	
+	position.x = floor(target_node.position.x / camera_width_zoom) * camera_width_zoom + (camera_width_zoom / 2)
+	position.y = floor(target_node.position.y / camera_height_zoom) * camera_height_zoom + (camera_height_zoom / 2)

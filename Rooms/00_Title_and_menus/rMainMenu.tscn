@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://g6hnxhpdvqml"]
 
-[ext_resource type="Script" path="res://Scripts/UI/scrMainMenu.gd" id="1_afrx8"]
-[ext_resource type="PackedScene" path="res://Objects/Backgrounds/Specific_backgrounds/objBackgroundMenus.tscn" id="3_ewupf"]
+[ext_resource type="Script" path="res://Scripts/UI/scrMainMenu.gd" id="1_qoy7f"]
+[ext_resource type="PackedScene" uid="uid://dihcyhsflfr2g" path="res://Objects/Backgrounds/Specific_backgrounds/objBackgroundMenus.tscn" id="3_ewupf"]
 [ext_resource type="PackedScene" uid="uid://wr3v4lkgftxk" path="res://Objects/Tiles/til16x16.tscn" id="3_l3tmp"]
 [ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objGenericMenuButton.tscn" id="5_lxs5f"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="5_ubmc4"]
@@ -17,11 +17,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_afrx8")
-starting_room = "res://Rooms/01_Testing_rooms/rTestRoom01.tscn"
+script = ExtResource("1_qoy7f")
+starting_room = "res://Rooms/01_Testing_rooms/rRoomSelection.tscn"
 settings_menu = "res://Rooms/00_Title_and_menus/rMenuSettings.tscn"
 
 [node name="Environment" type="Node2D" parent="."]
+
+[node name="objBackgroundMenus" parent="Environment" instance=ExtResource("3_ewupf")]
 
 [node name="til16x16" parent="Environment" instance=ExtResource("3_l3tmp")]
 modulate = Color(0.00392157, 0.643137, 0.85098, 1)
@@ -30,8 +32,6 @@ layer_0/tile_data = PackedInt32Array(2424832, 65537, 2, 2424833, 65537, 2, 24248
 [node name="objMusicPlayer" parent="Environment" instance=ExtResource("7_jvpo1")]
 position = Vector2(-12, 18)
 song_id = ExtResource("8_ixd31")
-
-[node name="objMainMenuBackground" parent="Environment" instance=ExtResource("3_ewupf")]
 
 [node name="SavefilePreviews" type="Node2D" parent="."]
 

@@ -1,0 +1,241 @@
+[gd_scene load_steps=29 format=3 uid="uid://cp4afoylm07t3"]
+
+[ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="1_83y07"]
+[ext_resource type="AudioStream" uid="uid://cbtxeavsqivpn" path="res://Audio/Music/musLevel01.ogg" id="2_s7qj5"]
+[ext_resource type="PackedScene" uid="uid://yab7pya0yr1j" path="res://Objects/Room_objects/objCameraFixed.tscn" id="2_xjp4s"]
+[ext_resource type="PackedScene" uid="uid://bm40t36a6m8sc" path="res://Objects/Tiles/til32x32.tscn" id="3_o5y43"]
+[ext_resource type="PackedScene" uid="uid://cjgn1pokbuu0p" path="res://Objects/Backgrounds/objBackgroundScrolling.tscn" id="4_raj0e"]
+[ext_resource type="Texture2D" uid="uid://bukwyfjur2ycm" path="res://Graphics/Backgrounds/bckDefaultGrid.png" id="5_4mkqd"]
+[ext_resource type="PackedScene" uid="uid://bp5rqk4l7tesk" path="res://Objects/Player/objPlayer.tscn" id="6_6hdy4"]
+[ext_resource type="PackedScene" uid="uid://cu54hxafh2i6t" path="res://Objects/Room_objects/objSignProximity.tscn" id="8_pceb8"]
+[ext_resource type="PackedScene" uid="uid://b31w5fm4w5857" path="res://Objects/Room_objects/objSavePoint.tscn" id="9_0ik58"]
+[ext_resource type="PackedScene" uid="uid://dvv6rb061ptd4" path="res://Objects/Gimmicks/tilConveyorBlock.tscn" id="9_cgcmh"]
+[ext_resource type="PackedScene" uid="uid://bes18loo3v73l" path="res://Objects/Room_objects/objSaveBlocker.tscn" id="10_mmqyb"]
+[ext_resource type="PackedScene" uid="uid://bo3vrmvp7ayf8" path="res://Objects/Room_objects/objWarp.tscn" id="11_txgun"]
+[ext_resource type="PackedScene" uid="uid://disuddxn6h6vm" path="res://Objects/Hazards/tilSpikes.tscn" id="13_684js"]
+[ext_resource type="PackedScene" uid="uid://dflbh74106rum" path="res://Objects/Hazards/objLaserStatic.tscn" id="13_dou4i"]
+[ext_resource type="PackedScene" path="res://Objects/Gimmicks/tilPlatformBlock.tscn" id="13_j3bu7"]
+[ext_resource type="PackedScene" uid="uid://blwcesaom6rxd" path="res://Objects/Gimmicks/objWater.tscn" id="13_ltcvs"]
+[ext_resource type="PackedScene" uid="uid://dr8oelp87b8uc" path="res://Objects/Gimmicks/objCoin.tscn" id="14_wom3c"]
+[ext_resource type="PackedScene" uid="uid://cp85j3jgqvoma" path="res://Objects/Hazards/objLaserDynamic.tscn" id="15_ubx6v"]
+[ext_resource type="PackedScene" uid="uid://da1qaif83tf17" path="res://Objects/Trigger_system/objTrigger.tscn" id="16_2fmvn"]
+[ext_resource type="PackedScene" uid="uid://bqylv5tq4q10j" path="res://Objects/Gimmicks/objMovingBlock.tscn" id="16_yx6m0"]
+[ext_resource type="AudioStream" uid="uid://cdt6et828ao0j" path="res://Audio/Sounds/sndBlockChange.wav" id="17_cd6cd"]
+[ext_resource type="PackedScene" uid="uid://bjbhbgxqbori8" path="res://Objects/Trigger_system/objTriggerBlock.tscn" id="18_2ux6s"]
+[ext_resource type="PackedScene" uid="uid://cuixijthhxfki" path="res://Objects/Gimmicks/objJumpRefresher.tscn" id="19_iudxs"]
+[ext_resource type="PackedScene" uid="uid://chskqaeqby1wj" path="res://Objects/Hazards/objJumpSwitchSpikeUp.tscn" id="21_0k3gp"]
+[ext_resource type="PackedScene" uid="uid://dh3qghmnw4kej" path="res://Objects/Hazards/objJumpSwitchSpikeDown.tscn" id="22_o28gh"]
+[ext_resource type="PackedScene" uid="uid://bupj3p8n52ks3" path="res://Objects/Trigger_system/objMultiTrigger.tscn" id="25_rb82s"]
+[ext_resource type="AudioStream" uid="uid://bbskkobrph305" path="res://Audio/Sounds/sndCoin.wav" id="26_3t3hh"]
+[ext_resource type="PackedScene" uid="uid://dvh5p5m0s4ju3" path="res://Objects/Collectables/objCollectableItem.tscn" id="27_parnu"]
+
+[node name="rTestRoom03" type="Node2D"]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="objMusicPlayer" parent="Environment" instance=ExtResource("1_83y07")]
+position = Vector2(-16, 16)
+song_id = ExtResource("2_s7qj5")
+
+[node name="til32x32" parent="Environment" instance=ExtResource("3_o5y43")]
+rendering_quadrant_size = 32
+layer_0/tile_data = PackedInt32Array(65537, 0, 2, 65538, 65536, 3, 65539, 0, 3, 65540, 0, 3, 65541, 0, 3, 65542, 0, 3, 65543, 0, 3, 65544, 0, 3, 65545, 0, 3, 65546, 0, 3, 65547, 0, 3, 65548, 0, 3, 65549, 0, 3, 65550, 0, 3, 65551, 0, 3, 65552, 0, 3, 65553, 0, 3, 65554, 0, 3, 65555, 0, 3, 65556, 0, 3, 65557, 0, 3, 65558, 0, 3, 65559, 65536, 3, 65560, 0, 2, 65536, 0, 2, 131072, 65536, 3, 196608, 65536, 2, 262144, 65536, 2, 327680, 65536, 3, 393216, 65536, 2, 458752, 65536, 2, 524288, 65536, 2, 589824, 65536, 2, 655360, 65536, 2, 720896, 65536, 2, 786432, 65536, 2, 851968, 65536, 2, 0, 0, 2, 1, 0, 2, 2, 0, 2, 3, 0, 2, 4, 0, 2, 5, 0, 2, 6, 0, 2, 7, 0, 2, 8, 0, 2, 9, 0, 2, 10, 0, 2, 11, 0, 2, 12, 0, 2, 13, 0, 2, 14, 0, 2, 15, 0, 2, 16, 0, 2, 17, 0, 2, 18, 0, 2, 19, 0, 2, 20, 0, 2, 21, 0, 2, 22, 0, 2, 23, 0, 2, 24, 0, 2, 1048576, 0, 2, 1114112, 0, 2, 1179648, 0, 2, 1114113, 0, 2, 1179649, 0, 2, 1114114, 65536, 3, 1179650, 0, 2, 1179651, 0, 2, 1179652, 0, 2, 1179653, 0, 2, 1179654, 0, 2, 1179655, 0, 2, 1179656, 0, 2, 1179657, 0, 2, 1179658, 0, 2, 1179659, 0, 2, 1179660, 0, 2, 1179661, 0, 2, 1179662, 0, 2, 1179663, 0, 2, 1179664, 0, 2, 1179665, 0, 2, 1179666, 0, 2, 1179667, 0, 2, 1179668, 0, 2, 1179669, 0, 2, 1179670, 0, 2, 1179671, 0, 2, 1179672, 0, 2, 49, 0, 2, 25, 0, 2, 26, 0, 2, 27, 0, 2, 28, 0, 2, 29, 0, 2, 30, 0, 2, 31, 0, 2, 32, 0, 2, 33, 0, 2, 34, 0, 2, 35, 0, 2, 36, 0, 2, 37, 0, 2, 38, 0, 2, 39, 0, 2, 40, 0, 2, 41, 0, 2, 42, 0, 2, 43, 0, 2, 44, 0, 2, 45, 0, 2, 46, 0, 2, 47, 0, 2, 48, 0, 2, 65585, 0, 2, 65561, 0, 2, 65562, 65536, 3, 65563, 0, 3, 65564, 0, 3, 65565, 0, 3, 65566, 0, 3, 65567, 0, 3, 65568, 65536, 3, 65569, 0, 2, 65570, 0, 2, 65571, 0, 2, 65572, 0, 2, 65573, 0, 2, 65574, 0, 2, 65575, 0, 2, 65576, 0, 2, 65577, 0, 2, 65578, 0, 2, 65579, 0, 2, 65580, 0, 2, 65581, 0, 2, 65582, 0, 2, 65583, 0, 2, 65584, 0, 2, 983089, 65536, 3, 1179673, 0, 2, 1179674, 0, 2, 1179675, 0, 2, 1179676, 0, 2, 1179677, 0, 2, 1179678, 0, 2, 1179679, 0, 2, 1179680, 0, 2, 1179681, 0, 2, 1179682, 0, 2, 1179683, 0, 2, 1179684, 0, 2, 1179685, 0, 2, 1179686, 0, 2, 1179687, 0, 2, 1179688, 0, 2, 1179689, 0, 2, 1179690, 0, 2, 1179691, 0, 2, 1179692, 0, 2, 1179693, 0, 2, 1179694, 0, 2, 1179695, 0, 2, 1179696, 0, 2, 1048625, 0, 2, 1114161, 0, 2, 1179697, 0, 2, 131121, 0, 2, 196657, 65536, 3, 262193, 65536, 2, 327729, 65536, 2, 393265, 65536, 2, 458801, 65536, 2, 524337, 65536, 2, 589873, 65536, 2, 655409, 65536, 2, 720945, 65536, 2, 786481, 65536, 2, 852017, 65536, 2, 917553, 65536, 2, 524297, 0, 3, 524298, 0, 3, 524299, 0, 3, 524300, 0, 3, 524301, 0, 3, 524302, 0, 3, 524303, 0, 3, 524304, 0, 3, 524305, 0, 3, 524306, 0, 3, 524307, 65536, 3, 589833, 0, 2, 589834, 0, 2, 589835, 0, 2, 589836, 0, 2, 589837, 0, 2, 589838, 0, 2, 589839, 0, 2, 589840, 0, 2, 589841, 0, 2, 589842, 0, 2, 589843, 65536, 2, 524310, 65536, 3, 589846, 65536, 2, 524311, 0, 3, 524312, 0, 3, 524313, 0, 3, 524314, 0, 3, 524315, 0, 3, 524316, 0, 3, 524317, 0, 3, 524318, 0, 3, 589847, 0, 2, 589848, 0, 2, 589849, 0, 2, 589850, 0, 2, 589851, 0, 2, 589852, 0, 2, 589853, 0, 2, 589854, 0, 2, 720905, 0, 3, 720906, 0, 3, 720907, 0, 3, 720908, 0, 3, 720909, 0, 3, 720910, 0, 3, 720911, 0, 3, 720912, 0, 3, 720913, 0, 3, 720914, 0, 3, 720915, 65536, 3, 655369, 0, 2, 655370, 0, 2, 655371, 0, 2, 655372, 0, 2, 655373, 0, 2, 655374, 0, 2, 655375, 0, 2, 655376, 0, 2, 655377, 0, 2, 655378, 0, 2, 655379, 65536, 2, 720918, 65536, 3, 720919, 0, 3, 720920, 0, 3, 720921, 0, 3, 720922, 0, 3, 720923, 0, 3, 720924, 0, 3, 720925, 0, 3, 720926, 0, 3, 655382, 65536, 2, 655383, 0, 2, 655384, 0, 2, 655385, 0, 2, 655386, 0, 2, 655387, 0, 2, 655388, 0, 2, 655389, 0, 2, 655390, 0, 2, 917504, 65536, 2, 983040, 65536, 3, 524290, 65536, 3, 589826, 65536, 2, 655362, 65536, 2, 720898, 65536, 2, 524291, 0, 3, 589827, 0, 2, 655363, 0, 2, 720899, 0, 2, 524292, 0, 3, 589828, 0, 2, 655364, 0, 2, 720900, 0, 2, 983041, 0, 3, 983042, 65536, 3, 786434, 65536, 3, 786435, 0, 3, 786436, 0, 3, 1048577, 0, 2, 1048578, 65536, 2, 524320, 0, 3, 589856, 0, 2, 655392, 0, 2, 720928, 0, 3, 720929, 0, 3, 720930, 0, 3, 720931, 0, 3, 720932, 0, 3, 720933, 0, 3, 524325, 0, 3, 524324, 0, 3, 524323, 0, 3, 524322, 0, 3, 524321, 0, 3, 589861, 0, 2, 655397, 0, 2, 655394, 0, 2, 589858, 0, 2, 589857, 0, 2, 655393, 0, 2, 589859, 0, 2, 655395, 0, 2, 655396, 0, 2, 589860, 0, 2, 262176, 65536, 3, 196640, 65536, 2, 131104, 65536, 2, 262181, 65536, 3, 262177, 0, 3, 262178, 0, 3, 262179, 0, 3, 262180, 0, 3, 196645, 65536, 3, 131109, 0, 2, 131108, 0, 2, 196644, 0, 2, 196643, 0, 2, 196642, 0, 2, 196641, 0, 2, 131105, 0, 2, 131106, 0, 2, 131107, 0, 2, 131095, 65536, 2, 131098, 65536, 2, 131096, 0, 2, 131097, 0, 2, 524319, 0, 3, 720927, 0, 3, 589855, 0, 2, 655391, 0, 2, 524328, 0, 3, 524327, 0, 3, 524326, 0, 3, 720936, 0, 3, 720934, 0, 3, 720935, 0, 3, 589864, 0, 2, 655400, 0, 2, 589862, 0, 2, 589863, 0, 2, 655399, 0, 2, 655398, 0, 2, 983085, 0, 3, 983086, 0, 3, 983087, 0, 3, 983088, 0, 3, 1114157, 0, 2, 1114158, 0, 2, 1114159, 0, 2, 1114160, 0, 2, 1048621, 0, 2, 1048622, 0, 2, 1048623, 0, 2, 1048624, 0, 2, 393259, 65536, 3, 524331, 65536, 3, 196651, 0, 3, 524329, 0, 3, 524330, 0, 3, 720937, 0, 3, 720938, 0, 3, 720939, 0, 3, 589867, 0, 2, 655403, 0, 2, 589865, 0, 2, 589866, 0, 2, 655402, 0, 2, 655401, 0, 2, 458795, 65536, 2, 196646, 0, 3, 196647, 0, 3, 196648, 0, 3, 196649, 0, 3, 196650, 0, 3, 131110, 0, 2, 131111, 0, 2, 131112, 0, 2, 131113, 0, 2, 131114, 0, 2, 196652, 0, 3, 196653, 0, 3, 196654, 0, 3, 393260, 0, 3, 393261, 0, 3, 720940, 0, 3, 393262, 0, 3, 393263, 65536, 3, 458799, 65536, 3, 196655, 0, 3, 196656, 0, 3, 131115, 0, 2, 131116, 0, 2, 131117, 0, 2, 131118, 0, 2, 131119, 0, 2, 131120, 0, 2, 458798, 65536, 3, 458797, 0, 2, 458796, 0, 2, 524332, 0, 2, 589868, 0, 2, 655404, 0, 2, 524334, 65536, 2, 589870, 65536, 2, 655406, 65536, 2, 720942, 65536, 3, 720941, 0, 3, 655405, 0, 2, 589869, 0, 2, 524333, 0, 2, 983068, 65536, 3, 983072, 65536, 3, 983069, 0, 3, 983070, 0, 3, 983071, 0, 3, 1048606, 196608, 2, 917532, 196608, 2, 917536, 196608, 2, 983084, 0, 3, 1048620, 0, 2, 1114156, 0, 2, 983081, 65536, 3, 1048617, 65536, 2, 1114153, 65536, 3, 983082, 0, 3, 983083, 0, 3, 1114154, 0, 2, 1114155, 0, 2, 1048618, 0, 2, 1048619, 0, 2, 327681, 0, 3, 327682, 65536, 3, 131099, 196608, 2, 196631, 65536, 2, 196632, 0, 2, 196633, 0, 2, 196634, 65536, 3, 196635, 65536, 3, 262167, 65536, 3, 262168, 0, 3, 262169, 0, 3, 262170, 0, 3, 262171, 65536, 3, 131074, 65536, 3, 131073, 0, 3, 524296, 65536, 3, 589832, 65536, 2, 655368, 65536, 2, 720904, 65536, 3, 524293, 65536, 3, 589829, 65536, 2, 655365, 65536, 2, 720901, 65536, 2, 786437, 65536, 3)
+
+[node name="objScrollingBackground" parent="Environment" instance=ExtResource("4_raj0e")]
+background_index = ExtResource("5_4mkqd")
+
+[node name="Room_related" type="Node2D" parent="."]
+
+[node name="objPlayer" parent="Room_related" instance=ExtResource("6_6hdy4")]
+position = Vector2(128, 240)
+
+[node name="objCameraFixed" parent="Room_related" node_paths=PackedStringArray("target_node") instance=ExtResource("2_xjp4s")]
+position = Vector2(-16, 48)
+target_node = NodePath("../objPlayer")
+
+[node name="objSignProximity2" parent="Room_related" instance=ExtResource("8_pceb8")]
+position = Vector2(272, 240)
+sign_text = "In this room, you'll have a fixed camera instead of a dynamic one"
+
+[node name="objSavePoint" parent="Room_related" instance=ExtResource("9_0ik58")]
+position = Vector2(48, 208)
+
+[node name="objSaveBlocker" parent="Room_related" instance=ExtResource("10_mmqyb")]
+position = Vector2(208, 208)
+
+[node name="objWarp" parent="Room_related" instance=ExtResource("11_txgun")]
+position = Vector2(48, 144)
+warp_to = "res://Rooms/01_Testing_rooms/rRoomSelection.tscn"
+
+[node name="Gimmicks" type="Node2D" parent="."]
+
+[node name="tilConveyorBlock" parent="Gimmicks" instance=ExtResource("9_cgcmh")]
+rendering_quadrant_size = 32
+layer_0/tile_data = PackedInt32Array(1114115, 0, 0, 1114116, 0, 0, 1114117, 0, 0, 1114118, 0, 0, 1114119, 0, 0, 1114120, 0, 0, 1114121, 0, 0, 1114122, 0, 0, 1114123, 0, 0, 1114124, 0, 0, 1114125, 0, 0, 1114126, 0, 0, 1114127, 0, 0, 1114128, 0, 0, 1114129, 0, 0, 1114130, 0, 0, 1114131, 0, 0, 1114132, 0, 0, 1114133, 0, 0, 1114134, 0, 0, 1114135, 0, 0, 1114136, 0, 0, 1114137, 0, 0, 1114138, 0, 0, 1114139, 0, 0, 1114140, 0, 0, 1114141, 0, 0, 1114142, 0, 0, 1114143, 0, 0, 1114144, 0, 0, 1114145, 0, 0, 1114146, 0, 0, 1114147, 0, 0, 1114148, 0, 0, 1114149, 0, 0, 1114150, 0, 0, 1114151, 0, 0, 1114152, 0, 0)
+
+[node name="platformBlockTilemap" parent="Gimmicks" instance=ExtResource("13_j3bu7")]
+rendering_quadrant_size = 32
+layer_0/tile_data = PackedInt32Array(196656, 0, 0, 983088, 0, 0)
+
+[node name="objWater" parent="Gimmicks" instance=ExtResource("13_ltcvs")]
+position = Vector2(32, 256)
+scale = Vector2(1, 7)
+
+[node name="objJumpRefresher" parent="Gimmicks" instance=ExtResource("19_iudxs")]
+position = Vector2(944, 112)
+
+[node name="objMovingBlock" parent="Gimmicks" instance=ExtResource("16_yx6m0")]
+position = Vector2(1552, 208)
+move_speed = Vector2(0, 2)
+collision_interaction = 3
+
+[node name="objCoin" parent="Gimmicks" node_paths=PackedStringArray("scene_to_destroy") instance=ExtResource("14_wom3c")]
+position = Vector2(752, 528)
+scene_to_destroy = NodePath("../../Hazards/objLaserStatic")
+
+[node name="objJumpSwitchSpikeDown" parent="Gimmicks" instance=ExtResource("22_o28gh")]
+modulate = Color(1, 1, 1, 0.313726)
+position = Vector2(1040, 528)
+spike_hidden = true
+
+[node name="objJumpSwitchSpikeDown2" parent="Gimmicks" instance=ExtResource("22_o28gh")]
+modulate = Color(1, 1, 1, 0.313726)
+position = Vector2(912, 528)
+spike_hidden = true
+
+[node name="objCollectableItem" parent="Gimmicks" instance=ExtResource("27_parnu")]
+position = Vector2(1392, 448)
+item_name = "Item 03"
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="tilSpikes" parent="Hazards" instance=ExtResource("13_684js")]
+layer_0/tile_data = PackedInt32Array(458792, 65536, 0, 458793, 65536, 0, 458794, 65536, 0, 524335, 0, 0)
+
+[node name="objJumpSwitchSpikeUp" parent="Hazards" instance=ExtResource("21_0k3gp")]
+position = Vector2(1392, 176)
+
+[node name="objJumpSwitchSpikeDown" parent="Hazards" instance=ExtResource("22_o28gh")]
+position = Vector2(1392, 144)
+
+[node name="objLaserStatic" parent="Hazards" instance=ExtResource("13_dou4i")]
+position = Vector2(720, 392)
+
+[node name="RayCast2D" parent="Hazards/objLaserStatic/laserComponents" index="0"]
+target_position = Vector2(0, 152)
+
+[node name="Sprite2D" parent="Hazards/objLaserStatic/laserComponents" index="1"]
+rotation = 1.5708
+region_rect = Rect2(-88.5, 0, 160, 14)
+
+[node name="beamTarget" parent="Hazards/objLaserStatic" index="1"]
+position = Vector2(0, 152)
+
+[node name="objLaserDynamic" parent="Hazards" instance=ExtResource("15_ubx6v")]
+position = Vector2(1008, 72)
+
+[node name="RayCast2D" parent="Hazards/objLaserDynamic/laserComponents" index="0"]
+target_position = Vector2(0, 184)
+
+[node name="Sprite2D" parent="Hazards/objLaserDynamic/laserComponents" index="1"]
+rotation = 1.5708
+region_rect = Rect2(-29, 0, 192, 14)
+
+[node name="beamTarget" parent="Hazards/objLaserDynamic" index="1"]
+position = Vector2(0, 184)
+
+[node name="objLaserDynamic2" parent="Hazards" instance=ExtResource("15_ubx6v")]
+position = Vector2(1552, 472)
+
+[node name="RayCast2D" parent="Hazards/objLaserDynamic2/laserComponents" index="0"]
+target_position = Vector2(0, -344)
+
+[node name="Sprite2D" parent="Hazards/objLaserDynamic2/laserComponents" index="1"]
+rotation = -1.5708
+region_rect = Rect2(-61, 0, 352, 14)
+
+[node name="beamTarget" parent="Hazards/objLaserDynamic2" index="1"]
+position = Vector2(0, -344)
+
+[node name="objLaserDynamic3" parent="Hazards" instance=ExtResource("15_ubx6v")]
+position = Vector2(816, 392)
+
+[node name="RayCast2D" parent="Hazards/objLaserDynamic3/laserComponents" index="0"]
+target_position = Vector2(0, 152)
+
+[node name="Sprite2D" parent="Hazards/objLaserDynamic3/laserComponents" index="1"]
+rotation = 1.5708
+region_rect = Rect2(-89.5, 0, 160, 14)
+
+[node name="beamTarget" parent="Hazards/objLaserDynamic3" index="1"]
+position = Vector2(0, 152)
+
+[node name="Trigger_related" type="Node2D" parent="."]
+
+[node name="objTrigger" parent="Trigger_related" instance=ExtResource("16_2fmvn")]
+position = Vector2(864, 64)
+trigger_sound = ExtResource("17_cd6cd")
+
+[node name="objTriggerBlock" parent="Trigger_related" instance=ExtResource("18_2ux6s")]
+position = Vector2(1040, 176)
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock" index="2"]
+points = PackedVector2Array(0, 0, -32, -96)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock" index="3"]
+position = Vector2(-32, -96)
+
+[node name="objTriggerBlock2" parent="Trigger_related" instance=ExtResource("18_2ux6s")]
+position = Vector2(1040, 208)
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock2" index="2"]
+points = PackedVector2Array(0, 0, -32, -96)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock2" index="3"]
+position = Vector2(-32, -96)
+
+[node name="objTriggerBlock3" parent="Trigger_related" instance=ExtResource("18_2ux6s")]
+position = Vector2(1040, 240)
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock3" index="2"]
+points = PackedVector2Array(0, 0, -32, -96)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock3" index="3"]
+position = Vector2(-32, -96)
+
+[node name="objMultiTrigger" parent="Trigger_related" instance=ExtResource("25_rb82s")]
+position = Vector2(896, 448)
+needs_activation = false
+trigger_id = 1
+trigger_sound = ExtResource("17_cd6cd")
+
+[node name="objMultiTrigger2" parent="Trigger_related" instance=ExtResource("25_rb82s")]
+position = Vector2(1024, 448)
+activation_id = 1
+trigger_id = 2
+trigger_sound = ExtResource("17_cd6cd")
+
+[node name="objMultiTrigger3" parent="Trigger_related" instance=ExtResource("25_rb82s")]
+position = Vector2(960, 512)
+activation_id = 2
+trigger_id = 3
+trigger_sound = ExtResource("26_3t3hh")
+
+[node name="objTriggerBlock4" parent="Trigger_related" instance=ExtResource("18_2ux6s")]
+position = Vector2(976, 464)
+trigger_id = 3
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock4" index="2"]
+points = PackedVector2Array(0, 0, -160, -64)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock4" index="3"]
+position = Vector2(-160, -64)
+
+[editable path="Hazards/objLaserStatic"]
+[editable path="Hazards/objLaserDynamic"]
+[editable path="Hazards/objLaserDynamic2"]
+[editable path="Hazards/objLaserDynamic3"]
+[editable path="Trigger_related/objTriggerBlock"]
+[editable path="Trigger_related/objTriggerBlock2"]
+[editable path="Trigger_related/objTriggerBlock3"]
+[editable path="Trigger_related/objTriggerBlock4"]

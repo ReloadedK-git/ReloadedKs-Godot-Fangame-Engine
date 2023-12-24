@@ -79,10 +79,7 @@ func _physics_process(delta):
 	# animation bug when resetting.
 	move_and_slide()
 	handle_animations()
-	
-	# Resets the horizontal velocity to 0. Good for things like cutscenes,
-	# or as a fallback to avoid moving constantly when not needed
-	velocity.x = 0
+
 
 
 """

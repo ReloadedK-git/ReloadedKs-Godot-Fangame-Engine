@@ -16,6 +16,15 @@ var vsync_on: bool = true
 var autoreset_on: bool = false
 var extra_keys_on: bool = false
 
+# Scaling related
+var zoom_scaling: float = 1.0
+var HUD_scaling: float = 1.0
+var zoom_scaling_step: float = 1.0
+var HUD_scaling_step: float = 0.5
+
+# Camera handling
+@onready var camera_anchor_node: Node = $Environment/cameraAnchor
+
 
 
 func _ready():
@@ -28,8 +37,6 @@ func _ready():
 	
 	# Sets and updates the text from each one of the button's labels
 	set_labels_text()
-
-
 
 
 # Key press checking (settings, quit)
@@ -83,6 +90,27 @@ func _on_fullscreen_pressed():
 	fullscreen_on = !fullscreen_on
 	GLOBAL_GAME.toggle_fullscreen()
 
+# Zoom scale
+func _on_zoom_scale_gui_input(_event):
+	if Input.is_action_just_pressed("ui_right"):
+		if (zoom_scaling) < 2:
+			zoom_scaling += zoom_scaling_step
+	
+	if Input.is_action_just_pressed("ui_left"):
+		if (zoom_scaling) > 1:
+			zoom_scaling -= zoom_scaling_step
+
+
+# HUD scale
+func _on_hud_scale_gui_input(_event):
+	if Input.is_action_just_pressed("ui_right"):
+		if (HUD_scaling) < 1.5:
+			HUD_scaling += HUD_scaling_step
+	
+	if Input.is_action_just_pressed("ui_left"):
+		if (HUD_scaling) > 1:
+			HUD_scaling -= HUD_scaling_step
+
 
 # Vsync on/off
 func _on_vsync_pressed():
@@ -122,7 +150,6 @@ func _on_back_pressed():
 		get_tree().change_scene_to_file(main_menu)
 		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
 
-
 ##########################################################################################################
 
 # Loads data from the global settings file
@@ -135,6 +162,8 @@ func load_from_global_settings():
 	music_volume = GLOBAL_SETTINGS.MUSIC_VOLUME
 	sound_volume = GLOBAL_SETTINGS.SOUND_VOLUME
 	fullscreen_on = GLOBAL_SETTINGS.FULLSCREEN
+	zoom_scaling = GLOBAL_SETTINGS.ZOOM_SCALING
+	HUD_scaling = GLOBAL_SETTINGS.HUD_SCALING
 	vsync_on = GLOBAL_SETTINGS.VSYNC
 	autoreset_on = GLOBAL_SETTINGS.AUTORESET
 	extra_keys_on = GLOBAL_SETTINGS.EXTRA_KEYS
@@ -145,6 +174,8 @@ func set_labels_text():
 	$SettingsContainer/MusicVolume/Label.text = "Music Volume: " + str(round(music_volume * 100)) + "%"
 	$SettingsContainer/SFXVolume/Label.text = "Sound Volume: " + str(round(sound_volume * 100)) + "%"
 	$SettingsContainer/Fullscreen/Label.text = "Fullscreen: " + str(bool_to_on_off(fullscreen_on))
+	$SettingsContainer/ZoomScale/Label.text = "Zoom Scale: " + str(zoom_scaling) + "x"
+	$SettingsContainer/HUDScale/Label.text = "HUD Scale: " + str(HUD_scaling) + "x"
 	$SettingsContainer/Vsync/Label.text = "Vsync: " + str(bool_to_on_off(vsync_on))
 	$SettingsContainer/AutoReset/Label.text = "Reset on Death: " + str(bool_to_on_off(autoreset_on))
 	$SettingsContainer/ExtraKeys/Label.text = "Extra keys: " + str(bool_to_on_off(extra_keys_on))
@@ -159,8 +190,14 @@ func save_on_exit():
 	# Updating the global settings file
 	GLOBAL_SETTINGS.MUSIC_VOLUME = music_volume
 	GLOBAL_SETTINGS.SOUND_VOLUME = sound_volume
+	GLOBAL_SETTINGS.ZOOM_SCALING = zoom_scaling
+	GLOBAL_SETTINGS.HUD_SCALING = HUD_scaling
 	GLOBAL_SETTINGS.AUTORESET = autoreset_on
 	GLOBAL_SETTINGS.EXTRA_KEYS = extra_keys_on
+	
+	# Sets HUD scaling by calling objHUDs method once
+	if is_instance_valid(objHUD):
+		objHUD.set_HUD_scaling()
 	
 	# Saving (includes fullscreen and vsync, but we don't need to set them
 	# from here again)
@@ -173,6 +210,8 @@ func reset_settings_to_default():
 	music_volume = 1.0
 	sound_volume = 1.0
 	fullscreen_on = false
+	zoom_scaling = 1.0
+	HUD_scaling = 1.0
 	vsync_on = true
 	autoreset_on = false
 	extra_keys_on = false
@@ -188,8 +227,36 @@ func bool_to_on_off(bool_value):
 		return "Off"
 
 
+# Camera anchor signals
+func _on_music_volume_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/MusicVolume.position.y
 
+func _on_sfx_volume_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/SFXVolume.position.y
 
+func _on_fullscreen_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/Fullscreen.position.y
 
+func _on_zoom_scale_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/ZoomScale.position.y
 
+func _on_hud_scale_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/HUDScale.position.y
 
+func _on_vsync_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/Vsync.position.y
+
+func _on_auto_reset_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/AutoReset.position.y
+
+func _on_extra_keys_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/ExtraKeys.position.y
+
+func _on_reset_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/Reset.position.y
+
+func _on_controls_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/Controls.position.y
+
+func _on_back_focus_entered():
+	camera_anchor_node.position.y = $SettingsContainer/Back.position.y

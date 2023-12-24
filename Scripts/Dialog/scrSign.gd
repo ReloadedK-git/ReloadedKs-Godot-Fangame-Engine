@@ -2,7 +2,6 @@ extends Area2D
 
 @export var dialog_scene: PackedScene = null
 var player_is_colliding: bool = false
-var dialog_box
 
 
 # Sets the label and turns it invisible at startup
@@ -55,11 +54,9 @@ func handle_text(button_id):
 
 
 # Detects if a player is colliding or not using signals
-func _on_body_entered(body):
-	if (body.name == "objPlayer"):
-		player_is_colliding = true
+func _on_body_entered(_body):
+	player_is_colliding = true
 
-func _on_body_exited(body):
-	if (body.name == "objPlayer"):
-		player_is_colliding = false
+func _on_body_exited(_body):
+	player_is_colliding = false
 	

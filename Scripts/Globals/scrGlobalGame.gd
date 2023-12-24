@@ -6,6 +6,7 @@ Public variables, meant to be accessed and modified outside of this script
 var debug_mode: bool = false
 var is_changing_rooms: bool = false
 var game_paused: bool = false
+var can_save_collectable: bool = false
 
 # This fixes some issues with collision detection on moving platforms
 const SNAPPING_GRID: int = 16
@@ -45,6 +46,7 @@ var pause_menu := preload("res://Objects/UI/objPauseMenu.tscn")
 var cur_pause_menu: Node = null
 
 
+
 func _ready():
 	
 	# Sets pause mode to not affect this world script
@@ -53,7 +55,6 @@ func _ready():
 	# Hides the mouse. A visual preference, so feel free to delete this if you
 	# want
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-
 
 
 # The global functions we want to handle each frame. They're self contained
@@ -93,6 +94,7 @@ func _input(event):
 	if event is InputEventJoypadButton and event.is_pressed():
 		if global_input_device != CONTROLLER:
 			global_input_device = CONTROLLER
+
 
 
 # A global pause which adds/removes a pause menu instance
@@ -201,6 +203,12 @@ func reset():
 	
 	# Clear/reset our global trigger array
 	triggered_events.clear()
+	
+	# Resets collectable saving
+	can_save_collectable = false
+	
+	# Resets objHUD's notifications, needed due to it being an autoload
+	reset_HUD()
 
 
 # Fully quits the game (alt + F4)
@@ -247,3 +255,10 @@ func get_input_name(button_id, input_device):
 	# Controller
 	if input_device == CONTROLLER:
 		return str(InputMap.action_get_events(button_id)[input_device].as_text().trim_prefix("Joypad ").left(9).trim_suffix(" "))
+
+
+# Stops the HUD from showing the item/collectable
+func reset_HUD() -> void:
+	if is_instance_valid(objHUD):
+		objHUD.container_timer.stop()
+		objHUD.item_container.set_visible(false)

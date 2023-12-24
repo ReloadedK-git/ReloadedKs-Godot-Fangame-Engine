@@ -6,10 +6,11 @@ extends Node2D
 # doesn't allow for cyclic referencing, meaning if you warp from a to b and
 # then return to a from b, godot will either crash or return an error. 
 # Will probably get fixed on future versions of Godot (hopefully)
-@export_file("*.tscn") var warp_to: String
+@export_file("*.tscn") var warp_to: String = ""
 @export var warp_transition: bool = false
 @export var warp_to_point: Vector2 = Vector2.ZERO
 var is_warping: bool = false
+
 
 
 # Changes the scene after a player collision. This didn't need to exist
@@ -19,6 +20,7 @@ var is_warping: bool = false
 func _physics_process(_delta):
 	if (is_warping == true):
 		get_tree().change_scene_to_file(warp_to)
+
 
 
 # When colliding with the player, it changes the scene
@@ -52,4 +54,7 @@ func _on_area_2d_body_entered(_body):
 	GLOBAL_GAME.triggered_events.clear()
 	
 	# Tells the warp it should change the scene on the next physics frame
-	is_warping = true
+	if warp_to != "":
+		is_warping = true
+	else:
+		print('Error: no room scene has been selected')

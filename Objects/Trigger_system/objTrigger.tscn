@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://da1qaif83tf17"]
+[gd_scene load_steps=5 format=3 uid="uid://da1qaif83tf17"]
 
 [ext_resource type="Script" path="res://Scripts/Triggers/scrTrigger.gd" id="1_gxir2"]
 [ext_resource type="Texture2D" uid="uid://pw4roxfykbii" path="res://Graphics/Sprites/Trigger_system/sprTrigger.png" id="1_ubx01"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="3_i363d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_favs1"]
 size = Vector2(32, 32)
@@ -11,16 +12,22 @@ script = ExtResource("1_gxir2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_ubx01")
+centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+z_index = -1
+position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_favs1")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 33.0
+offset_bottom = 31.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_i363d")
+theme_override_font_sizes/font_size = 20
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://bupj3p8n52ks3"]
+
+[ext_resource type="Script" path="res://Scripts/Triggers/scrMultiTrigger.gd" id="1_k2hdd"]
+[ext_resource type="Texture2D" uid="uid://pw4roxfykbii" path="res://Graphics/Sprites/Trigger_system/sprTrigger.png" id="2_r1qw6"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="3_lr4o2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kok3w"]
+size = Vector2(32, 32)
+
+[node name="objMultiTrigger" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_k2hdd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_r1qw6")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = -1
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_kok3w")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 1.0
+offset_top = -5.0
+offset_right = 33.0
+offset_bottom = 19.0
+theme_override_colors/font_color = Color(1, 0.784314, 0.196078, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_lr4o2")
+theme_override_font_sizes/font_size = 20
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 11.0
+offset_right = 33.0
+offset_bottom = 35.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_lr4o2")
+theme_override_font_sizes/font_size = 20
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
