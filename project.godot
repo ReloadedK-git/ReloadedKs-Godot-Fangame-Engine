@@ -12,7 +12,7 @@ config_version=5
 
 config/name="ReloadedK's Godot Fangame Engine"
 config/tags=PackedStringArray("fangame_engine")
-run/main_scene="res://Rooms/00_Title_and_menus/rMainMenu.tscn"
+run/main_scene="res://Rooms/00_Title_and_menus/rMenuMain.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 boot_splash/show_image=false
@@ -223,6 +223,7 @@ button_down_extra={
 2d_physics/layer_8="Water"
 2d_physics/layer_9="Triggers"
 2d_physics/layer_10="Vines"
+2d_physics/layer_11="SheepBlocks"
 
 [rendering]
 

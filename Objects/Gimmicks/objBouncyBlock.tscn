@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://b7tet5lpfxc3k"]
+
+[ext_resource type="Script" path="res://Scripts/Gimmicks/scrBouncyBlock.gd" id="1_10h41"]
+[ext_resource type="Texture2D" uid="uid://dvm4yxmqjf3lu" path="res://Graphics/Sprites/Gimmicks/sprBouncyBlock.png" id="2_xtexr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_acgxs"]
+atlas = ExtResource("2_xtexr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcxmc"]
+atlas = ExtResource("2_xtexr")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qni3b"]
+atlas = ExtResource("2_xtexr")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aigky"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_acgxs")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_pcxmc")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_qni3b")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrfer"]
+size = Vector2(32, 32)
+
+[node name="objBouncyBlock" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_10h41")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_aigky")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_xrfer")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b0yy6oegiwvcf"]
 
-[ext_resource type="Script" path="res://Scripts/Triggers/scrTriggerCherryTowards.gd" id="1_fsder"]
+[ext_resource type="Script" path="res://Scripts/Trigger_system/scrTriggerCherryTowards.gd" id="1_fsder"]
 [ext_resource type="Texture2D" uid="uid://bwlyhgiw23fwi" path="res://Graphics/Sprites/Hazards/sprCherry.png" id="2_hk1uh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ffbt"]

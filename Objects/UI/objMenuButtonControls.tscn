@@ -1,14 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://614aveijpptq"]
+[gd_scene load_steps=3 format=3 uid="uid://cb8vjlr6lfill"]
 
-[ext_resource type="Script" path="res://Scripts/UI/scrMainMenuButton.gd" id="1_7htm0"]
-[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="2_k4r3b"]
+[ext_resource type="Script" path="res://Scripts/UI/scrMenuButtonControls.gd" id="1_3e1aj"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="2_0xj0x"]
 
-[node name="objGenericMenuButton" type="TextureButton"]
+[node name="objMenuButtonControls" type="TextureButton"]
 offset_left = -44.0
 offset_top = -18.0
 offset_right = 44.0
 offset_bottom = 16.0
-script = ExtResource("1_7htm0")
+mouse_filter = 2
+toggle_mode = true
+action_mode = 0
+button_mask = 0
+script = ExtResource("1_3e1aj")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -25,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_outline_color = Color(0.215686, 0.215686, 0.215686, 1)
 theme_override_constants/outline_size = 9
-theme_override_fonts/font = ExtResource("2_k4r3b")
+theme_override_fonts/font = ExtResource("2_0xj0x")
 theme_override_font_sizes/font_size = 40
 text = "Text"
 horizontal_alignment = 1
@@ -33,3 +37,4 @@ vertical_alignment = 1
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
 [connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="toggled" from="." to="." method="_on_toggled"]

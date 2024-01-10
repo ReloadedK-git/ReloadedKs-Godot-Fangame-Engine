@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7d7yav7g756d"]
+
+[ext_resource type="Script" path="res://Scripts/Dialog_system/scrCollisionDialogSpawner.gd" id="1_ddvmn"]
+
+[node name="objCollisionDialogSpawner" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_ddvmn")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

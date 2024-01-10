@@ -30,7 +30,7 @@ func is_saving_allowed() -> void:
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndSave)
 			
 			# The actual saving is done here
-			GLOBAL_SAVELOAD.save_game()
+			GLOBAL_SAVELOAD.save_game(true)
 		can_save = false
 	
 	# Save button is red (not saving). Can save as soon as the button turns 

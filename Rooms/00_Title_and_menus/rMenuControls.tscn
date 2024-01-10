@@ -1,14 +1,14 @@
 [gd_scene load_steps=8 format=3 uid="uid://bbwrlfrcmeo6c"]
 
-[ext_resource type="Script" path="res://Scripts/UI/scrControlsMenu.gd" id="1_ep1av"]
+[ext_resource type="Script" path="res://Scripts/UI/scrMenuControls.gd" id="1_ep1av"]
 [ext_resource type="PackedScene" uid="uid://dihcyhsflfr2g" path="res://Objects/Backgrounds/Specific_backgrounds/objBackgroundMenus.tscn" id="1_s65of"]
 [ext_resource type="PackedScene" uid="uid://wr3v4lkgftxk" path="res://Objects/Tiles/til16x16.tscn" id="2_virf6"]
 [ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="3_e8ss3"]
 [ext_resource type="AudioStream" uid="uid://bnnwvgmabq10w" path="res://Audio/Music/musMainMenu.ogg" id="4_t1nch"]
-[ext_resource type="PackedScene" uid="uid://cb8vjlr6lfill" path="res://Objects/UI/objControlsMenuButton.tscn" id="6_erpai"]
-[ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objGenericMenuButton.tscn" id="6_wuero"]
+[ext_resource type="PackedScene" uid="uid://cb8vjlr6lfill" path="res://Objects/UI/objMenuButtonControls.tscn" id="6_erpai"]
+[ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objMenuButton.tscn" id="6_wuero"]
 
-[node name="rControlsMenu" type="Control"]
+[node name="rMenuControls" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,16 +19,20 @@ grow_vertical = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("1_ep1av")
 settings_menu = "res://Rooms/00_Title_and_menus/rMenuSettings.tscn"
+metadata/_edit_lock_ = true
 
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="objBackgroundMenus" parent="Environment" instance=ExtResource("1_s65of")]
+metadata/_edit_lock_ = true
 
 [node name="ColorRect" parent="Environment/objBackgroundMenus" index="0"]
 offset_bottom = 704.0
+metadata/_edit_lock_ = true
 
 [node name="TextureRect" parent="Environment/objBackgroundMenus" index="1"]
 offset_bottom = 704.0
+metadata/_edit_lock_ = true
 
 [node name="til16x16" parent="Environment" instance=ExtResource("2_virf6")]
 modulate = Color(0.00392157, 0.643137, 0.85098, 1)

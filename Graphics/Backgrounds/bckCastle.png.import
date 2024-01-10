@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pw4roxfykbii"
-path="res://.godot/imported/sprTrigger.png-e970d178b121b4d7c3362f47e998ec65.ctex"
+uid="uid://cbifnd0ykxhs"
+path="res://.godot/imported/bckCastle.png-d77561d8866838d7f8c932f5265f34e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/Sprites/Trigger_system/sprTrigger.png"
-dest_files=["res://.godot/imported/sprTrigger.png-e970d178b121b4d7c3362f47e998ec65.ctex"]
+source_file="res://Graphics/Backgrounds/bckCastle.png"
+dest_files=["res://.godot/imported/bckCastle.png-d77561d8866838d7f8c932f5265f34e1.ctex"]
 
 [params]
 

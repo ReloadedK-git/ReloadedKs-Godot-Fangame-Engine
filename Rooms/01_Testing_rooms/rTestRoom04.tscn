@@ -1,0 +1,229 @@
+[gd_scene load_steps=32 format=3 uid="uid://bhhpevlqkk6n2"]
+
+[ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="1_tjral"]
+[ext_resource type="AudioStream" uid="uid://cbtxeavsqivpn" path="res://Audio/Music/musLevel01.ogg" id="2_7au35"]
+[ext_resource type="PackedScene" uid="uid://bm40t36a6m8sc" path="res://Objects/Tiles/til32x32.tscn" id="3_dhyl2"]
+[ext_resource type="PackedScene" uid="uid://uc3dfxqfjl7l" path="res://Objects/Backgrounds/objBackgroundTexture.tscn" id="4_dumue"]
+[ext_resource type="Texture2D" uid="uid://cbifnd0ykxhs" path="res://Graphics/Backgrounds/bckCastle.png" id="5_kwx58"]
+[ext_resource type="PackedScene" uid="uid://cdx3h81o7hqb4" path="res://Objects/Room_objects/objCameraDynamic.tscn" id="5_tia65"]
+[ext_resource type="PackedScene" uid="uid://bp5rqk4l7tesk" path="res://Objects/Player/objPlayer.tscn" id="6_jfw1u"]
+[ext_resource type="PackedScene" uid="uid://bo3vrmvp7ayf8" path="res://Objects/Room_objects/objWarp.tscn" id="7_pmbuh"]
+[ext_resource type="PackedScene" uid="uid://b31w5fm4w5857" path="res://Objects/Room_objects/objSavePoint.tscn" id="8_3f73m"]
+[ext_resource type="PackedScene" uid="uid://0sf7hvl14lqd" path="res://Objects/Gimmicks/tilSheepBlocks.tscn" id="8_3tsjv"]
+[ext_resource type="Shader" path="res://Scripts/Shaders/shSheepBlocks.gdshader" id="9_jmqlv"]
+[ext_resource type="PackedScene" uid="uid://bes18loo3v73l" path="res://Objects/Room_objects/objSaveBlocker.tscn" id="10_8wd4j"]
+[ext_resource type="PackedScene" uid="uid://b7tet5lpfxc3k" path="res://Objects/Gimmicks/objBouncyBlock.tscn" id="11_nwo54"]
+[ext_resource type="PackedScene" uid="uid://cjqr3qh2x6l67" path="res://Objects/Gimmicks/objFadingBlock.tscn" id="12_db3ss"]
+[ext_resource type="PackedScene" uid="uid://dvoglwrd5xiy4" path="res://Objects/Gimmicks/tilVines.tscn" id="12_qhemq"]
+[ext_resource type="PackedScene" uid="uid://disuddxn6h6vm" path="res://Objects/Hazards/tilSpikes.tscn" id="13_i8h3y"]
+[ext_resource type="PackedScene" uid="uid://cp85j3jgqvoma" path="res://Objects/Hazards/objLaserDynamic.tscn" id="13_ocyj7"]
+[ext_resource type="PackedScene" path="res://Objects/Gimmicks/tilPlatformBlock.tscn" id="16_oxerl"]
+[ext_resource type="PackedScene" uid="uid://ddjx8w1j80w1t" path="res://Objects/Hazards/objSpikeBlock.tscn" id="18_87ase"]
+[ext_resource type="PackedScene" uid="uid://blj3cyjlb8uil" path="res://Objects/Gimmicks/objInvisibleBlock.tscn" id="18_om7he"]
+[ext_resource type="PackedScene" uid="uid://dvh5p5m0s4ju3" path="res://Objects/Collectables/objCollectableItem.tscn" id="19_ghuib"]
+[ext_resource type="PackedScene" uid="uid://da1qaif83tf17" path="res://Objects/Trigger_system/objTrigger.tscn" id="20_phxq1"]
+[ext_resource type="AudioStream" uid="uid://cdt6et828ao0j" path="res://Audio/Sounds/sndBlockChange.wav" id="21_vsjl8"]
+[ext_resource type="PackedScene" uid="uid://bjbhbgxqbori8" path="res://Objects/Trigger_system/objTriggerBlock.tscn" id="21_xe78f"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="22_fq4d1"]
+[ext_resource type="PackedScene" uid="uid://c363rig7brl0p" path="res://Objects/Gimmicks/objMovingPlatform.tscn" id="24_pf57r"]
+[ext_resource type="PackedScene" uid="uid://c7d7yav7g756d" path="res://Objects/Dialog_system/objCollisionDialogSpawner.tscn" id="26_vce6n"]
+[ext_resource type="PackedScene" uid="uid://dcni7tlrib6ai" path="res://Objects/Dialog_system/List/dialogTesting02.tscn" id="27_chs10"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mggbx"]
+shader = ExtResource("9_jmqlv")
+shader_parameter/new_color = Color(0, 0, 1, 1)
+shader_parameter/blinking = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jlrr4"]
+shader = ExtResource("9_jmqlv")
+shader_parameter/new_color = Color(1, 0, 0, 1)
+shader_parameter/blinking = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_36vde"]
+shader = ExtResource("9_jmqlv")
+shader_parameter/new_color = Color(0, 0.823529, 0, 1)
+shader_parameter/blinking = false
+
+[node name="rTemplate" type="Node2D"]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="objMusicPlayer" parent="Environment" instance=ExtResource("1_tjral")]
+position = Vector2(-16, 16)
+song_id = ExtResource("2_7au35")
+
+[node name="til32x32" parent="Environment" instance=ExtResource("3_dhyl2")]
+rendering_quadrant_size = 32
+layer_0/tile_data = PackedInt32Array(0, 196608, 3, 65536, 196608, 3, 131072, 196608, 3, 196608, 196608, 3, 262144, 196608, 3, 327680, 196608, 3, 393216, 196608, 3, 458752, 196608, 3, 524288, 196608, 3, 589824, 196608, 3, 655360, 196608, 3, 720896, 196608, 3, 786432, 196608, 3, 851968, 196608, 3, 917504, 196608, 3, 983040, 196608, 3, 1048576, 196608, 3, 1114112, 196608, 3, 1179648, 196608, 3, 1179672, 196608, 3, 1, 196608, 3, 2, 196608, 3, 3, 196608, 3, 4, 196608, 3, 5, 196608, 3, 6, 196608, 3, 7, 196608, 3, 8, 196608, 3, 9, 196608, 3, 10, 196608, 3, 11, 196608, 3, 12, 196608, 3, 13, 196608, 3, 14, 196608, 3, 15, 196608, 3, 16, 196608, 3, 17, 196608, 3, 18, 196608, 3, 19, 196608, 3, 20, 196608, 3, 21, 196608, 3, 22, 196608, 3, 23, 196608, 3, 24, 196608, 3, 196632, 196608, 3, 262168, 196608, 3, 327704, 196608, 3, 393240, 196608, 3, 458776, 196608, 3, 524312, 196608, 3, 589848, 196608, 3, 655384, 196608, 3, 720920, 196608, 3, 786456, 196608, 3, 851992, 196608, 3, 917528, 196608, 3, 983064, 196608, 3, 1048600, 196608, 3, 1114136, 196608, 3, 2424832, 196608, 3, 2359296, 196608, 3, 2293760, 196608, 3, 2228224, 196608, 3, 2162688, 196608, 3, 2097152, 196608, 3, 2031616, 196608, 3, 1966080, 196608, 3, 1900544, 196608, 3, 1835008, 196608, 3, 1769472, 196608, 3, 1703936, 196608, 3, 1638400, 196608, 3, 1572864, 196608, 3, 1507328, 196608, 3, 1441792, 196608, 3, 1376256, 196608, 3, 1310720, 196608, 3, 1245184, 196608, 3, 2424833, 196608, 3, 2424834, 196608, 3, 2424835, 196608, 3, 2424836, 196608, 3, 2424837, 196608, 3, 2424838, 196608, 3, 2424839, 196608, 3, 2424840, 196608, 3, 2424841, 196608, 3, 2424842, 196608, 3, 2424843, 196608, 3, 2424844, 196608, 3, 2424845, 196608, 3, 2424846, 196608, 3, 2424847, 196608, 3, 2424848, 196608, 3, 2424849, 196608, 3, 2424850, 196608, 3, 2424851, 196608, 3, 2424852, 196608, 3, 2424853, 196608, 3, 2424854, 196608, 3, 2424855, 196608, 3, 2424856, 196608, 3, 2359320, 196608, 3, 2293784, 196608, 3, 2228248, 196608, 3, 2162712, 196608, 3, 2097176, 196608, 3, 2031640, 196608, 3, 1966104, 196608, 3, 1900568, 196608, 3, 1507352, 196608, 3, 1441816, 196608, 3, 1376280, 196608, 3, 1310744, 196608, 3, 1245208, 196608, 3, 2359297, 131072, 3, 2359298, 131072, 3, 2359299, 131072, 3, 2359300, 131072, 3, 2359301, 131072, 3, 2359302, 131072, 3, 2359303, 131072, 3, 2359304, 131072, 3, 2359305, 131072, 3, 2359306, 131072, 3, 2359307, 131072, 3, 2359308, 131072, 3, 2359309, 131072, 3, 2359310, 131072, 3, 2359311, 131072, 3, 2359312, 131072, 3, 2359313, 131072, 3, 2359314, 131072, 3, 2359315, 131072, 3, 2359316, 196608, 3, 2359317, 196608, 3, 2359318, 196608, 3, 2359319, 196608, 3, 327681, 131072, 3, 327682, 131072, 3, 327683, 131072, 3, 393217, 196608, 3, 393218, 196608, 3, 393219, 196608, 3, 2097175, 131072, 3, 2097174, 131072, 3, 2162710, 196608, 3, 2162711, 196608, 3, 2228245, 131072, 3, 2293781, 196608, 3, 2293782, 196608, 3, 2228246, 196608, 3, 2228247, 196608, 3, 2293783, 196608, 3, 2293780, 196608, 3, 2228244, 131072, 3, 1572865, 131072, 3, 1572866, 131072, 3, 1572867, 131072, 3, 1572868, 131072, 3, 1638401, 196608, 3, 1638402, 196608, 3, 1638403, 196608, 3, 1638404, 196608, 3, 1703940, 196608, 3, 1769476, 196608, 3, 1769475, 196608, 3, 1769474, 196608, 3, 1769473, 196608, 3, 1703937, 196608, 3, 1703938, 196608, 3, 1703939, 196608, 3, 851969, 196608, 3, 851970, 196608, 3, 786433, 196608, 3, 786434, 196608, 3, 1310743, 196608, 3, 1310742, 196608, 3, 1376278, 196608, 3, 1376279, 196608, 3, 1441815, 196608, 3, 1507351, 196608, 3, 1441814, 196608, 3, 1507350, 196608, 3, 1245206, 131072, 3, 1245207, 131072, 3, 1572888, 196608, 3, 1638424, 196608, 3, 1835032, 196608, 3, 65560, 196608, 3, 131096, 196608, 3, 1703960, 196608, 3, 1769496, 196608, 3, 196631, 131072, 3, 131095, 196608, 2, 786435, 131072, 3, 786436, 131072, 3, 786437, 131072, 3, 786438, 131072, 3, 786439, 131072, 3, 786440, 131072, 3, 786441, 131072, 3, 786442, 131072, 3, 786443, 131072, 3, 786444, 131072, 3, 786445, 131072, 3, 786446, 131072, 3, 786447, 131072, 3, 851971, 196608, 3, 851972, 196608, 3, 851973, 196608, 3, 851974, 196608, 3, 851975, 196608, 3, 851976, 196608, 3, 851977, 196608, 3, 851978, 196608, 3, 851979, 196608, 3, 851980, 196608, 3, 851981, 196608, 3, 851982, 196608, 3, 851983, 196608, 3, 851984, 196608, 3, 786448, 131072, 3, 655361, 131072, 3, 720897, 196608, 3, 655362, 131072, 3, 720898, 196608, 3, 2097153, 131072, 3, 2097154, 131072, 3, 2097155, 131072, 3, 2162689, 196608, 3, 2162690, 196608, 3, 2162691, 196608, 3)
+
+[node name="objBackgroundTexture" parent="Environment" instance=ExtResource("4_dumue")]
+offset_right = 800.0
+offset_bottom = 1216.0
+texture = ExtResource("5_kwx58")
+metadata/_edit_lock_ = true
+
+[node name="Room_related" type="Node2D" parent="."]
+
+[node name="objPlayer" parent="Room_related" instance=ExtResource("6_jfw1u")]
+position = Vector2(560, 1136)
+
+[node name="objCameraDynamic" parent="Room_related" node_paths=PackedStringArray("target_node") instance=ExtResource("5_tia65")]
+position = Vector2(-16, 48)
+target_node = NodePath("../objPlayer")
+stop_left_at = 0
+stop_up_at = 0
+stop_right_at = 800
+stop_down_at = 1216
+
+[node name="objWarp" parent="Room_related" instance=ExtResource("7_pmbuh")]
+position = Vector2(48, 1136)
+warp_to = "res://Rooms/01_Testing_rooms/rRoomSelection.tscn"
+
+[node name="objSavePoint" parent="Room_related" instance=ExtResource("8_3f73m")]
+position = Vector2(624, 1104)
+
+[node name="objSaveBlocker" parent="Room_related" instance=ExtResource("10_8wd4j")]
+position = Vector2(464, 1104)
+
+[node name="objSavePoint2" parent="Room_related" instance=ExtResource("8_3f73m")]
+position = Vector2(48, 752)
+
+[node name="objSaveBlocker2" parent="Room_related" instance=ExtResource("10_8wd4j")]
+position = Vector2(112, 752)
+
+[node name="objSavePoint3" parent="Room_related" instance=ExtResource("8_3f73m")]
+position = Vector2(752, 560)
+
+[node name="objSaveBlocker3" parent="Room_related" instance=ExtResource("10_8wd4j")]
+position = Vector2(688, 560)
+
+[node name="objWarp2" parent="Room_related" instance=ExtResource("7_pmbuh")]
+position = Vector2(48, 144)
+warp_to = "res://Rooms/01_Testing_rooms/rRoomSelection.tscn"
+
+[node name="Gimmicks" type="Node2D" parent="."]
+
+[node name="tilSheepBlocks" parent="Gimmicks" instance=ExtResource("8_3tsjv")]
+material = SubResource("ShaderMaterial_mggbx")
+layer_0/tile_data = PackedInt32Array(1900564, 0, 0, 1900563, 0, 0, 1900562, 0, 0, 1769491, 65536, 0, 1835027, 65536, 0)
+
+[node name="tilSheepBlocks2" parent="Gimmicks" instance=ExtResource("8_3tsjv")]
+material = SubResource("ShaderMaterial_jlrr4")
+layer_0/tile_data = PackedInt32Array(1900558, 0, 0, 1900557, 0, 0, 1900556, 0, 0, 1835021, 65536, 0, 1638413, 65536, 0, 1638414, 65536, 0, 1638412, 65536, 0, 1900555, 0, 0, 1835020, 65536, 0, 1638411, 65536, 0)
+tilemap_color = Color(1, 0, 0, 1)
+
+[node name="tilSheepBlocks3" parent="Gimmicks" instance=ExtResource("8_3tsjv")]
+material = SubResource("ShaderMaterial_36vde")
+layer_0/tile_data = PackedInt32Array(1703941, 0, 0, 1769477, 0, 0, 1703942, 65536, 0, 1769478, 65536, 0, 1835013, 0, 0, 1900549, 0, 0, 1835014, 65536, 0, 1900550, 0, 0, 1900551, 0, 0)
+tilemap_color = Color(0, 0.823529, 0, 1)
+
+[node name="tilVines" parent="Gimmicks" instance=ExtResource("12_qhemq")]
+layer_0/tile_data = PackedInt32Array(1114113, 65536, 0, 1048577, 65536, 0, 1179649, 65536, 0, 1245185, 65536, 0, 1310721, 65536, 0, 983041, 65536, 0)
+
+[node name="objFadingBlock" parent="Gimmicks" instance=ExtResource("12_db3ss")]
+position = Vector2(96, 672)
+
+[node name="objFadingBlock2" parent="Gimmicks" instance=ExtResource("12_db3ss")]
+position = Vector2(192, 608)
+fading_time = 0.4
+
+[node name="objFadingBlock3" parent="Gimmicks" instance=ExtResource("12_db3ss")]
+position = Vector2(384, 704)
+fading_time = 0.4
+
+[node name="objBouncyBlock" parent="Gimmicks" instance=ExtResource("11_nwo54")]
+position = Vector2(544, 704)
+
+[node name="objBouncyBlock2" parent="Gimmicks" instance=ExtResource("11_nwo54")]
+position = Vector2(672, 736)
+bounce_amount = 300
+
+[node name="platformBlockTilemap" parent="Gimmicks" instance=ExtResource("16_oxerl")]
+rendering_quadrant_size = 32
+layer_0/tile_data = PackedInt32Array(458752, 0, 0, 458776, 0, 0)
+
+[node name="objInvisibleBlock" parent="Gimmicks" instance=ExtResource("18_om7he")]
+position = Vector2(752, 496)
+
+[node name="objInvisibleBlock2" parent="Gimmicks" instance=ExtResource("18_om7he")]
+position = Vector2(720, 496)
+
+[node name="objInvisibleBlock3" parent="Gimmicks" instance=ExtResource("18_om7he")]
+position = Vector2(656, 400)
+
+[node name="objInvisibleBlock4" parent="Gimmicks" instance=ExtResource("18_om7he")]
+position = Vector2(624, 400)
+
+[node name="objMovingPlatform" parent="Gimmicks" instance=ExtResource("24_pf57r")]
+position = Vector2(48, 224)
+move_speed = Vector2(3, 0)
+
+[node name="objCollectableItem" parent="Gimmicks" instance=ExtResource("19_ghuib")]
+position = Vector2(64, 288)
+item_name = "Item 04"
+
+[node name="objCollisionDialogSpawner" parent="Gimmicks" instance=ExtResource("26_vce6n")]
+position = Vector2(48, 912)
+dialog_scene = ExtResource("27_chs10")
+
+[node name="CollisionPolygon2D" parent="Gimmicks/objCollisionDialogSpawner" index="0"]
+polygon = PackedVector2Array(-16, -16, 48, -16, 48, 112, -16, 112)
+
+[node name="Label" type="Label" parent="Gimmicks/objCollisionDialogSpawner"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 48.0
+offset_bottom = 112.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("22_fq4d1")
+theme_override_font_sizes/font_size = 20
+text = "???"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="tilSpikes" parent="Hazards" instance=ExtResource("13_i8h3y")]
+layer_0/tile_data = PackedInt32Array(917505, 0, 0, 917506, 0, 0, 720899, 65536, 0, 720900, 65536, 0, 720901, 65536, 0, 720902, 65536, 0, 720903, 65536, 0, 720904, 65536, 0, 720905, 65536, 0, 720906, 65536, 0, 720907, 65536, 0, 720908, 65536, 0, 720909, 65536, 0, 720910, 65536, 0, 720911, 65536, 0, 720912, 65536, 0, 917507, 0, 0, 917508, 0, 0, 917509, 0, 0, 917510, 0, 0, 917511, 0, 0, 917512, 0, 0, 917513, 0, 0, 917514, 0, 0, 917515, 0, 0, 917516, 0, 0, 917517, 0, 0, 917518, 0, 0, 917519, 0, 0, 917520, 0, 0)
+
+[node name="objLaserDynamic" parent="Hazards" instance=ExtResource("13_ocyj7")]
+position = Vector2(40, 688)
+
+[node name="RayCast2D" parent="Hazards/objLaserDynamic/laserComponents" index="0"]
+target_position = Vector2(664, 0)
+
+[node name="Sprite2D" parent="Hazards/objLaserDynamic/laserComponents" index="1"]
+region_rect = Rect2(-80.5, 0, 672, 14)
+
+[node name="beamTarget" parent="Hazards/objLaserDynamic" index="1"]
+position = Vector2(664, 0)
+
+[node name="objSpikeBlock" parent="Hazards" instance=ExtResource("18_87ase")]
+position = Vector2(736, 288)
+
+[node name="objSpikeBlock2" parent="Hazards" instance=ExtResource("18_87ase")]
+position = Vector2(608, 192)
+
+[node name="objSpikeBlock3" parent="Hazards" instance=ExtResource("18_87ase")]
+position = Vector2(576, 192)
+
+[node name="Trigger_related" type="Node2D" parent="."]
+
+[node name="objTrigger" parent="Trigger_related" instance=ExtResource("20_phxq1")]
+position = Vector2(736, 64)
+trigger_sound = ExtResource("21_vsjl8")
+
+[node name="objTriggerBlock" parent="Trigger_related" instance=ExtResource("21_xe78f")]
+position = Vector2(112, 240)
+collision_layer = 66
+
+[node name="Line2D" parent="Trigger_related/objTriggerBlock" index="2"]
+points = PackedVector2Array(0, 0, 0, 96)
+
+[node name="Target" parent="Trigger_related/objTriggerBlock" index="3"]
+position = Vector2(0, 96)
+
+[editable path="Gimmicks/objCollisionDialogSpawner"]
+[editable path="Hazards/objLaserDynamic"]
+[editable path="Trigger_related/objTriggerBlock"]

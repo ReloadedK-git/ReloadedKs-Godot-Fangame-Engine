@@ -2,14 +2,14 @@
 
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="1_m788q"]
 [ext_resource type="Script" path="res://Scripts/UI/scrPauseMenu.gd" id="1_yte7v"]
-[ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objGenericMenuButton.tscn" id="3_vn420"]
+[ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objMenuButton.tscn" id="3_vn420"]
 
 [node name="objPauseMenu" type="Control"]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_yte7v")
-main_menu = "res://Rooms/00_Title_and_menus/rMainMenu.tscn"
+main_menu = "res://Rooms/00_Title_and_menus/rMenuMain.tscn"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

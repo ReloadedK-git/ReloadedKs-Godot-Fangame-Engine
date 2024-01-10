@@ -7,6 +7,8 @@ var debug_mode: bool = false
 var is_changing_rooms: bool = false
 var game_paused: bool = false
 var can_save_collectable: bool = false
+var time: float = 0.0
+var deaths: int = 0
 
 # This fixes some issues with collision detection on moving platforms
 const SNAPPING_GRID: int = 16
@@ -15,8 +17,9 @@ const SNAPPING_GRID: int = 16
 var player_bullet_damage: int = 1
 # var player_sword_damage: int = 4
 
-# The global trigger array
+# Global arrays
 var triggered_events: Array = []
+var dialog_events: Array = []
 
 # For moving the player to a specific position after warping to a different room
 var warp_to_point: Vector2 = Vector2.ZERO
@@ -29,6 +32,7 @@ var can_reset: bool = false
 var music_is_playing: bool = true
 enum {KEYBOARD, CONTROLLER}
 var global_input_device = KEYBOARD
+
 
 
 """
@@ -59,7 +63,7 @@ func _ready():
 
 # The global functions we want to handle each frame. They're self contained
 # and should only fire once or be toggled on and off
-func _physics_process(_delta):
+func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("button_debug"):
 		toggle_debug_mode()
@@ -82,6 +86,9 @@ func _physics_process(_delta):
 	# Resetting is more complex, as it needs to make a few checks before
 	# the reset key is even pressed
 	handle_resetting()
+	
+	# Global time counter
+	time_counter(delta)
 
 
 # We use this to check what type of input device we're using, which in turn
@@ -151,8 +158,9 @@ func full_game_restart() -> void:
 			get_tree().set_pause(false)
 			game_paused = !game_paused
 		
-		# Clear/reset our global trigger array
+		# Clear/reset our global arrays
 		triggered_events.clear()
+		dialog_events.clear()
 
 
 # Toggles debug mode on/off. 
@@ -207,6 +215,9 @@ func reset():
 	# Resets collectable saving
 	can_save_collectable = false
 	
+	# Saves time and deaths
+	GLOBAL_SAVELOAD.save_game(false)
+	
 	# Resets objHUD's notifications, needed due to it being an autoload
 	reset_HUD()
 
@@ -232,11 +243,13 @@ func is_valid_room():
 		current_scene_name = get_tree().get_current_scene().name
 		
 		match current_scene_name:
-			"rMainMenu":
+			"rMenuMain":
 				return false
-			"rSettingsMenu":
+			"rMenuFiles":
 				return false
-			"rControlsMenu":
+			"rMenuSettings":
+				return false
+			"rMenuControls":
 				return false
 			_:
 				return true
@@ -262,3 +275,20 @@ func reset_HUD() -> void:
 	if is_instance_valid(objHUD):
 		objHUD.container_timer.stop()
 		objHUD.item_container.set_visible(false)
+
+
+# Global time counter
+func time_counter(delta):
+	if !game_paused and is_valid_room():
+			time += delta
+	
+
+
+# Takes a time parameter and returns it as a formatted string
+func format_time(time_to_format):
+	
+	var hours   = floor((time_to_format / 60) / 60);
+	var minutes = floor(fmod(time_to_format / 60.0, 60));
+	var seconds = floor(fmod(time_to_format, 60.0));
+	
+	return ("%02d" % hours) + ":" + ("%02d" % minutes) + ":"+("%02d" % seconds).right(2)

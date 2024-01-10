@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2bb22ysdmuad"
-path="res://.godot/imported/sprWater.png-4a30b46ad959946afd450f2e42421eff.ctex"
+uid="uid://b8wgwndny30y8"
+path="res://.godot/imported/sprSpikeBlock.png-7cb7df777c894874fbaad92d8691b141.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/Sprites/Gimmicks/sprWater.png"
-dest_files=["res://.godot/imported/sprWater.png-4a30b46ad959946afd450f2e42421eff.ctex"]
+source_file="res://Graphics/Sprites/Hazards/sprSpikeBlock.png"
+dest_files=["res://.godot/imported/sprSpikeBlock.png-7cb7df777c894874fbaad92d8691b141.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Texture2D" uid="uid://cgvc5dghd2jq0" path="res://Graphics/Sprites/Dialog_system/sprDialogPlayer.png" id="1_4orag"]
-[ext_resource type="Script" path="res://Scripts/Dialog/scrDialogBox.gd" id="1_si3b3"]
+[ext_resource type="Script" path="res://Scripts/Dialog_system/scrDialogBox.gd" id="1_si3b3"]
 [ext_resource type="FontFile" uid="uid://dcaf67rc8h3nq" path="res://Graphics/Fonts/OpenSauceOne-Regular.otf" id="2_go3tk"]
 
 [node name="objDialogBox" type="Control" groups=["Dialog"]]

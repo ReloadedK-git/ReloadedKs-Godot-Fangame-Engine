@@ -71,3 +71,28 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Camera zoom is now 1x by default.
 * Added new rooms (***rRoomSelection***, ***rTestRoom03***).
 * Minor updates to several objects.
+
+### v1.8 (24-01-09)
+
+* Added a new main menu room.
+* Separated menus based on their individual functions (main menu, file selection menu, options menu, controls menu).
+* Added a time and death counter for each file.
+* Changed the text displayed on the file menu's options.
+* Made visual changes to ***rRoomSelection***.
+* Locked background scenes for some rooms, including menus.
+* Added a new testing room ***rTestingRoom04***.
+* Made small tweaks to ***objPlayer*** to make vertical speeds more accurate to traditional fangame physics (credits to RndGuy).
+* ***objSavePoint*** now uses its entire 32x32p sprite as a collision area for bullets.
+* Added a new background, shader, sound effect and sprites.
+* Optimized several collision checking nodes.
+* Added a new collision check for ***objPlayer*** (for sheep blocks).
+* Optimized the way ***objWater***, ***objTrigger*** and ***objMultiTrigger*** works.
+* Removed ***sprWater*** and ***sprTrigger***, since they were no longer necessary.
+* Removed script for ***objWater***.
+* Checked the "local to scene" property for ***objWater***, ***objTrigger***, ***objMultiTrigger*** and ***objSignProximity***.
+* Added several block-based gimmicks (***objFadingBlock, objBouncyBlock, objSpikeBlock***, ***objSheepBlocks***).
+* Added manual zooming to ***objCameraDynamic*** and ***objCameraFixed***.
+* Added ***objCollisionDialogSpawner***.
+* Added extra dialog scene for ***objCollisionDialogSpawner***.
+* Made changes to ***scrGlobalGame*** and ***scrPauseMenu*** due to the new dialog spawner.
+* Updated licenses and credits.

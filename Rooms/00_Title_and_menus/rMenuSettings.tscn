@@ -1,13 +1,13 @@
 [gd_scene load_steps=7 format=3 uid="uid://bpfweodm5wnn6"]
 
 [ext_resource type="PackedScene" uid="uid://dihcyhsflfr2g" path="res://Objects/Backgrounds/Specific_backgrounds/objBackgroundMenus.tscn" id="1_4sndi"]
-[ext_resource type="Script" path="res://Scripts/UI/scrSettingsMenu.gd" id="1_pl426"]
+[ext_resource type="Script" path="res://Scripts/UI/scrMenuSettings.gd" id="1_pl426"]
 [ext_resource type="PackedScene" uid="uid://wr3v4lkgftxk" path="res://Objects/Tiles/til16x16.tscn" id="2_ino11"]
-[ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objGenericMenuButton.tscn" id="4_k2tdr"]
+[ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objMenuButton.tscn" id="4_k2tdr"]
 [ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="5_4ewjm"]
 [ext_resource type="AudioStream" uid="uid://bnnwvgmabq10w" path="res://Audio/Music/musMainMenu.ogg" id="6_88q26"]
 
-[node name="rSettingsMenu" type="Control"]
+[node name="rMenuSettings" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,18 +17,22 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_pl426")
-main_menu = "res://Rooms/00_Title_and_menus/rMainMenu.tscn"
+main_menu = "res://Rooms/00_Title_and_menus/rMenuMain.tscn"
 controls_menu = "res://Rooms/00_Title_and_menus/rMenuControls.tscn"
+metadata/_edit_lock_ = true
 
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="objBackgroundMenus" parent="Environment" instance=ExtResource("1_4sndi")]
+metadata/_edit_lock_ = true
 
 [node name="ColorRect" parent="Environment/objBackgroundMenus" index="0"]
 offset_bottom = 704.0
+metadata/_edit_lock_ = true
 
 [node name="TextureRect" parent="Environment/objBackgroundMenus" index="1"]
 offset_bottom = 704.0
+metadata/_edit_lock_ = true
 
 [node name="til16x16" parent="Environment" instance=ExtResource("2_ino11")]
 modulate = Color(0.00392157, 0.643137, 0.85098, 1)

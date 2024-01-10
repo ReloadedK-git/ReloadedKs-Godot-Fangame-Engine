@@ -1,0 +1,106 @@
+[gd_scene load_steps=9 format=3 uid="uid://0sf7hvl14lqd"]
+
+[ext_resource type="Texture2D" uid="uid://bn3kd5f1m0n1p" path="res://Graphics/Tilemaps/tilSheepBlocks.png" id="1_gxl0f"]
+[ext_resource type="Shader" path="res://Scripts/Shaders/shSheepBlocks.gdshader" id="1_jgjs5"]
+[ext_resource type="Script" path="res://Scripts/Gimmicks/scrSheepBlocks.gd" id="2_rdu3k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aamtx"]
+shader = ExtResource("1_jgjs5")
+shader_parameter/new_color = Color(0, 0, 1, 1)
+shader_parameter/blinking = false
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lgm2a"]
+texture = ExtResource("1_gxl0f")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:0/0/physics_layer_1/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_1/angular_velocity = 0.0
+0:0/0/physics_layer_2/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_2/angular_velocity = 0.0
+0:0/0/physics_layer_2/polygon_0/points = PackedVector2Array(-17, -17, 17, -17, 17, 17, -17, 17)
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_1/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_1/angular_velocity = 0.0
+1:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(0, -16, 12, -12, 16, 0, 12, 12, 0, 16, -12, 12, -16, 0, -12, -12)
+1:0/0/physics_layer_2/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_2/angular_velocity = 0.0
+
+[sub_resource type="TileSet" id="TileSet_pm6h4"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 0
+physics_layer_1/collision_layer = 8
+physics_layer_1/collision_mask = 0
+physics_layer_2/collision_layer = 1024
+physics_layer_2/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_lgm2a")
+
+[sub_resource type="Animation" id="Animation_l66v6"]
+resource_name = "animSheepBlock"
+length = 1.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2, 0.4, 0.6, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"tilemap_blink"
+}, {
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_enrnu"]
+_data = {
+"animSheepBlock": SubResource("Animation_l66v6")
+}
+
+[node name="tilSheepBlocks" type="TileMap"]
+material = SubResource("ShaderMaterial_aamtx")
+tile_set = SubResource("TileSet_pm6h4")
+format = 2
+script = ExtResource("2_rdu3k")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+callback_mode_process = 0
+libraries = {
+"": SubResource("AnimationLibrary_enrnu")
+}

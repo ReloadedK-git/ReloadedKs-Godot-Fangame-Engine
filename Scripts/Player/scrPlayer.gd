@@ -3,12 +3,12 @@ extends CharacterBody2D
 """
 ---------- VARIABLE DECLARATIONS ---------- 
 """
-var gravity: int = 980
-var v_speed: int = 400
+var gravity: int = 1000
+var v_speed: int = 470
 var h_speed: int = 150
-var s_jump_speed: int = 400
-var d_jump_speed: int = 330
-var jump_release_falloff: float = 0.50
+var s_jump_speed: int = 405
+var d_jump_speed: int = 350
+var jump_release_falloff: float = 0.45
 var xscale: bool = true
 var frozen: bool = false
 var d_jump: bool = true
@@ -442,6 +442,10 @@ func on_death():
 		add_sibling(blood_emitter_id)
 		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndDeath)
 		
+		# Adds an extra death to the global death counter
+		GLOBAL_GAME.deaths += 1
+		
+		# Destroys the player
 		queue_free()
 
 
@@ -485,3 +489,10 @@ func _on_vines_body_entered(_body):
 		can_walljump = true
 func _on_vines_body_exited(_body):
 	can_walljump = false
+
+
+func _on_sheep_blocks_body_entered(body):
+	if !body.activated:
+		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndSheepBlock)
+		body.animation_player.play("animSheepBlock")
+		body.activated = true

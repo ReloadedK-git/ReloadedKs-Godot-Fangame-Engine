@@ -19,7 +19,9 @@ const defaultGameData = {
 	"player_x" : 0,
 	"player_y" : 0,
 	"player_sprite_flipped" : false,
-	"room_name" : ""
+	"room_name" : "",
+	"total_time" : 0.0,
+	"total_deaths" : 0
 }
 
 # This is the data we can read and write. By default, it's just a copy of
@@ -114,11 +116,13 @@ func take_screenshot() -> void:
 
 # Saves the player's coordinates, sprite state and room name. Also takes a
 # screenshot. This is what you use for saving the game normally
-func save_game() -> void:
-	if is_instance_valid(GLOBAL_INSTANCES.objPlayerID):
+func save_game(save_position = true) -> void:
+	if is_instance_valid(GLOBAL_INSTANCES.objPlayerID) && save_position:
 		variableGameData.player_x = GLOBAL_INSTANCES.objPlayerID.position.x
 		variableGameData.player_y = GLOBAL_INSTANCES.objPlayerID.position.y
 		variableGameData.player_sprite_flipped = GLOBAL_INSTANCES.objPlayerID.xscale
 		variableGameData.room_name = get_tree().get_current_scene().get_scene_file_path()
 		take_screenshot()
-		save_data()
+	variableGameData.total_time = GLOBAL_GAME.time
+	variableGameData.total_deaths = GLOBAL_GAME.deaths
+	save_data()

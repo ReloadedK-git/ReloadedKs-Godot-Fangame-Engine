@@ -2,6 +2,13 @@ extends Camera2D
 
 @export var target_node: Node = null
 @export var scrolling_speed: int = 10
+
+# Zoom related variables. You can ignore the global zoom from the settings and
+# add the zoom amount manually
+@export_category("Zoom")
+@export var ignore_global_zoom: bool = false
+@export var manual_zoom_amount: Vector2 = Vector2.ONE
+
 var camera_width: float = 800
 var camera_height: float = 608
 
@@ -17,7 +24,10 @@ func _ready():
 		target_node = self
 	
 	# Sets initial zoom and scrolling speed
-	zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
+	if !ignore_global_zoom:
+		zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
+	else:
+		zoom = manual_zoom_amount
 	position_smoothing_speed = scrolling_speed
 	
 	# Hides the sprite

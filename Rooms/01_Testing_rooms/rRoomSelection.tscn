@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://bvcymmq3uy3af"]
+[gd_scene load_steps=12 format=3 uid="uid://bvcymmq3uy3af"]
 
 [ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="1_h61di"]
 [ext_resource type="AudioStream" uid="uid://cbtxeavsqivpn" path="res://Audio/Music/musLevel01.ogg" id="2_udbsw"]
 [ext_resource type="PackedScene" uid="uid://bm40t36a6m8sc" path="res://Objects/Tiles/til32x32.tscn" id="3_8wqnp"]
 [ext_resource type="PackedScene" uid="uid://uc3dfxqfjl7l" path="res://Objects/Backgrounds/objBackgroundTexture.tscn" id="4_fbekd"]
+[ext_resource type="PackedScene" uid="uid://cjgn1pokbuu0p" path="res://Objects/Backgrounds/objBackgroundScrolling.tscn" id="5_5652x"]
 [ext_resource type="PackedScene" uid="uid://bp5rqk4l7tesk" path="res://Objects/Player/objPlayer.tscn" id="5_ws68y"]
+[ext_resource type="Texture2D" uid="uid://dlit77pi2a0te" path="res://Graphics/Backgrounds/bckPixelStarfield.png" id="6_4eqva"]
 [ext_resource type="PackedScene" uid="uid://cdx3h81o7hqb4" path="res://Objects/Room_objects/objCameraDynamic.tscn" id="6_h5c02"]
 [ext_resource type="PackedScene" uid="uid://b31w5fm4w5857" path="res://Objects/Room_objects/objSavePoint.tscn" id="7_cvscx"]
 [ext_resource type="PackedScene" uid="uid://bo3vrmvp7ayf8" path="res://Objects/Room_objects/objWarp.tscn" id="8_k8bft"]
@@ -23,8 +25,15 @@ rendering_quadrant_size = 32
 layer_0/tile_data = PackedInt32Array(1114113, 0, 1, 1114114, 0, 1, 1114115, 0, 1, 1114116, 0, 1, 1114117, 0, 1, 1114118, 0, 1, 1114119, 0, 1, 1114120, 0, 1, 1114121, 0, 1, 1114122, 0, 1, 1114123, 0, 1, 1114124, 0, 1, 1114125, 0, 1, 1114126, 0, 1, 1114127, 0, 1, 1114128, 0, 1, 1114129, 0, 1, 1114130, 0, 1, 1114131, 0, 1, 1114132, 0, 1, 1114133, 0, 1, 1114134, 0, 1, 1114135, 0, 1, 24, 65536, 1, 65560, 65536, 1, 131096, 65536, 1, 196632, 65536, 1, 262168, 65536, 1, 327704, 65536, 1, 393240, 65536, 1, 458776, 65536, 1, 524312, 65536, 1, 589848, 65536, 1, 655384, 65536, 1, 720920, 65536, 1, 786456, 65536, 1, 851992, 65536, 1, 917528, 65536, 1, 983064, 65536, 1, 1048600, 65536, 1, 1114136, 65536, 1, 1179672, 65536, 1, 1179671, 65536, 1, 1179670, 65536, 1, 1179669, 65536, 1, 1179668, 65536, 1, 1179667, 65536, 1, 1179666, 65536, 1, 1179665, 65536, 1, 1179664, 65536, 1, 1179663, 65536, 1, 1179662, 65536, 1, 1179661, 65536, 1, 1179660, 65536, 1, 1179659, 65536, 1, 1179658, 65536, 1, 1179657, 65536, 1, 1179656, 65536, 1, 1179655, 65536, 1, 1179654, 65536, 1, 1179653, 65536, 1, 1179652, 65536, 1, 1179651, 65536, 1, 1179650, 65536, 1, 1179649, 65536, 1, 1179648, 65536, 1, 1114112, 65536, 1, 1048576, 65536, 1, 983040, 65536, 1, 917504, 65536, 1, 851968, 65536, 1, 786432, 65536, 1, 720896, 65536, 1, 655360, 65536, 1, 589824, 65536, 1, 524288, 65536, 1, 458752, 65536, 1, 393216, 65536, 1, 327680, 65536, 1, 262144, 65536, 1, 196608, 65536, 1, 131072, 65536, 1, 65536, 65536, 1, 0, 65536, 1, 1, 65536, 1, 2, 65536, 1, 3, 65536, 1, 4, 65536, 1, 5, 65536, 1, 6, 65536, 1, 7, 65536, 1, 8, 65536, 1, 9, 65536, 1, 10, 65536, 1, 11, 65536, 1, 12, 65536, 1, 13, 65536, 1, 14, 65536, 1, 15, 65536, 1, 16, 65536, 1, 17, 65536, 1, 18, 65536, 1, 19, 65536, 1, 20, 65536, 1, 21, 65536, 1, 22, 65536, 1, 23, 65536, 1, 917508, 0, 1, 917509, 0, 1, 917510, 0, 1, 917524, 0, 1, 917523, 0, 1, 917522, 0, 1, 917521, 0, 1, 917511, 0, 1, 720905, 0, 1, 720906, 0, 1, 720907, 0, 1, 720908, 0, 1, 720909, 0, 1, 720910, 0, 1, 720911, 0, 1, 524295, 0, 1, 524294, 0, 1, 524293, 0, 1, 524292, 0, 1, 524305, 0, 1, 524306, 0, 1, 524307, 0, 1, 524308, 0, 1, 917507, 0, 1, 524291, 0, 1, 524309, 0, 1, 917525, 0, 1, 983043, 65536, 1, 983044, 65536, 1, 983045, 65536, 1, 983046, 65536, 1, 983047, 65536, 1, 786441, 65536, 1, 786442, 65536, 1, 786443, 65536, 1, 786444, 65536, 1, 786445, 65536, 1, 786446, 65536, 1, 786447, 65536, 1, 589827, 65536, 1, 589828, 65536, 1, 589829, 65536, 1, 589830, 65536, 1, 589831, 65536, 1, 983057, 65536, 1, 983058, 65536, 1, 983059, 65536, 1, 983060, 65536, 1, 983061, 65536, 1, 589841, 65536, 1, 589842, 65536, 1, 589843, 65536, 1, 589844, 65536, 1, 589845, 65536, 1, 327689, 0, 1, 393225, 65536, 1, 327690, 0, 1, 393226, 65536, 1, 327691, 0, 1, 393227, 65536, 1, 327692, 0, 1, 393228, 65536, 1, 327693, 0, 1, 393229, 65536, 1, 327694, 0, 1, 393230, 65536, 1, 327695, 0, 1, 393231, 65536, 1)
 
 [node name="objBackgroundTexture" parent="Environment" instance=ExtResource("4_fbekd")]
-offset_right = 800.0
-offset_bottom = 608.0
+self_modulate = Color(1, 1, 1, 0.470588)
+offset_right = 1600.0
+offset_bottom = 1216.0
+scale = Vector2(0.5, 0.5)
+metadata/_edit_lock_ = true
+
+[node name="objBackgroundScrolling" parent="Environment" instance=ExtResource("5_5652x")]
+background_size = Vector2(200, 200)
+background_index = ExtResource("6_4eqva")
 
 [node name="Room_related" type="Node2D" parent="."]
 
@@ -93,6 +102,24 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("9_3lttj")
 theme_override_font_sizes/font_size = 20
 text = "Testing Room 03"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="objWarp4" parent="Room_related" instance=ExtResource("8_k8bft")]
+position = Vector2(176, 432)
+warp_to = "res://Rooms/01_Testing_rooms/rTestRoom04.tscn"
+
+[node name="Label4" type="Label" parent="Room_related/objWarp4"]
+offset_left = -80.0
+offset_top = -48.0
+offset_right = 80.0
+offset_bottom = -16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("9_3lttj")
+theme_override_font_sizes/font_size = 20
+text = "Testing Room 04"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2

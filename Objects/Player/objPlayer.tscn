@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bp5rqk4l7tesk"]
+[gd_scene load_steps=30 format=3 uid="uid://bp5rqk4l7tesk"]
 
 [ext_resource type="Script" path="res://Scripts/Player/scrPlayer.gd" id="1_qesj7"]
 [ext_resource type="Texture2D" uid="uid://burygy08cq204" path="res://Graphics/Sprites/Player/sprPlayerFall.png" id="2_vhr1p"]
@@ -162,6 +162,9 @@ size = Vector2(10, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x6gqu"]
 size = Vector2(1, 20)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mo373"]
+size = Vector2(12, 20)
+
 [node name="objPlayer" type="CharacterBody2D" groups=["Player"]]
 z_index = 2
 collision_mask = 6
@@ -189,6 +192,7 @@ debug_color = Color(0, 0.6, 0.701961, 0.419608)
 [node name="Platforms" type="Area2D" parent="extraCollisions"]
 collision_layer = 0
 collision_mask = 4
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Platforms"]
 visible = false
@@ -209,6 +213,7 @@ debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 [node name="Water" type="Area2D" parent="extraCollisions"]
 collision_layer = 0
 collision_mask = 128
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Water"]
 visible = false
@@ -219,6 +224,7 @@ debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 [node name="IsCrushed" type="Area2D" parent="extraCollisions"]
 collision_layer = 0
 collision_mask = 2
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IsCrushed"]
 visible = false
@@ -236,6 +242,16 @@ position = Vector2(7.5, 6)
 shape = SubResource("RectangleShape2D_x6gqu")
 debug_color = Color(0, 1, 0.0156863, 0.419608)
 
+[node name="SheepBlocks" type="Area2D" parent="extraCollisions"]
+collision_layer = 0
+collision_mask = 1024
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/SheepBlocks"]
+visible = false
+position = Vector2(1, 6)
+shape = SubResource("RectangleShape2D_mo373")
+debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+
 [connection signal="body_entered" from="extraCollisions/Platforms" to="." method="_on_platforms_body_entered"]
 [connection signal="body_exited" from="extraCollisions/Platforms" to="." method="_on_platforms_body_exited"]
 [connection signal="body_entered" from="extraCollisions/Killers" to="." method="_on_killers_body_entered"]
@@ -244,3 +260,4 @@ debug_color = Color(0, 1, 0.0156863, 0.419608)
 [connection signal="body_entered" from="extraCollisions/IsCrushed" to="." method="_on_is_crushed_body_entered"]
 [connection signal="body_entered" from="extraCollisions/Vines" to="." method="_on_vines_body_entered"]
 [connection signal="body_exited" from="extraCollisions/Vines" to="." method="_on_vines_body_exited"]
+[connection signal="body_entered" from="extraCollisions/SheepBlocks" to="." method="_on_sheep_blocks_body_entered"]

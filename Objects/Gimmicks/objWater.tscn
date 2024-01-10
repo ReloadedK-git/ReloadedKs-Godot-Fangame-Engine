@@ -1,7 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://blwcesaom6rxd"]
-
-[ext_resource type="Script" path="res://Scripts/Gimmicks/scrWater.gd" id="1_jh6wd"]
-[ext_resource type="Texture2D" uid="uid://b2bb22ysdmuad" path="res://Graphics/Sprites/Gimmicks/sprWater.png" id="2_jhd5l"]
+[gd_scene load_steps=2 format=3 uid="uid://blwcesaom6rxd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8i0v2"]
 size = Vector2(32, 32)
@@ -10,13 +7,15 @@ size = Vector2(32, 32)
 z_index = 10
 collision_layer = 128
 collision_mask = 0
-script = ExtResource("1_jh6wd")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.376471)
-texture = ExtResource("2_jhd5l")
-centered = false
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_8i0v2")
+
+[node name="ColorRect" type="ColorRect" parent="CollisionShape2D"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.25098, 0.25098, 1, 0.490196)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2676jrukcata"]
 
-[ext_resource type="Script" path="res://Scripts/Dialog/scrSign.gd" id="1_2joc5"]
+[ext_resource type="Script" path="res://Scripts/Dialog_system/scrSign.gd" id="1_2joc5"]
 [ext_resource type="Texture2D" uid="uid://ox7qqy44wanl" path="res://Graphics/Sprites/Dialog_system/sprSign.png" id="1_86i65"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="3_dg8qb"]
 

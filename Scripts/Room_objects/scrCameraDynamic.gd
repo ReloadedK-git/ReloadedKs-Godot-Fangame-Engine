@@ -2,6 +2,12 @@ extends Camera2D
 
 @export var target_node: Node = null
 
+# Zoom related variables. You can ignore the global zoom from the settings and
+# add the zoom amount manually
+@export_category("Zoom")
+@export var ignore_global_zoom: bool = false
+@export var manual_zoom_amount: Vector2 = Vector2.ONE
+
 # The big numbers inside of these variables means the camera will scroll freely
 # inside of a room, without any border limit.
 # If you want the camera to stop at a certain point, you set the limits inside
@@ -27,16 +33,19 @@ func _ready():
 			target_node = self
 		
 		# Camera zoom at start
-		zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
+		if !ignore_global_zoom:
+			zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
+		else:
+			zoom = manual_zoom_amount
 		
 		# Invisible sprite, just for room creation
 		$Sprite2D.visible = false
 		
 		# Sets the camera's limits
-		set_limit(SIDE_LEFT, stop_left_at)
-		set_limit(SIDE_TOP, stop_up_at)
-		set_limit(SIDE_RIGHT, stop_right_at)
-		set_limit(SIDE_BOTTOM, stop_down_at)
+		for limit_array_1 in 4:
+			var limit_array_2 = [stop_left_at, stop_up_at, stop_right_at, stop_down_at]
+			set_limit(limit_array_1, limit_array_2[limit_array_1])
+	
 
 
 # Updates the camera target

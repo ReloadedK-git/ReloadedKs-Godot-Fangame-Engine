@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcni7tlrib6ai"]
+
+[ext_resource type="Script" path="res://Scripts/Dialog_system/scrDialogBox.gd" id="1_srl7a"]
+[ext_resource type="FontFile" uid="uid://dcaf67rc8h3nq" path="res://Graphics/Fonts/OpenSauceOne-Regular.otf" id="2_j0j3k"]
+[ext_resource type="Texture2D" uid="uid://cgvc5dghd2jq0" path="res://Graphics/Sprites/Dialog_system/sprDialogPlayer.png" id="3_yw6o8"]
+
+[node name="objDialogBox" type="Control" groups=["Dialog"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_srl7a")
+dialog = Array[String](["It looks like an empty wall...", "Right, the dev made this to showcase a dialog gimmick. Quite thrilling.", "I wonder what would happen if I reset and come back here again after reading this?"])
+portrait = Array[Texture2D]([ExtResource("3_yw6o8"), ExtResource("3_yw6o8"), ExtResource("3_yw6o8")])
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+offset_right = 800.0
+offset_bottom = 128.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Panel"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 8.0
+offset_right = 800.0
+offset_bottom = 120.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/normal_font = ExtResource("2_j0j3k")
+theme_override_font_sizes/normal_font_size = 30
+scroll_active = false
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Panel"]
+scale = Vector2(4, 4)
+texture = ExtResource("3_yw6o8")
+centered = false

@@ -1,23 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://da1qaif83tf17"]
+[gd_scene load_steps=4 format=3 uid="uid://da1qaif83tf17"]
 
-[ext_resource type="Script" path="res://Scripts/Triggers/scrTrigger.gd" id="1_gxir2"]
-[ext_resource type="Texture2D" uid="uid://pw4roxfykbii" path="res://Graphics/Sprites/Trigger_system/sprTrigger.png" id="1_ubx01"]
+[ext_resource type="Script" path="res://Scripts/Trigger_system/scrTrigger.gd" id="1_gxir2"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="3_i363d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_favs1"]
+resource_local_to_scene = true
 size = Vector2(32, 32)
 
 [node name="objTrigger" type="Area2D"]
+collision_layer = 0
+monitorable = false
 script = ExtResource("1_gxir2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_ubx01")
-centered = false
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-z_index = -1
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_favs1")
+debug_color = Color(1, 0, 1, 0.498039)
 
 [node name="Label" type="Label" parent="."]
 offset_left = 1.0

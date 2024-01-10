@@ -22,6 +22,7 @@ shape = SubResource("RectangleShape2D_6y0rf")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_c8leh")

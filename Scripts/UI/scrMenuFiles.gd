@@ -1,7 +1,7 @@
 extends Control
 
 @export_file("*.tscn") var starting_room: String
-@export_file("*.tscn") var settings_menu: String
+@export_file("*.tscn") var main_menu: String
 var last_button_id: int
 
 
@@ -9,8 +9,13 @@ var last_button_id: int
 # Prepares some things at startup
 func _ready():
 	
-	# Resets objHUD's notifications, needed due to it being an autoload
-	GLOBAL_GAME.reset_HUD()
+	# Check if savefiles 1 to 3 exists and updates their file labels
+	for file_loop in range(1, 4):
+		check_files_change_labels(file_loop)
+	
+	# Updates text labels to show their proper data
+	stats_text_labels_update()
+	bottom_text_labels_update()
 	
 	# Updates the bottom labels to show the proper key ids
 	bottom_text_labels_update()
@@ -22,21 +27,17 @@ func _ready():
 
 
 
-# Key press checking (settings, quit)
+# Key press checking (main_menu, quit)
 func _physics_process(_delta):
 	
 	# Updates the bottom labels to show the proper key ids
 	bottom_text_labels_update()
 	
-	# Changes scene if the "settings" key is pressed
+	# Changes scene if the "main_menu" key is pressed
 	if Input.is_action_just_pressed("ui_select"):
-		if settings_menu != null:
-			get_tree().change_scene_to_file(settings_menu)
+		if main_menu != null:
+			get_tree().change_scene_to_file(main_menu)
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
-	
-	# Quits the game if the "pause" key is pressed
-	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()
 
 
 # FILES
@@ -45,6 +46,10 @@ func generic_files(file_id):
 	# We set our savefile id (1, 2 or 3), which we then read our data from
 	GLOBAL_SAVELOAD.saveFileID = file_id
 	GLOBAL_SAVELOAD.load_data()
+	
+	# Sets the time and death counters
+	GLOBAL_GAME.time = GLOBAL_SAVELOAD.variableGameData.total_time
+	GLOBAL_GAME.deaths = GLOBAL_SAVELOAD.variableGameData.total_deaths
 	
 	# After reading our data, we check if we've saved at least one time.
 	# If we haven't, it means we're starting a new game, so we go to the
@@ -88,10 +93,23 @@ func _on_delete_3_pressed():
 
 # CONFIRM DELETE
 func _on_yes_pressed():
+	
+	# Calls delete function from GLOBAL_SAVELOAD
 	GLOBAL_SAVELOAD.delete_data()
+	
+	# Update file labels
+	for file_loop in range(1, 4):
+		check_files_change_labels(file_loop)
+	
+	# Update stats labels
+	stats_text_labels_update()
+	
+	# Toggles button visibility and handles focus
 	exit_confirm_delete()
 
 func _on_no_pressed():
+	
+	# Toggles button visibility and handles focus
 	exit_confirm_delete()
 
 
@@ -133,9 +151,65 @@ func exit_confirm_delete():
 # the global input map (check scrGlobalGame/get_input_name())
 func bottom_text_labels_update():
 	var key_accept = GLOBAL_GAME.get_input_name("ui_accept", GLOBAL_GAME.global_input_device)
-	var key_settings = GLOBAL_GAME.get_input_name("ui_select", GLOBAL_GAME.global_input_device)
-	var key_quit = GLOBAL_GAME.get_input_name("ui_cancel", GLOBAL_GAME.global_input_device)
+	var key_back = GLOBAL_GAME.get_input_name("ui_select", GLOBAL_GAME.global_input_device)
 	
 	$BottomText/Accept/Label7.text = " [" + key_accept + "] Select"
-	$BottomText/Options/Label8.text = "[" + key_settings + "] Settings "
-	$BottomText/Quit/Label9.text = "[" + key_quit + "] Quit "
+	$BottomText/Back/Label8.text = "[" + key_back + "] Back "
+
+
+# Checks if a savefile exists using file_id as a parameter, and sets the labels
+# for file loading accordingly
+func check_files_change_labels(file_id):
+	
+	# Get label nodes
+	var file_label = get_node("ButtonContainer/Files/File" + str(file_id) + "/Label")
+	
+	# Check user data folder
+	if FileAccess.file_exists("user://Data/Save" + str(file_id) + ".save"):
+		file_label.text = "Load"
+	else:
+		file_label.text = "New Game"
+
+
+# Loads savefiles if they exist, reads their saved values, selects the time and
+# death values and updates the stat labels with their contents
+func stats_text_labels_update():
+	
+	var DATA_PATH: = GLOBAL_SAVELOAD.DATA_PATH
+	
+	# Gets file 1 to 3 using a simple for loop
+	for file_loop in range(1, 4):
+		if FileAccess.file_exists(DATA_PATH + str(file_loop) + ".save"):
+			var file = FileAccess.open_encrypted_with_pass(DATA_PATH + str(file_loop) + ".save", FileAccess.READ, GLOBAL_SAVELOAD.SAVE_PASSWORD_STRING)
+			
+			# Reads the existing save file and updates stat labels with its
+			# values
+			var variableGameData = file.get_var()
+			
+			# Time and deaths from savefiles
+			match file_loop:
+				1:
+					$SavefileStats/File1/Time.text = "Time: " + GLOBAL_GAME.format_time(variableGameData.total_time)
+					$SavefileStats/File1/Deaths.text = "Deaths: " + str(variableGameData.total_deaths)
+				2:
+					$SavefileStats/File2/Time.text = "Time: " + GLOBAL_GAME.format_time(variableGameData.total_time)
+					$SavefileStats/File2/Deaths.text = "Deaths: " + str(variableGameData.total_deaths)
+				3:
+					$SavefileStats/File3/Time.text = "Time: " + GLOBAL_GAME.format_time(variableGameData.total_time)
+					$SavefileStats/File3/Deaths.text = "Deaths: " + str(variableGameData.total_deaths)
+		
+		else:
+			# We cheat a little bit here. If we can't find a save file with its
+			# savefile ID, we don't have anything to read so we hardcode the
+			# labels to show the default values, or whathever we want
+			match file_loop:
+				1:
+					$SavefileStats/File1/Time.text = "Time: 00:00:00"
+					$SavefileStats/File1/Deaths.text = "Deaths: 0"
+				2:
+					$SavefileStats/File2/Time.text = "Time: 00:00:00"
+					$SavefileStats/File2/Deaths.text = "Deaths: 0"
+				3:
+					$SavefileStats/File3/Time.text = "Time: 00:00:00"
+					$SavefileStats/File3/Deaths.text = "Deaths: 0"
+	

@@ -34,6 +34,7 @@ layer_0/tile_data = PackedInt32Array(1114112, 65536, 1, 1114136, 65536, 1, 1, 65
 [node name="objBackgroundTexture" parent="Environment" instance=ExtResource("4_dbyva")]
 offset_right = 800.0
 offset_bottom = 608.0
+metadata/_edit_lock_ = true
 
 [node name="Room_related" type="Node2D" parent="."]
 

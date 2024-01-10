@@ -5,9 +5,12 @@
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="3_mwrcr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gjj3h"]
+resource_local_to_scene = true
 size = Vector2(32, 32)
 
 [node name="objSignProximity" type="Area2D"]
+collision_layer = 0
+monitorable = false
 script = ExtResource("1_8wc6x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

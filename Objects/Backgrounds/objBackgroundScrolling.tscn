@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bukwyfjur2ycm" path="res://Graphics/Backgrounds/bckDefaultGrid.png" id="1_atobg"]
 [ext_resource type="Script" path="res://Scripts/Backgrounds/scrBackgroundScrolling.gd" id="1_w4tvi"]
 
-[node name="objScrollingBackground" type="ParallaxBackground"]
+[node name="objBackgroundScrolling" type="ParallaxBackground"]
 script = ExtResource("1_w4tvi")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]

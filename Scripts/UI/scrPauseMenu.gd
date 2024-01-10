@@ -65,6 +65,7 @@ func _on_sound_volume_gui_input(_event):
 func _on_quit_to_menu_pressed():
 	GLOBAL_GAME.game_paused = !GLOBAL_GAME.game_paused
 	GLOBAL_GAME.triggered_events.clear()
+	GLOBAL_GAME.dialog_events.clear()
 	get_tree().change_scene_to_file(main_menu)
 	queue_free()
 

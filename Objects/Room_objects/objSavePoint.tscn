@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d1jo7vo305wif" path="res://Graphics/Sprites/Room_objects/sprSave.png" id="1_tdmdo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_50khl"]
-size = Vector2(28, 22)
+size = Vector2(28, 32)
 
 [node name="objSavePoint" type="Node2D"]
 script = ExtResource("1_ldsdy")
@@ -16,9 +16,9 @@ hframes = 2
 [node name="Hitbox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 17
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_50khl")
 
 [node name="Timer" type="Timer" parent="."]

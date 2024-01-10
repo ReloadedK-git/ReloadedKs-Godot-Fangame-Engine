@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://Scripts/Dialog/scrDialogBox.gd" id="1_twjvn"]
+[ext_resource type="Script" path="res://Scripts/Dialog_system/scrDialogBox.gd" id="1_twjvn"]
 [ext_resource type="Texture2D" uid="uid://cgvc5dghd2jq0" path="res://Graphics/Sprites/Dialog_system/sprDialogPlayer.png" id="2_70alf"]
 [ext_resource type="Texture2D" uid="uid://ox7qqy44wanl" path="res://Graphics/Sprites/Dialog_system/sprSign.png" id="3_uh30j"]
 [ext_resource type="FontFile" uid="uid://dcaf67rc8h3nq" path="res://Graphics/Fonts/OpenSauceOne-Regular.otf" id="4_smkoc"]
