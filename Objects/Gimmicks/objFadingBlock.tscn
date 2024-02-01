@@ -25,6 +25,14 @@ debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_suvai")
 centered = false
+hframes = 2
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("1_suvai")
+centered = false
+hframes = 2
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(16, 16)

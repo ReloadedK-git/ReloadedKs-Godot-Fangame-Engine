@@ -6,32 +6,20 @@ var wave_time: float = 0.0
 var wave_amplitude: float = 0.8
 var should_save_collectable: bool = false
 var picked_collectable: bool = false
+@onready var item_sprite = get_node("Sprite2D")
 
 
 
 # If we collected this item already, it can no longer be picked up
 func _ready():
 	
-	if GLOBAL_SAVELOAD.variableGameData.has(item_name):
+	if GLOBAL_SAVELOAD.variableGameData.has(item_name) or GLOBAL_SAVELOAD.itemsGameData.has(item_name):
 		picked_collectable = true
-		$Sprite2D.modulate = 'ffffff80'
+		item_sprite.modulate = 'ffffff80'
 
 
-# Collectible's "visuals"
+# Collectable's "visuals"
 func _physics_process(delta):
-	
-	# As long as should_save_collectable is set to true, and GLOBAL_GAME's
-	# can_save_collectable is also set to true, the collectable can be saved
-	# inside the save file. To do this, we need to save the newly merged values
-	# and load them (write and read)
-	if (should_save_collectable == true):
-		if (GLOBAL_GAME.can_save_collectable == true):
-			
-			var dictionary_value = {item_name: true}
-			GLOBAL_SAVELOAD.variableGameData.merge(dictionary_value)
-			GLOBAL_SAVELOAD.save_data()
-			GLOBAL_SAVELOAD.load_data()
-			GLOBAL_GAME.can_save_collectable = false
 	
 	# Classic "wave effect"
 	wave_time += delta * 2
@@ -41,7 +29,7 @@ func _physics_process(delta):
 	var reduced_amplitude: int = 4
 	
 	# Changes the sprite's scale
-	$Sprite2D.scale = Vector2(1 + wave_constant/reduced_amplitude, 1 + wave_constant/reduced_amplitude)
+	item_sprite.scale = Vector2(1 + wave_constant/reduced_amplitude, 1 + wave_constant/reduced_amplitude)
 
 
 
@@ -49,7 +37,7 @@ func _physics_process(delta):
 # notification method to show it
 func set_HUD_data():
 	if is_instance_valid(objHUD):
-		objHUD.item_sprite = $Sprite2D.get_texture()
+		objHUD.item_sprite = item_sprite.get_texture()
 		objHUD.item_text = item_name
 		objHUD.handle_item_notification()
 
@@ -67,12 +55,18 @@ func _on_area_2d_body_entered(_body):
 	if !GLOBAL_SAVELOAD.variableGameData.has(item_name):
 		if (picked_collectable == false):
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndItem)
-			$Sprite2D.modulate = 'ffffff80'
+			item_sprite.modulate = 'ffffff80'
 			
 			# Sets the HUD autoload
 			set_HUD_data()
 			
+			# Saving into itemsGameData. We save items temporarily until we
+			# make an actual save, merging data dictionaries
+			if !GLOBAL_SAVELOAD.itemsGameData.has(item_name):
+				
+				var dictionary_value = {item_name: true}
+				GLOBAL_SAVELOAD.itemsGameData.merge(dictionary_value)
+			
 			# Do keep in mind, you still have to save in order to add the key
 			# permanently
-			should_save_collectable = true
 			picked_collectable = true

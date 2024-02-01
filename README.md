@@ -72,7 +72,7 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Added new rooms (***rRoomSelection***, ***rTestRoom03***).
 * Minor updates to several objects.
 
-### v1.8 (24-01-09)
+### v1.8 (09-01-24)
 
 * Added a new main menu room.
 * Separated menus based on their individual functions (main menu, file selection menu, options menu, controls menu).
@@ -96,3 +96,22 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Added extra dialog scene for ***objCollisionDialogSpawner***.
 * Made changes to ***scrGlobalGame*** and ***scrPauseMenu*** due to the new dialog spawner.
 * Updated licenses and credits.
+
+
+### v1.9 (01-02-24)
+
+* Fixed small visual bug for ***objLaserDynamic***.
+* Added sprite for ***objFadingBlock*** which acts as a visual indicator.
+* Added a "sound_stop" function to the sound manager.
+* Minor changes to ***rMenuFiles*** (mostly sfx related).
+* Camera scrolling for ***rMenuSettings*** and ***rMenuControls*** is now handled automatically.
+* Changed ***objCollectableItem*** to work with the updated item saving system.
+* Older savefiles are now compatible with newer ones.
+* Changed the way items/collectables are handled.
+* Items/collectables will remain "collected" even when changing rooms, but a save still needs to be performed to store them permanently.
+* Changed ***scrGlobalGame*** to accomodate the new items/collectables and pause system.
+* Added support for multiple pause menus/screens.
+* Updated ***objPauseMenuMain***.
+* Added ***objPauseMenuItems*** and ***objPauseItem***.
+* Added support for title screens.
+* Added new ***rTitle*** room.

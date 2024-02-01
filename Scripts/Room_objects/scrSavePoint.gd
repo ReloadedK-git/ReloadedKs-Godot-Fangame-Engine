@@ -12,7 +12,6 @@ func _physics_process(_delta):
 	if (is_touching_save == true):
 		if Input.is_action_just_pressed("button_shoot"):
 			$Sprite2D.frame = 1
-			GLOBAL_GAME.can_save_collectable = true
 			$Timer.start()
 	
 	is_saving_allowed()
@@ -55,7 +54,6 @@ func _on_hitbox_body_entered(body):
 	if (body.name == "objBullet"):
 		if (is_touching_save == false):
 			$Sprite2D.frame = 1
-			GLOBAL_GAME.can_save_collectable = true
 			$Timer.start()
 
 
@@ -67,4 +65,3 @@ func _on_hitbox_body_exited(body):
 
 func _on_timer_timeout():
 	$Sprite2D.frame = 0
-	GLOBAL_GAME.can_save_collectable = false

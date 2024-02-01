@@ -154,27 +154,16 @@ focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../MusicVolume")
 action_mode = 0
 
-[connection signal="focus_entered" from="SettingsContainer/MusicVolume" to="." method="_on_music_volume_focus_entered"]
 [connection signal="gui_input" from="SettingsContainer/MusicVolume" to="." method="_on_music_volume_gui_input"]
-[connection signal="focus_entered" from="SettingsContainer/SFXVolume" to="." method="_on_sfx_volume_focus_entered"]
 [connection signal="gui_input" from="SettingsContainer/SFXVolume" to="." method="_on_sfx_volume_gui_input"]
-[connection signal="focus_entered" from="SettingsContainer/Fullscreen" to="." method="_on_fullscreen_focus_entered"]
 [connection signal="pressed" from="SettingsContainer/Fullscreen" to="." method="_on_fullscreen_pressed"]
-[connection signal="focus_entered" from="SettingsContainer/ZoomScale" to="." method="_on_zoom_scale_focus_entered"]
 [connection signal="gui_input" from="SettingsContainer/ZoomScale" to="." method="_on_zoom_scale_gui_input"]
-[connection signal="focus_entered" from="SettingsContainer/HUDScale" to="." method="_on_hud_scale_focus_entered"]
 [connection signal="gui_input" from="SettingsContainer/HUDScale" to="." method="_on_hud_scale_gui_input"]
-[connection signal="focus_entered" from="SettingsContainer/Vsync" to="." method="_on_vsync_focus_entered"]
 [connection signal="pressed" from="SettingsContainer/Vsync" to="." method="_on_vsync_pressed"]
-[connection signal="focus_entered" from="SettingsContainer/AutoReset" to="." method="_on_auto_reset_focus_entered"]
 [connection signal="pressed" from="SettingsContainer/AutoReset" to="." method="_on_auto_reset_pressed"]
-[connection signal="focus_entered" from="SettingsContainer/ExtraKeys" to="." method="_on_extra_keys_focus_entered"]
 [connection signal="pressed" from="SettingsContainer/ExtraKeys" to="." method="_on_extra_keys_pressed"]
-[connection signal="focus_entered" from="SettingsContainer/Reset" to="." method="_on_reset_focus_entered"]
 [connection signal="pressed" from="SettingsContainer/Reset" to="." method="_on_defaults_pressed"]
-[connection signal="focus_entered" from="SettingsContainer/Controls" to="." method="_on_controls_focus_entered"]
 [connection signal="pressed" from="SettingsContainer/Controls" to="." method="_on_controls_pressed"]
-[connection signal="focus_entered" from="SettingsContainer/Back" to="." method="_on_back_focus_entered"]
 [connection signal="pressed" from="SettingsContainer/Back" to="." method="_on_back_pressed"]
 
 [editable path="Environment/objBackgroundMenus"]

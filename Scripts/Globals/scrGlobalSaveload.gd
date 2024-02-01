@@ -4,10 +4,13 @@ extends Node
 var saveFileID: int = 1
 const DATA_PATH: = "user://Data/Save"
 
-# These are for saving with a password. They work differently, check the
-# main explanation on top and pick the encryption method you like
+# These are for saving with a password. SAVE_PASSWORD_STRING will use a string,
+# meaning as long as your games have the same string, they can be shared and
+# they will work. With SAVE_PASSWORD_UNIQUE, your encryption key will be unique
+# to your system, meaning you won't be able to open your savefiles on different
+# machines
 const SAVE_PASSWORD_STRING := "Change me!"
-#var save_password_unique := OS.get_unique_id()
+#const SAVE_PASSWORD_UNIQUE := OS.get_unique_id()
 
 # Meant for taking screenshots
 const SCREENSHOT_WIDTH: int = 192
@@ -29,6 +32,9 @@ const defaultGameData = {
 # then we'll read from those existing files.
 var variableGameData = defaultGameData
 
+# Dictionary for items and collectables. Empty by default
+var itemsGameData = {}
+
 
 
 # Creating directories and settings/config file, if they didn't exist already
@@ -41,6 +47,10 @@ func _ready():
 	# We store our settings, saves and screenshots here
 	if not dir.dir_exists("user://Data"):
 		dir.make_dir("Data")
+	
+	# A very specific function which is used to check your savefiles and
+	# updating them if needed. It should only be called once per game launch
+	check_savefiles_and_update()
 
 
 
@@ -103,7 +113,6 @@ func delete_data():
 		dir.remove(DATA_PATH + str(saveFileID) + ".png")
 
 
-
 # Takes a screenshot and resizes it. Made to be shown on the main menu screen.
 # You should tell this autoload to take screenshots when you want it to and
 # not automatically, for more control (e.g. on objSavePoint when saving)
@@ -122,7 +131,48 @@ func save_game(save_position = true) -> void:
 		variableGameData.player_y = GLOBAL_INSTANCES.objPlayerID.position.y
 		variableGameData.player_sprite_flipped = GLOBAL_INSTANCES.objPlayerID.xscale
 		variableGameData.room_name = get_tree().get_current_scene().get_scene_file_path()
+		merge_items_data()
 		take_screenshot()
 	variableGameData.total_time = GLOBAL_GAME.time
 	variableGameData.total_deaths = GLOBAL_GAME.deaths
 	save_data()
+
+
+# A way to check if a savefile is "up to date".
+# It opens a savefile if it exists and reads its dictionary. If any key is
+# missing, it takes it from defaultSaveData and saves it on top (without
+# messing with other keys).
+# This makes older savefiles compatible with newer ones
+func check_savefiles_and_update():
+	
+	# If a savefile exists (Save1, Save2, Save3), we open it and check its
+	# dictionary
+	for file_loop in range(1, 4):
+		if FileAccess.file_exists(DATA_PATH + str(file_loop) + ".save"):
+			var file_open = FileAccess.open_encrypted_with_pass(DATA_PATH + str(file_loop) + ".save", FileAccess.READ, SAVE_PASSWORD_STRING)
+			var savefileGameData = file_open.get_var()
+			
+			# If a savefile is missing keys, we copy defaultGameData's keys
+			# and add them to the dictionary from the savefile's dictionary
+			var should_save = false
+			for key in defaultGameData:
+				if !savefileGameData.has(key):
+					savefileGameData[key] = defaultGameData[key]
+					should_save = true
+			
+			# We save the new dictionary ONLY if we missed any key. No need
+			# to write to a file if we have everything we need already
+			if should_save:
+				var file_save = FileAccess.open_encrypted_with_pass(DATA_PATH + str(file_loop) + ".save", FileAccess.WRITE, SAVE_PASSWORD_STRING)
+				file_save.store_var(savefileGameData)
+				file_save = null
+
+
+# Merges the itemsGameData dictionary with variableGameData and clears
+# itself afterwards
+func merge_items_data():
+	
+	# Checks if there's something to merge first
+	if itemsGameData != {}:
+		variableGameData.merge(itemsGameData)
+		itemsGameData.clear()

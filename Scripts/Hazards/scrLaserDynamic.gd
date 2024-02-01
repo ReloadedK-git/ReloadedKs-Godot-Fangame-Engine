@@ -25,6 +25,11 @@ func _ready():
 		
 		# Initial target position update
 		beam_raycast.target_position = beam_target.position
+		
+		# Set beam visibility using a single timer
+		beam_sprite.set_visible(false)
+		await get_tree().create_timer(0.025, false, true).timeout
+		beam_sprite.set_visible(true)
 	else:
 		beam_initial_sprite.visible = true
 		beam_sprite.centered = false

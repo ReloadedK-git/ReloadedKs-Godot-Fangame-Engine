@@ -6,7 +6,7 @@ extends AnimatableBody2D
 var position_shown: Vector2 = Vector2.ZERO
 var position_hidden: Vector2 = Vector2.ZERO
 var snap_range = Vector2(2, 2)
-var spike_speed: int = 8
+var spike_speed: int = 16
 var distance_for_snapping: int = 1
 var changing_positions: bool = false
 var is_on_screen: bool = false

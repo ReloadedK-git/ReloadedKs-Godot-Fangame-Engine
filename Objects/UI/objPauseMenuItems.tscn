@@ -1,0 +1,143 @@
+[gd_scene load_steps=5 format=3 uid="uid://c44srhbx7sxh5"]
+
+[ext_resource type="Script" path="res://Scripts/UI/scrPauseMenuItems.gd" id="1_1pkdm"]
+[ext_resource type="PackedScene" uid="uid://cktvymptg823" path="res://Objects/UI/objPauseItem.tscn" id="2_06rfl"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="2_h5uh2"]
+[ext_resource type="Texture2D" uid="uid://cs7d7k2kmj13y" path="res://Graphics/Sprites/Collectables/sprSecretItem.png" id="3_g8tfo"]
+
+[node name="objPauseMenuItems" type="Control" groups=["Pause"]]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_1pkdm")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Visuals" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Visuals"]
+z_index = -1
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 608.0
+color = Color(0, 0, 0, 0.588235)
+metadata/_edit_lock_ = true
+
+[node name="VScrollBar" type="VScrollBar" parent="CanvasLayer/Visuals"]
+layout_mode = 0
+offset_left = 728.0
+offset_top = 128.0
+offset_right = 736.0
+offset_bottom = 512.0
+size_flags_horizontal = 8
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Visuals"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 736.0
+offset_bottom = 112.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 14
+theme_override_fonts/font = ExtResource("2_h5uh2")
+theme_override_font_sizes/font_size = 80
+text = "- Items -"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Label2" type="Label" parent="CanvasLayer/Visuals"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 528.0
+offset_right = 736.0
+offset_bottom = 592.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
+theme_override_fonts/font = ExtResource("2_h5uh2")
+theme_override_font_sizes/font_size = 40
+text = "[Z] Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="Line2D" type="Line2D" parent="CanvasLayer/Visuals"]
+points = PackedVector2Array(56, 120, 744, 120, 744, 520, 56, 520, 56, 120)
+width = 1.0
+metadata/_edit_lock_ = true
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Visuals"]
+z_index = -1
+layout_mode = 0
+offset_left = 56.0
+offset_top = 120.0
+offset_right = 744.0
+offset_bottom = 520.0
+color = Color(0, 0, 0, 0.392157)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.08
+anchor_top = 0.210526
+anchor_right = 0.92
+anchor_bottom = 0.842105
+mouse_filter = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 128
+alignment = 1
+
+[node name="objPauseItem" parent="CanvasLayer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_06rfl")]
+layout_mode = 2
+item_sprite = ExtResource("3_g8tfo")
+item_name = "Item 01"
+item_description = "Found in test room 01"
+
+[node name="objPauseItem2" parent="CanvasLayer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_06rfl")]
+layout_mode = 2
+item_sprite = ExtResource("3_g8tfo")
+item_name = "Item 02"
+item_description = "Found in test room 02"
+
+[node name="objPauseItem3" parent="CanvasLayer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_06rfl")]
+layout_mode = 2
+item_sprite = ExtResource("3_g8tfo")
+item_name = "Item 03"
+item_description = "Found in test room 03"
+
+[node name="objPauseItem4" parent="CanvasLayer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_06rfl")]
+layout_mode = 2
+item_sprite = ExtResource("3_g8tfo")
+item_name = "Item 04"
+item_description = "Found in test room 04"
+
+[node name="objPauseItem5" parent="CanvasLayer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_06rfl")]
+layout_mode = 2
+item_sprite = ExtResource("3_g8tfo")
+item_name = "Item 05"
+item_description = "Found in test room 05"
+
+[node name="objPauseItem6" parent="CanvasLayer/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource("2_06rfl")]
+layout_mode = 2
+item_sprite = ExtResource("3_g8tfo")
+item_name = "Item 06"
+item_description = "Found in test room 06"

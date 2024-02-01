@@ -13,10 +13,24 @@ signal reset_all_inputs
 
 
 func _ready():
+	
+	# Sets focus to the first option (left)
 	$ControlsContainer/Left.grab_focus()
+	
+	# Detects the input device and changes the InputDevice button's text
 	initial_device_detection()
+	
+	# Loads settings from global autoload
 	GLOBAL_SETTINGS.load_settings()
 	
+	# Set the anchor positions for each button in focus
+	set_camera_anchor_positions()
+
+
+# Updates anchor positions for the camera when an input is detected
+func _input(event):
+	if (event is InputEventKey) or (event is InputEventJoypadButton):
+		set_camera_anchor_positions()
 
 
 
@@ -33,6 +47,7 @@ func initial_device_detection():
 		$ControlsContainer/InputDevice/Label.text = "Device: Controller"
 
 
+# Saves settings
 func save_on_exit():
 	GLOBAL_SETTINGS.save_settings()
 
@@ -67,36 +82,9 @@ func _on_back_pressed():
 		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
 
 
-# Camera anchor signals
-func _on_left_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Left.position.y
-
-func _on_right_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Right.position.y
-
-func _on_up_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Up.position.y
-
-func _on_down_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Down.position.y
-
-func _on_jump_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Jump.position.y
-
-func _on_shoot_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Shoot.position.y
-
-func _on_restart_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Restart.position.y
-
-func _on_pause_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Pause.position.y
-
-func _on_input_device_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/InputDevice.position.y
-
-func _on_reset_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Reset.position.y
-
-func _on_back_focus_entered():
-	camera_anchor_node.position.y = $ControlsContainer/Back.position.y
+# Set the anchor positions for each button in focus
+func set_camera_anchor_positions():
+	
+	for controls_container_nodes in $ControlsContainer.get_children():
+		if controls_container_nodes.has_focus():
+			camera_anchor_node.position.y = controls_container_nodes.position.y

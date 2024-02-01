@@ -41,4 +41,12 @@ func play_sound(sound) -> void:
 			audioStreamPlayers.stream = sound
 			audioStreamPlayers.play()
 			break
-		
+
+
+# Loops through the 8 audioStreamPlayer nodes, gets ones being used to play
+# the sound "sound" and stops it
+func stop_sound(sound) -> void:
+	for audioStreamPlayers in audioPlayers.get_children():
+		if audioStreamPlayers.get_stream() == sound:
+			audioStreamPlayers.stop()
+	

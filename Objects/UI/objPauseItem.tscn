@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://cktvymptg823"]
+
+[ext_resource type="Script" path="res://Scripts/UI/scrPauseItem.gd" id="1_ndyr6"]
+[ext_resource type="Texture2D" uid="uid://cs7d7k2kmj13y" path="res://Graphics/Sprites/Collectables/sprSecretItem.png" id="1_q2g7b"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="2_p5km2"]
+[ext_resource type="Texture2D" uid="uid://dmp3vukn7mh7y" path="res://Graphics/Sprites/UI/sprPauseItemBackground.png" id="4_fnkd7"]
+
+[node name="objPauseItem" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ndyr6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_q2g7b")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("4_fnkd7")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = -64.0
+offset_right = 608.0
+theme_override_colors/font_color = Color(1, 1, 0.392157, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
+theme_override_fonts/font = ExtResource("2_p5km2")
+theme_override_font_sizes/font_size = 40
+text = "Item Name"
+vertical_alignment = 2
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 608.0
+offset_bottom = 64.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_p5km2")
+theme_override_font_sizes/font_size = 20
+text = "Item Description
+"
+autowrap_mode = 2

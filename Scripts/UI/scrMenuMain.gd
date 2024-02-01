@@ -7,6 +7,7 @@ extends Control
 
 func _ready():
 	
+	# Updates bottom labels
 	bottom_text_labels_update()
 	
 	# Resets objHUD's notifications, needed due to it being an autoload
@@ -18,11 +19,13 @@ func _ready():
 
 func _physics_process(_delta):
 	
+	# Updates bottom labels
 	bottom_text_labels_update()
 	
 	# Exits the game if the "pause" key is pressed inside of the main menu
 	if Input.is_action_just_pressed("ui_cancel"):
 		get_tree().quit()
+
 
 
 # BOTTOM TEXT
@@ -34,6 +37,7 @@ func bottom_text_labels_update():
 	
 	$BottomText/Accept/Label.text = " [" + key_accept + "] Select"
 	$BottomText/Exit/Label.text = "[" + key_exit + "] Exit Game "
+
 
 
 # Start game

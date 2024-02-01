@@ -3,6 +3,7 @@ extends Control
 @export_file("*.tscn") var starting_room: String
 @export_file("*.tscn") var main_menu: String
 var last_button_id: int
+var confirm_delete_sfx: bool = false
 
 
 
@@ -94,6 +95,9 @@ func _on_delete_3_pressed():
 # CONFIRM DELETE
 func _on_yes_pressed():
 	
+	# Plays different sound effect
+	confirm_delete_sfx = true
+	
 	# Calls delete function from GLOBAL_SAVELOAD
 	GLOBAL_SAVELOAD.delete_data()
 	
@@ -143,7 +147,13 @@ func exit_confirm_delete():
 	
 	# Updates savefile previews
 	get_node("SavefilePreviews/objSavefilePreview" + str(last_button_id)).screenshot_loading()
-
+	
+	# Plays sound effect after a savefile is deleted, muting the menu button
+	# sfx
+	if confirm_delete_sfx == true:
+		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndCherry)
+		GLOBAL_SOUNDS.stop_sound(GLOBAL_SOUNDS.sndMenuButton)
+		confirm_delete_sfx = false
 
 
 # BOTTOM TEXT

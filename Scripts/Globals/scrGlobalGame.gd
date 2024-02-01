@@ -46,7 +46,6 @@ var INITIAL_WINDOW_XPOSITION: int = DisplayServer.window_get_position().x
 var INITIAL_WINDOW_YPOSITION: int = DisplayServer.window_get_position().y
 
 var current_scene_name: String = ""
-var pause_menu := preload("res://Objects/UI/objPauseMenu.tscn")
 var cur_pause_menu: Node = null
 
 
@@ -107,28 +106,16 @@ func _input(event):
 # A global pause which adds/removes a pause menu instance
 func pause_game() -> void:
 	
-	# If not on menus
+	# As long as we're not on menu rooms
 	if is_valid_room():
 		
-		# Pause/unpause scene tree
-		get_tree().paused = !get_tree().paused
-		game_paused = !game_paused
-		
-		# If we are paused, spawn the pause menu object
-		if (game_paused): 
+		# Gets all "Pause" nodes (the pause menus we need). Loads and
+		# instantiates them afterwards
+		if get_tree().get_nodes_in_group("Pause").size() < 1:
+			var pause_menu := preload("res://Objects/UI/objPauseMenuMain.tscn")
 			cur_pause_menu = pause_menu.instantiate()
 			add_child(cur_pause_menu)
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
-		else:
-			
-			# Saves settings data, since we can change the game's volume from
-			# this pause menu as well
-			GLOBAL_SETTINGS.MUSIC_VOLUME = cur_pause_menu.music_volume
-			GLOBAL_SETTINGS.SOUND_VOLUME = cur_pause_menu.sound_volume
-			GLOBAL_SETTINGS.save_settings()
-			
-			# Then delete the pause menu
-			cur_pause_menu.queue_free()
 
 
 # Toggles fullscreen on/off. When toggled from fullscreen to windowed, it
@@ -154,13 +141,22 @@ func full_game_restart() -> void:
 		# game restart when paused. Still, feel free to press F2 after pausing
 		# and it will work the way it should
 		if (game_paused):
-			cur_pause_menu.queue_free()
+			
+			# Frees every "Pause" node (pause menus), unsets the global pause
+			# and sets it to false for this autoload as well
+			var pause_nodes = get_tree().get_nodes_in_group("Pause")
+			for pause_menus in pause_nodes:
+				pause_menus.queue_free()
 			get_tree().set_pause(false)
-			game_paused = !game_paused
+			game_paused = false
 		
 		# Clear/reset our global arrays
 		triggered_events.clear()
 		dialog_events.clear()
+		
+		# Clear itemsGameData. We don't save collectables when making a full
+		# game restart
+		GLOBAL_SAVELOAD.itemsGameData.clear()
 
 
 # Toggles debug mode on/off. 
@@ -212,14 +208,15 @@ func reset():
 	# Clear/reset our global trigger array
 	triggered_events.clear()
 	
-	# Resets collectable saving
-	can_save_collectable = false
-	
 	# Saves time and deaths
 	GLOBAL_SAVELOAD.save_game(false)
 	
 	# Resets objHUD's notifications, needed due to it being an autoload
 	reset_HUD()
+	
+	# Clears the item dictionary, avoiding the use of a reset to safely save
+	# an item
+	GLOBAL_SAVELOAD.itemsGameData.clear()
 
 
 # Fully quits the game (alt + F4)
@@ -243,6 +240,8 @@ func is_valid_room():
 		current_scene_name = get_tree().get_current_scene().name
 		
 		match current_scene_name:
+			"rTitle":
+				return false
 			"rMenuMain":
 				return false
 			"rMenuFiles":

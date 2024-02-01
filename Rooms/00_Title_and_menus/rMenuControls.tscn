@@ -168,19 +168,8 @@ focus_neighbor_bottom = NodePath("../Left")
 action_mode = 0
 _text = "Back"
 
-[connection signal="focus_entered" from="ControlsContainer/Left" to="." method="_on_left_focus_entered"]
-[connection signal="focus_entered" from="ControlsContainer/Right" to="." method="_on_right_focus_entered"]
-[connection signal="focus_entered" from="ControlsContainer/Up" to="." method="_on_up_focus_entered"]
-[connection signal="focus_entered" from="ControlsContainer/Down" to="." method="_on_down_focus_entered"]
-[connection signal="focus_entered" from="ControlsContainer/Jump" to="." method="_on_jump_focus_entered"]
-[connection signal="focus_entered" from="ControlsContainer/Shoot" to="." method="_on_shoot_focus_entered"]
-[connection signal="focus_entered" from="ControlsContainer/Restart" to="." method="_on_restart_focus_entered"]
-[connection signal="focus_entered" from="ControlsContainer/Pause" to="." method="_on_pause_focus_entered"]
-[connection signal="focus_entered" from="ControlsContainer/InputDevice" to="." method="_on_input_device_focus_entered"]
 [connection signal="pressed" from="ControlsContainer/InputDevice" to="." method="_on_input_device_pressed"]
-[connection signal="focus_entered" from="ControlsContainer/Reset" to="." method="_on_reset_focus_entered"]
 [connection signal="pressed" from="ControlsContainer/Reset" to="." method="_on_reset_pressed"]
-[connection signal="focus_entered" from="ControlsContainer/Back" to="." method="_on_back_focus_entered"]
 [connection signal="pressed" from="ControlsContainer/Back" to="." method="_on_back_pressed"]
 
 [editable path="Environment/objBackgroundMenus"]

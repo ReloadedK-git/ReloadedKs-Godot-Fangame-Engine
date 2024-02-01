@@ -37,6 +37,9 @@ func _ready():
 	
 	# Sets and updates the text from each one of the button's labels
 	set_labels_text()
+	
+	# Set the anchor positions for each button in focus
+	set_camera_anchor_positions()
 
 
 # Key press checking (settings, quit)
@@ -56,6 +59,12 @@ func _physics_process(_delta):
 	# Re-updates fullscreen in case we press "F4" in the middle of the settings
 	# menu
 	fullscreen_on = GLOBAL_SETTINGS.FULLSCREEN
+
+
+# Updates anchor positions for the camera when an input is detected
+func _input(event):
+	if (event is InputEventKey) or (event is InputEventJoypadButton):
+		set_camera_anchor_positions()
 
 ##################################################################################################################
 
@@ -182,7 +191,7 @@ func set_labels_text():
 	$SettingsContainer/Reset/Label.text = "Reset to Defaults"
 	$SettingsContainer/Controls/Label.text = "Controls"
 	$SettingsContainer/Back/Label.text = "Back"
-	
+
 
 # When leaving the settings menu, saves values to the global settings file
 func save_on_exit():
@@ -227,36 +236,9 @@ func bool_to_on_off(bool_value):
 		return "Off"
 
 
-# Camera anchor signals
-func _on_music_volume_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/MusicVolume.position.y
-
-func _on_sfx_volume_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/SFXVolume.position.y
-
-func _on_fullscreen_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/Fullscreen.position.y
-
-func _on_zoom_scale_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/ZoomScale.position.y
-
-func _on_hud_scale_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/HUDScale.position.y
-
-func _on_vsync_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/Vsync.position.y
-
-func _on_auto_reset_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/AutoReset.position.y
-
-func _on_extra_keys_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/ExtraKeys.position.y
-
-func _on_reset_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/Reset.position.y
-
-func _on_controls_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/Controls.position.y
-
-func _on_back_focus_entered():
-	camera_anchor_node.position.y = $SettingsContainer/Back.position.y
+# Set the anchor positions for each button in focus
+func set_camera_anchor_positions():
+	
+	for settings_container_nodes in $SettingsContainer.get_children():
+		if settings_container_nodes.has_focus():
+			camera_anchor_node.position.y = settings_container_nodes.position.y
