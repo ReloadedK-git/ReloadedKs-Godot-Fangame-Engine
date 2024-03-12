@@ -229,6 +229,10 @@ func set_vsync():
 	GLOBAL_SETTINGS.VSYNC = !GLOBAL_SETTINGS.VSYNC
 	GLOBAL_SETTINGS.set_vsync_mode()
 
+# Sets window scale. Called from the settings menu
+func set_window_scale(scaling: float):
+	GLOBAL_SETTINGS.WINDOW_SCALING = scaling
+	GLOBAL_SETTINGS.set_window_scale()
 
 # Checks the current scene/room's name. We use this to make sure we're not
 # doing things like restarting or pausing on menu related scenes
