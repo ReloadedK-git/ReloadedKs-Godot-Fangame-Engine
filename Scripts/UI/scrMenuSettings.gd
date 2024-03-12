@@ -21,6 +21,8 @@ var zoom_scaling: float = 1.0
 var HUD_scaling: float = 1.0
 var zoom_scaling_step: float = 1.0
 var HUD_scaling_step: float = 0.5
+var window_scaling: float = 1.0
+var window_scaling_step: float = 0.5
 
 # Camera handling
 @onready var camera_anchor_node: Node = $Environment/cameraAnchor
@@ -120,6 +122,17 @@ func _on_hud_scale_gui_input(_event):
 		if (HUD_scaling) > 1:
 			HUD_scaling -= HUD_scaling_step
 
+# Window scale
+func _on_window_scale_gui_input(_event):
+	if Input.is_action_just_pressed("ui_right"):
+		if (window_scaling) < 2.5:
+			window_scaling += window_scaling_step
+	
+	if Input.is_action_just_pressed("ui_left"):
+		if (window_scaling) > 1.0:
+			window_scaling -= window_scaling_step
+	
+	GLOBAL_GAME.set_window_scale(window_scaling)
 
 # Vsync on/off
 func _on_vsync_pressed():
@@ -173,6 +186,7 @@ func load_from_global_settings():
 	fullscreen_on = GLOBAL_SETTINGS.FULLSCREEN
 	zoom_scaling = GLOBAL_SETTINGS.ZOOM_SCALING
 	HUD_scaling = GLOBAL_SETTINGS.HUD_SCALING
+	window_scaling = GLOBAL_SETTINGS.WINDOW_SCALING
 	vsync_on = GLOBAL_SETTINGS.VSYNC
 	autoreset_on = GLOBAL_SETTINGS.AUTORESET
 	extra_keys_on = GLOBAL_SETTINGS.EXTRA_KEYS
@@ -185,6 +199,7 @@ func set_labels_text():
 	$SettingsContainer/Fullscreen/Label.text = "Fullscreen: " + str(bool_to_on_off(fullscreen_on))
 	$SettingsContainer/ZoomScale/Label.text = "Zoom Scale: " + str(zoom_scaling) + "x"
 	$SettingsContainer/HUDScale/Label.text = "HUD Scale: " + str(HUD_scaling) + "x"
+	$SettingsContainer/WindowScale/Label.text = "Window Scale: " + str(window_scaling) + "x"
 	$SettingsContainer/Vsync/Label.text = "Vsync: " + str(bool_to_on_off(vsync_on))
 	$SettingsContainer/AutoReset/Label.text = "Reset on Death: " + str(bool_to_on_off(autoreset_on))
 	$SettingsContainer/ExtraKeys/Label.text = "Extra keys: " + str(bool_to_on_off(extra_keys_on))
@@ -208,8 +223,8 @@ func save_on_exit():
 	if is_instance_valid(objHUD):
 		objHUD.set_HUD_scaling()
 	
-	# Saving (includes fullscreen and vsync, but we don't need to set them
-	# from here again)
+	# Saving (includes fullscreen, vsync, and window scale,
+	# but we don't need to set them from here again)
 	GLOBAL_SETTINGS.save_settings()
 
 
@@ -221,6 +236,7 @@ func reset_settings_to_default():
 	fullscreen_on = false
 	zoom_scaling = 1.0
 	HUD_scaling = 1.0
+	window_scaling = GLOBAL_SETTINGS.DEFAULT_WINDOW_SCALING
 	vsync_on = true
 	autoreset_on = false
 	extra_keys_on = false
