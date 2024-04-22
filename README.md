@@ -117,7 +117,7 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 
 ### v1.10 (22-04-2024)
 
-*Special thanks to Gaph and his fork of this engine for the many QOL improvements and observations, some of which became part of this update.*
+*Special thanks to Gaph and her fork of this engine for the many QOL improvements and observations, some of which became part of this update.*
 
 * ***objWarpTransition*** no longer takes focus away from the mouse.
 * ***scrGlobalSettings*** does not get reloaded after opening the pause menu.
