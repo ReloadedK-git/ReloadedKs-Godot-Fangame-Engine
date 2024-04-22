@@ -18,9 +18,6 @@ func _ready():
 	GLOBAL_GAME.game_paused = true
 	get_tree().set_pause(true)
 	
-	# Load and set volume and music by reading GLOBAL_SETTINGS
-	GLOBAL_SETTINGS.load_settings()
-	
 	music_volume = GLOBAL_SETTINGS.MUSIC_VOLUME
 	sound_volume = GLOBAL_SETTINGS.SOUND_VOLUME
 	
@@ -93,10 +90,8 @@ func _on_sound_volume_gui_input(_event):
 func _on_quit_to_menu_pressed():
 	quit_pause()
 	
-	GLOBAL_GAME.triggered_events.clear()
-	GLOBAL_GAME.dialog_events.clear()
-	GLOBAL_SAVELOAD.itemsGameData.clear()
-	get_tree().change_scene_to_file(main_menu)
+	# Performs clean-up through GLOBAL_GAME
+	GLOBAL_GAME.full_game_restart(main_menu)
 
 
 # Resume game

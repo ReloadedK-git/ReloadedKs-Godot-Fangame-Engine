@@ -1,14 +1,21 @@
 extends Node
 
+
 """
 Public variables, meant to be accessed and modified outside of this script
 """
-var debug_mode: bool = false
+
+# Misc
 var is_changing_rooms: bool = false
 var game_paused: bool = false
-var can_save_collectable: bool = false
 var time: float = 0.0
 var deaths: int = 0
+
+# Debug related variables and signals
+var debug_mode: bool = false
+var debug_godmode: bool = false
+var debug_inf_jump: bool = false
+var debug_hitbox: bool = false
 
 # This fixes some issues with collision detection on moving platforms
 const SNAPPING_GRID: int = 16
@@ -34,17 +41,9 @@ enum {KEYBOARD, CONTROLLER}
 var global_input_device = KEYBOARD
 
 
-
 """
 Private variables, meant to be handled only by this script
 """
-# Window related variables. These don't really change, but can't be constants
-# since they need to get their values first from a couple functions.
-var INITIAL_WINDOW_WIDTH: int = DisplayServer.window_get_size().x
-var INITIAL_WINDOW_HEIGHT: int = DisplayServer.window_get_size().y
-var INITIAL_WINDOW_XPOSITION: int = DisplayServer.window_get_position().x
-var INITIAL_WINDOW_YPOSITION: int = DisplayServer.window_get_position().y
-
 var current_scene_name: String = ""
 var cur_pause_menu: Node = null
 
@@ -74,7 +73,8 @@ func _physics_process(delta):
 		pause_game()
 	
 	if Input.is_action_just_pressed("button_fullscreen"):
-		toggle_fullscreen()
+		GLOBAL_SETTINGS.FULLSCREEN = !GLOBAL_SETTINGS.FULLSCREEN
+		GLOBAL_SETTINGS.set_window_mode()
 	
 	if Input.is_action_just_pressed("button_fullgame_restart"):
 		full_game_restart()
@@ -88,6 +88,9 @@ func _physics_process(delta):
 	
 	# Global time counter
 	time_counter(delta)
+	
+	# Adds the time and deaths to the titlebar
+	handle_titlebar()
 
 
 # We use this to check what type of input device we're using, which in turn
@@ -118,23 +121,24 @@ func pause_game() -> void:
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
 
 
-# Toggles fullscreen on/off. When toggled from fullscreen to windowed, it
-# remembers the initial width/height and sets its initial position (centered)
-func toggle_fullscreen() -> void:
-	GLOBAL_SETTINGS.FULLSCREEN = !GLOBAL_SETTINGS.FULLSCREEN
-	GLOBAL_SETTINGS.set_window_mode()
-
-
-# A full game restart. Goes back to the main menu
-func full_game_restart() -> void:
+# If [param to_scene] is supplied and ends in `.tscn`, it will attempt to 
+# change to this scene instead of the main scene.
+func full_game_restart(to_scene: String = "") -> void:
 	if is_valid_room():
-		
+
 		# If the scene we're on is not the initial project's scene, we change
 		# our current scene to it, essentially working as a game reset.
-		# We get the main scene from our project settings. To compare the name,
-		# we get the setting, then the file name and then we trim the ".tscn" suffix
-		if (get_tree().get_current_scene().name != ProjectSettings.get_setting("application/run/main_scene").get_file().trim_suffix(".tscn")):
-			get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
+		if to_scene and to_scene.ends_with(".tscn"):
+			
+			# At the moment, this is only called from `scrPauseMenuMain`,
+			# passing the `main_menu` scene, which differs from the actual main scene.
+			if get_tree().get_current_scene().name != to_scene.trim_suffix(".tscn"):
+				get_tree().change_scene_to_file(to_scene)
+		else:
+			# We get the main scene from our project settings. To compare the name,
+			# we get the setting, then the file name and then we trim the ".tscn" suffix
+			if (get_tree().get_current_scene().name != ProjectSettings.get_setting("application/run/main_scene").get_file().trim_suffix(".tscn")):
+				get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 		
 		# This is to restart everything even if the game is currently paused.
 		# I like it that way, but maybe a cleaner way is to not allow a full
@@ -224,12 +228,6 @@ func game_quit() -> void:
 	get_tree().quit()
 
 
-# Sets vsync. Called from the settings menu
-func set_vsync():
-	GLOBAL_SETTINGS.VSYNC = !GLOBAL_SETTINGS.VSYNC
-	GLOBAL_SETTINGS.set_vsync_mode()
-
-
 # Checks the current scene/room's name. We use this to make sure we're not
 # doing things like restarting or pausing on menu related scenes
 func is_valid_room():
@@ -291,3 +289,23 @@ func format_time(time_to_format):
 	var seconds = floor(fmod(time_to_format, 60.0));
 	
 	return ("%02d" % hours) + ":" + ("%02d" % minutes) + ":"+("%02d" % seconds).right(2)
+
+
+# Adds death/time to the title.
+func handle_titlebar():
+	if not is_valid_room():
+		get_window().title = ProjectSettings.get_setting("application/config/name")
+		return
+	
+	# Game name
+	var title = ProjectSettings.get_setting("application/config/name") + " -"
+	
+	# Time
+	var time_str = " Time: " + format_time(time) + " -"
+	title += time_str
+	
+	# Death counter
+	var deaths_str = " Deaths: " + str(deaths)
+	title += deaths_str
+	
+	get_window().title = title

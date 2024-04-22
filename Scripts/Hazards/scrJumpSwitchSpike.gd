@@ -1,7 +1,15 @@
 @tool
 extends AnimatableBody2D
 
+## If [code]true[/code], the spike begins in its hidden position.
 @export var spike_hidden: bool = false
+
+## The direction the spike is pointing towards.
+@export var spike_direction: Dir = Dir.UP:
+	set(value):
+		spike_direction = value
+		set_angle()
+		set_initial_positions()
 
 var position_shown: Vector2 = Vector2.ZERO
 var position_hidden: Vector2 = Vector2.ZERO
@@ -11,8 +19,18 @@ var distance_for_snapping: int = 1
 var changing_positions: bool = false
 var is_on_screen: bool = false
 
+# Direction enum
+enum Dir {
+	UP, RIGHT, DOWN, LEFT
+}
+
+
 
 func _ready():
+	
+	# Change angle based on direction
+	set_angle()
+	
 	if not Engine.is_editor_hint():
 		set_initial_positions()
 		
@@ -35,16 +53,13 @@ func _ready():
 		await get_tree().create_timer(0.001).timeout
 		$CollisionPolygon2D.disabled = false
 
+		# Set a listener to the player's jump signals
+		GLOBAL_INSTANCES.objPlayerID.connect("player_jumped", begin_switch)
+		GLOBAL_INSTANCES.objPlayerID.connect("player_djumped", begin_switch)
+
 
 func _physics_process(delta):
-	
 	if not Engine.is_editor_hint():
-		if is_instance_valid(GLOBAL_INSTANCES.objPlayerID):
-			if Input.is_action_just_pressed("button_jump"):
-				spike_hidden = !spike_hidden
-				
-				if !changing_positions:
-					changing_positions = true
 		
 		# Position switching
 		switch_positions(delta)
@@ -58,9 +73,39 @@ func _physics_process(delta):
 			modulate = 'ffffff'
 
 
+
+func set_angle():
+	
+	# Down and left are flipped
+	match spike_direction:
+		Dir.UP:
+			rotation_degrees = 0
+			scale = Vector2(1, 1)
+		Dir.RIGHT:
+			rotation_degrees = 90
+			scale = Vector2(1, 1)
+		Dir.DOWN: 
+			rotation_degrees = 0
+			scale = Vector2(1, -1)
+		Dir.LEFT:
+			rotation_degrees = 90
+			scale = Vector2(1, -1)
+
+
 func set_initial_positions():
 	position_shown = global_position
-	position_hidden = global_position + Vector2(0, 32)
+	match spike_direction:
+		Dir.UP: position_hidden = Vector2(0, 32)
+		Dir.RIGHT: position_hidden = Vector2(-32, 0)
+		Dir.DOWN: position_hidden = Vector2(0, -32)
+		Dir.LEFT: position_hidden = Vector2(32, 0)
+	position_hidden += global_position
+
+
+func begin_switch():
+	spike_hidden = !spike_hidden
+	if !changing_positions:
+		changing_positions = true
 
 
 func switch_positions(delta):
@@ -82,7 +127,7 @@ func switch_positions(delta):
 				snap_to_grid.call()
 
 
-# Disables visibility and collisions if offscreen, for optimization
+# Disables visibility and collisions if offscreen, for optimization purposes
 func enable_on_screen():
 	if is_on_screen:
 		$Sprite2D.visible = true

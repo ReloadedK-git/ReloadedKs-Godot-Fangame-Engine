@@ -21,18 +21,30 @@ var create_bullet := preload("res://Objects/Player/objBullet.tscn")
 var jump_particle := preload("res://Objects/Player/objJumpParticle.tscn")
 @onready var animated_sprite = $playerSprites
 
+# Signals emitted by the player's actions
+signal player_died
+signal player_jumped
+signal player_djumped
+signal player_walljumped
+signal player_shot
+
+
 
 func _ready():
 	
 	# If a savefile exists (we've saved at least once), we move the player to
 	# the saved position, and also set its sprite state (flipped or not).
-	if (GLOBAL_SAVELOAD.variableGameData.first_time_saving == false):
+	if !GLOBAL_SAVELOAD.variableGameData.first_time_saving:
 		set_position_on_load()
 		flip_sprites_on_creation()
 	
 	# Sets a very important global variable. Lets everything know that the
 	# player does in fact exist and assigns it with its "id"
 	GLOBAL_INSTANCES.objPlayerID = self
+	
+	# Turns hitbox visible if debug setting is enabled
+	if GLOBAL_GAME.debug_hitbox:
+		$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
 
 
 """
@@ -80,6 +92,10 @@ func _physics_process(delta):
 	move_and_slide()
 	handle_animations()
 
+
+# Debug key inputs
+func _unhandled_key_input(event: InputEvent):
+	handle_debug_keys(event)
 
 
 """
@@ -200,14 +216,20 @@ func handle_jumping() -> void:
 			velocity.y = -s_jump_speed
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndJump)
 			
+			# Emit the "player_jumped" signal
+			player_jumped.emit()
+			
 		# If d_jump is available or you're inside a platform, the player now
 		# jumps with d_jump_speed. Inside of platforms you can jump infinitely,
 		# and they are the ones who set d_jump_aux to true or false.
 		# Same logic applies to water
-		elif (d_jump == true) or (d_jump_aux == true) or (in_water == true):
+		elif d_jump or d_jump_aux or in_water or GLOBAL_GAME.debug_inf_jump:
 			velocity.y = -d_jump_speed
 			d_jump = false
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndDJump)
+			
+			# Emit the "player_djumped" signal
+			player_djumped.emit()
 			
 			# Jump particles on djump, as long as the player is not in water
 			if (in_water == false):
@@ -261,6 +283,9 @@ func handle_walljumping():
 			velocity.y = -s_jump_speed
 			is_walljumping = false
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndJump)
+			
+			# Emit the "player_walljumped" signal
+			player_walljumped.emit()
 		
 		# Walljumping should only happen if we hold the jump button first
 		if Input.is_action_pressed("button_jump"):
@@ -356,7 +381,7 @@ func handle_animations() -> void:
 	if !is_walljumping:
 		
 		# If on the air, checks Y velocity for the jumping or falling animations
-		if (is_on_floor() == false): #and (on_platform == false):
+		if (is_on_floor() == false):
 			if (velocity.y < 0):
 				animated_sprite.play("jump")
 			else:
@@ -393,7 +418,7 @@ func flip_sprites_on_creation() -> void:
 # Keep in mind, masks inside $extraCollisions might have different shapes,
 # intended for different purposes
 func handle_masks() -> void:
-	if xscale == true:
+	if xscale:
 		$playerMask.position.x = 1
 	else:
 		$playerMask.position.x = -1
@@ -408,7 +433,7 @@ func handle_water() -> void:
 	
 	# Changes the player's falling speed when on water, and returns it to 
 	# normal when outside of it. Values can get changed here, for convenience
-	if (in_water == true):
+	if in_water:
 		v_speed_modifier = 0.4
 	else:
 		v_speed_modifier = 1.0
@@ -417,16 +442,43 @@ func handle_water() -> void:
 # Teleports the player to the mouse position when "button_debug_teleport"
 # is pressed (only on debug mode)
 func debug_mouse_teleport() -> void:
-	if (GLOBAL_GAME.debug_mode == true):
+	if GLOBAL_GAME.debug_mode:
 		if Input.is_action_pressed("button_debug_teleport"):
 			position = get_global_mouse_position()
+			velocity.y = 0
+
+
+# Handles all debug key toggles. Keys are hardcoded.
+func handle_debug_keys(event: InputEvent) -> void:
+	
+	# Debug keys are activated only in debug mode
+	if GLOBAL_GAME.debug_mode:
+		if event is InputEventKey and event.is_pressed() and not event.is_echo():
+			
+			# Toggle godmode
+			if event.keycode == KEY_1:
+				GLOBAL_GAME.debug_godmode = !GLOBAL_GAME.debug_godmode
+			
+			# Toggle infjump
+			if event.keycode == KEY_2:
+				GLOBAL_GAME.debug_inf_jump = !GLOBAL_GAME.debug_inf_jump
+			
+			# Toggle hitbox view
+			if event.keycode == KEY_3:
+				GLOBAL_GAME.debug_hitbox = !GLOBAL_GAME.debug_hitbox
+				$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
+			
+			# Debug save
+			if event.keycode == KEY_4:
+				GLOBAL_SAVELOAD.save_game(true)
+				GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndCoin)
 
 
 # Everything that should happen after the player dies
 func on_death():
 	
-	# Death should only happen if we're out of debug mode
-	if (GLOBAL_GAME.debug_mode == false):
+	# Death should only happen if we're out of godmode
+	if !GLOBAL_GAME.debug_godmode:
 		
 		# We load a particle emitter, which does the visual stuff we want
 		var blood_emitter = load("res://Objects/Player/objBloodEmitter.tscn")
@@ -444,6 +496,9 @@ func on_death():
 		
 		# Adds an extra death to the global death counter
 		GLOBAL_GAME.deaths += 1
+		
+		# Emit "player_died"
+		player_died.emit()
 		
 		# Destroys the player
 		queue_free()

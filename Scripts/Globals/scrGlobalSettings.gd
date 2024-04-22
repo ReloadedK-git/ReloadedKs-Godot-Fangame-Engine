@@ -1,12 +1,14 @@
 extends Node
 
 const DATA_PATH := "user://Data/Settings.cfg"
+
 #const SAVE_PASSWORD_STRING := "Change me!"
 var MUSIC_VOLUME: float = 1.0
 var SOUND_VOLUME: float = 1.0
 var FULLSCREEN: bool = false
 var ZOOM_SCALING: float = 1.0
 var HUD_SCALING: float = 1.0
+var WINDOW_SCALING: float = 1.0
 var VSYNC: bool = true
 var AUTORESET: bool = false
 var EXTRA_KEYS: bool = false
@@ -17,13 +19,14 @@ const DEFAULT_SOUND_VOLUME: float = 1.0
 const DEFAULT_FULLSCREEN: bool = false
 const DEFAULT_ZOOM_SCALING: float = 1.0
 const DEFAULT_HUD_SCALING: float = 1.0
+const DEFAULT_WINDOW_SCALING: float = 1.0
 const DEFAULT_VSYNC: bool = true
 const DEFAULT_AUTORESET: bool = false
 const DEFAULT_EXTRA_KEYS: bool = false
 
 # Window related variables, for handling window modes
-var INITIAL_WINDOW_WIDTH: int = DisplayServer.window_get_size().x
-var INITIAL_WINDOW_HEIGHT: int = DisplayServer.window_get_size().y
+@onready var INITIAL_WINDOW_WIDTH: int = get_window().size.x
+@onready var INITIAL_WINDOW_HEIGHT: int = get_window().size.y
 
 
 
@@ -40,6 +43,11 @@ func _ready():
 		save_settings()
 	else:
 		load_settings()
+	
+	# Recenters the window after a timer. Kind of a hack, but needed for
+	# window scaling other than 1x
+	await get_tree().create_timer(0.025, false, true).timeout
+	get_window().move_to_center()
 
 
 
@@ -52,6 +60,7 @@ func save_settings() -> void:
 	configFile.set_value("settings", "fullscreen", FULLSCREEN)
 	configFile.set_value("settings", "zoom_scaling", ZOOM_SCALING)
 	configFile.set_value("settings", "hud_scaling", HUD_SCALING)
+	configFile.set_value("settings", "window_scaling", WINDOW_SCALING)
 	configFile.set_value("settings", "vsync", VSYNC)
 	configFile.set_value("settings", "autoreset", AUTORESET)
 	configFile.set_value("settings", "extra_keys", EXTRA_KEYS)
@@ -72,6 +81,7 @@ func load_settings() -> void:
 	FULLSCREEN = configFile.get_value("settings", "fullscreen", FULLSCREEN)
 	ZOOM_SCALING = configFile.get_value("settings", "zoom_scaling", ZOOM_SCALING)
 	HUD_SCALING = configFile.get_value("settings", "hud_scaling", HUD_SCALING)
+	WINDOW_SCALING = configFile.get_value("settings", "window_scaling", WINDOW_SCALING)
 	VSYNC = configFile.get_value("settings", "vsync", VSYNC)
 	AUTORESET = configFile.get_value("settings", "autoreset", AUTORESET)
 	EXTRA_KEYS = configFile.get_value("settings", "extra_keys", EXTRA_KEYS)
@@ -98,6 +108,7 @@ func default_settings() -> void:
 	FULLSCREEN = DEFAULT_FULLSCREEN
 	ZOOM_SCALING = DEFAULT_ZOOM_SCALING
 	HUD_SCALING = DEFAULT_HUD_SCALING
+	WINDOW_SCALING = DEFAULT_WINDOW_SCALING
 	VSYNC = DEFAULT_VSYNC
 	AUTORESET = DEFAULT_AUTORESET
 	EXTRA_KEYS = DEFAULT_EXTRA_KEYS
@@ -118,10 +129,10 @@ func default_settings() -> void:
 # Sets the game's window mode by checking the FULLSCREEN boolean
 func set_window_mode():
 	if FULLSCREEN == true:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		get_window().mode = Window.MODE_FULLSCREEN
 	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		DisplayServer.window_set_size(Vector2(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT))
+		get_window().mode = Window.MODE_WINDOWED
+		set_window_scale()
 
 
 # Sets the game's vsync mode by checking the VSYNC boolean
@@ -130,3 +141,20 @@ func set_vsync_mode():
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
+
+# Sets the window scaling
+func set_window_scale():
+	
+	# Only updates the scaling in windowed mode. Avoids redrawing and stutters
+	# in certain OS
+	if get_window().get_mode() == 0:
+	
+		var newSize = Vector2(INITIAL_WINDOW_WIDTH * WINDOW_SCALING, INITIAL_WINDOW_HEIGHT * WINDOW_SCALING)
+		var oldSize = Vector2(get_window().size)
+		
+		# Check to avoid recentering when not changing scale
+		if oldSize != newSize:
+			get_window().size = newSize
+			get_window().move_to_center()
+	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://dyy6q5ebg838k"]
 
 [ext_resource type="Texture2D" uid="uid://dwbd007gqb7k5" path="res://Graphics/Tilemaps/tilPlatformBlock.png" id="1_rn1wv"]
 [ext_resource type="Script" path="res://Scripts/Tilemaps/scrHideTilemap.gd" id="2_p0m6r"]
@@ -19,6 +19,6 @@ sources/0 = SubResource("TileSetAtlasSource_ecn4o")
 
 [node name="platformBlockTilemap" type="TileMap" groups=["PlatformBlock"]]
 tile_set = SubResource("TileSet_gfgas")
-cell_quadrant_size = 32
+rendering_quadrant_size = 32
 format = 2
 script = ExtResource("2_p0m6r")

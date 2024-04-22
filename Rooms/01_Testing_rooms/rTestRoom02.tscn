@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c7x2p1xnrh2l4"]
+[gd_scene load_steps=18 format=3 uid="uid://c7x2p1xnrh2l4"]
 
 [ext_resource type="PackedScene" uid="uid://bm40t36a6m8sc" path="res://Objects/Tiles/til32x32.tscn" id="1_eguov"]
 [ext_resource type="PackedScene" uid="uid://bp5rqk4l7tesk" path="res://Objects/Player/objPlayer.tscn" id="4_62n00"]
@@ -16,8 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://da1qaif83tf17" path="res://Objects/Trigger_system/objTrigger.tscn" id="13_yv60o"]
 [ext_resource type="PackedScene" uid="uid://blj3cyjlb8uil" path="res://Objects/Gimmicks/objInvisibleBlock.tscn" id="16_ispj3"]
 [ext_resource type="AudioStream" uid="uid://cdt6et828ao0j" path="res://Audio/Sounds/sndBlockChange.wav" id="16_vq0hl"]
-[ext_resource type="PackedScene" uid="uid://chskqaeqby1wj" path="res://Objects/Hazards/objJumpSwitchSpikeUp.tscn" id="17_t33oq"]
-[ext_resource type="PackedScene" uid="uid://dh3qghmnw4kej" path="res://Objects/Hazards/objJumpSwitchSpikeDown.tscn" id="18_3lka1"]
+[ext_resource type="PackedScene" uid="uid://chskqaeqby1wj" path="res://Objects/Hazards/objJumpSwitchSpike.tscn" id="18_3lka1"]
 
 [node name="rTestRoom02" type="Node2D"]
 
@@ -103,21 +102,25 @@ position = Vector2(624, 464)
 
 [node name="Hazards" type="Node2D" parent="."]
 
-[node name="objJumpSwitchSpikeUp" parent="Hazards" instance=ExtResource("17_t33oq")]
+[node name="objJumpSwitchSpike" parent="Hazards" instance=ExtResource("18_3lka1")]
 position = Vector2(720, 528)
 
-[node name="objJumpSwitchSpikeUp2" parent="Hazards" instance=ExtResource("17_t33oq")]
+[node name="objJumpSwitchSpike2" parent="Hazards" instance=ExtResource("18_3lka1")]
 modulate = Color(1, 1, 1, 0.313726)
 position = Vector2(752, 528)
 spike_hidden = true
 
-[node name="objJumpSwitchSpikeDown" parent="Hazards" instance=ExtResource("18_3lka1")]
+[node name="objJumpSwitchSpike3" parent="Hazards" instance=ExtResource("18_3lka1")]
 position = Vector2(720, 400)
+scale = Vector2(1, -1)
+spike_direction = 2
 
-[node name="objJumpSwitchSpikeDown2" parent="Hazards" instance=ExtResource("18_3lka1")]
+[node name="objJumpSwitchSpike4" parent="Hazards" instance=ExtResource("18_3lka1")]
 modulate = Color(1, 1, 1, 0.313726)
 position = Vector2(752, 400)
+scale = Vector2(1, -1)
 spike_hidden = true
+spike_direction = 2
 
 [node name="Trigger_related" type="Node2D" parent="."]
 

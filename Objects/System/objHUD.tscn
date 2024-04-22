@@ -64,6 +64,45 @@ theme_override_font_sizes/font_size = 20
 text = "Room Name"
 horizontal_alignment = 2
 
+[node name="textDebug5" type="Label" parent="Display/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1aw6v")
+theme_override_font_sizes/font_size = 20
+text = "[\\]: Show More"
+horizontal_alignment = 2
+
+[node name="textDebug6" type="Label" parent="Display/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1aw6v")
+theme_override_font_sizes/font_size = 20
+text = "[1] Godmode"
+horizontal_alignment = 2
+
+[node name="textDebug7" type="Label" parent="Display/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1aw6v")
+theme_override_font_sizes/font_size = 20
+text = "[2] Inf Jump"
+horizontal_alignment = 2
+
+[node name="textDebug8" type="Label" parent="Display/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1aw6v")
+theme_override_font_sizes/font_size = 20
+text = "[3] Hitbox"
+horizontal_alignment = 2
+
+[node name="textDebug9" type="Label" parent="Display/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1aw6v")
+theme_override_font_sizes/font_size = 20
+text = "[4] Save"
+horizontal_alignment = 2
+
 [node name="MarginContainer2" type="MarginContainer" parent="Display"]
 anchors_preset = 2
 anchor_top = 1.0

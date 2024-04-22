@@ -21,6 +21,8 @@ var zoom_scaling: float = 1.0
 var HUD_scaling: float = 1.0
 var zoom_scaling_step: float = 1.0
 var HUD_scaling_step: float = 0.5
+var window_scaling: float = 1.0
+var window_scaling_step: float = 0.5
 
 # Camera handling
 @onready var camera_anchor_node: Node = $Environment/cameraAnchor
@@ -97,7 +99,8 @@ func _on_sfx_volume_gui_input(_event):
 # Fullscreen on/off
 func _on_fullscreen_pressed():
 	fullscreen_on = !fullscreen_on
-	GLOBAL_GAME.toggle_fullscreen()
+	GLOBAL_SETTINGS.FULLSCREEN = !GLOBAL_SETTINGS.FULLSCREEN
+	GLOBAL_SETTINGS.set_window_mode()
 
 # Zoom scale
 func _on_zoom_scale_gui_input(_event):
@@ -121,10 +124,26 @@ func _on_hud_scale_gui_input(_event):
 			HUD_scaling -= HUD_scaling_step
 
 
+# Window scaling
+func _on_window_scale_gui_input(_event):
+	if Input.is_action_just_pressed("ui_right"):
+		if (window_scaling) < 2.5:
+			window_scaling += window_scaling_step
+			GLOBAL_SETTINGS.WINDOW_SCALING = window_scaling
+			GLOBAL_SETTINGS.set_window_scale()
+	
+	if Input.is_action_just_pressed("ui_left"):
+		if (window_scaling) > 1.0:
+			window_scaling -= window_scaling_step
+			GLOBAL_SETTINGS.WINDOW_SCALING = window_scaling
+			GLOBAL_SETTINGS.set_window_scale()
+
+
 # Vsync on/off
 func _on_vsync_pressed():
 	vsync_on = !vsync_on
-	GLOBAL_GAME.set_vsync()
+	GLOBAL_SETTINGS.VSYNC = !GLOBAL_SETTINGS.VSYNC
+	GLOBAL_SETTINGS.set_vsync_mode()
 
 
 # Autoreset on/off
@@ -173,6 +192,7 @@ func load_from_global_settings():
 	fullscreen_on = GLOBAL_SETTINGS.FULLSCREEN
 	zoom_scaling = GLOBAL_SETTINGS.ZOOM_SCALING
 	HUD_scaling = GLOBAL_SETTINGS.HUD_SCALING
+	window_scaling = GLOBAL_SETTINGS.WINDOW_SCALING
 	vsync_on = GLOBAL_SETTINGS.VSYNC
 	autoreset_on = GLOBAL_SETTINGS.AUTORESET
 	extra_keys_on = GLOBAL_SETTINGS.EXTRA_KEYS
@@ -185,6 +205,7 @@ func set_labels_text():
 	$SettingsContainer/Fullscreen/Label.text = "Fullscreen: " + str(bool_to_on_off(fullscreen_on))
 	$SettingsContainer/ZoomScale/Label.text = "Zoom Scale: " + str(zoom_scaling) + "x"
 	$SettingsContainer/HUDScale/Label.text = "HUD Scale: " + str(HUD_scaling) + "x"
+	$SettingsContainer/WindowScale/Label.text = "Window Scale: " + str(window_scaling) + "x"
 	$SettingsContainer/Vsync/Label.text = "Vsync: " + str(bool_to_on_off(vsync_on))
 	$SettingsContainer/AutoReset/Label.text = "Reset on Death: " + str(bool_to_on_off(autoreset_on))
 	$SettingsContainer/ExtraKeys/Label.text = "Extra keys: " + str(bool_to_on_off(extra_keys_on))
@@ -201,6 +222,7 @@ func save_on_exit():
 	GLOBAL_SETTINGS.SOUND_VOLUME = sound_volume
 	GLOBAL_SETTINGS.ZOOM_SCALING = zoom_scaling
 	GLOBAL_SETTINGS.HUD_SCALING = HUD_scaling
+	GLOBAL_SETTINGS.WINDOW_SCALING = window_scaling
 	GLOBAL_SETTINGS.AUTORESET = autoreset_on
 	GLOBAL_SETTINGS.EXTRA_KEYS = extra_keys_on
 	
@@ -216,14 +238,15 @@ func save_on_exit():
 # Sets the values back to their default ones (menu settings first, then global
 # settings)
 func reset_settings_to_default():
-	music_volume = 1.0
-	sound_volume = 1.0
-	fullscreen_on = false
-	zoom_scaling = 1.0
-	HUD_scaling = 1.0
-	vsync_on = true
-	autoreset_on = false
-	extra_keys_on = false
+	music_volume = GLOBAL_SETTINGS.DEFAULT_MUSIC_VOLUME
+	sound_volume = GLOBAL_SETTINGS.DEFAULT_SOUND_VOLUME
+	fullscreen_on = GLOBAL_SETTINGS.DEFAULT_FULLSCREEN
+	zoom_scaling = GLOBAL_SETTINGS.DEFAULT_ZOOM_SCALING
+	HUD_scaling = GLOBAL_SETTINGS.DEFAULT_HUD_SCALING
+	window_scaling = GLOBAL_SETTINGS.DEFAULT_WINDOW_SCALING
+	vsync_on = GLOBAL_SETTINGS.DEFAULT_VSYNC
+	autoreset_on = GLOBAL_SETTINGS.DEFAULT_AUTORESET
+	extra_keys_on = GLOBAL_SETTINGS.DEFAULT_EXTRA_KEYS
 	
 	GLOBAL_SETTINGS.default_settings()
 
@@ -242,3 +265,6 @@ func set_camera_anchor_positions():
 	for settings_container_nodes in $SettingsContainer.get_children():
 		if settings_container_nodes.has_focus():
 			camera_anchor_node.position.y = settings_container_nodes.position.y
+
+
+

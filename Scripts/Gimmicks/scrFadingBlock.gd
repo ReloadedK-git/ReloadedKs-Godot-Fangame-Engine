@@ -42,4 +42,5 @@ func _on_area_2d_body_entered(_body):
 	# Starts fading if hasn't already
 	if !is_fading:
 		is_fading = true
+		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndFadingBlock)
 	
