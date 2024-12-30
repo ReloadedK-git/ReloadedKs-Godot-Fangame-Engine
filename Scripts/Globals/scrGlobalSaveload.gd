@@ -30,7 +30,7 @@ const defaultGameData = {
 # This is the data we can read and write. By default, it's just a copy of
 # the default game data dictionary, but we will modify this later on, and
 # then we'll read from those existing files.
-var variableGameData = defaultGameData
+var variableGameData = defaultGameData.duplicate(true)
 
 # Dictionary for items and collectables. Empty by default
 var itemsGameData = {}
@@ -95,7 +95,7 @@ func save_default_data():
 	# don't load, go back to the menu and then select another file without a 
 	# previous save. It's a way to make sure variableGameData is "empty" by
 	# default when starting a new file
-	variableGameData = defaultGameData
+	variableGameData = defaultGameData.duplicate(true)
 	
 	# Closes file, freeing it from memory
 	file = null 

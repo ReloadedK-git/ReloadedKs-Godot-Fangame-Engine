@@ -54,9 +54,8 @@ func _ready():
 	# Sets pause mode to not affect this world script
 	process_mode = PROCESS_MODE_ALWAYS
 	
-	# Hides the mouse. A visual preference, so feel free to delete this if you
-	# want
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	# Hides the mouse. Feel free to uncomment this if you want
+	# Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 
 # The global functions we want to handle each frame. They're self contained
@@ -170,7 +169,10 @@ func full_game_restart(to_scene: String = "") -> void:
 # can get teleported. Check objPlayer's debug_mouse_teleport() method
 func toggle_debug_mode() -> void:
 	debug_mode = !debug_mode
-
+	
+	# Plays a sound effect to indicate debug mode is on
+	if debug_mode:
+		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndWarp) 
 
 # Pauses music using a keyboard shortcut
 func pause_music() -> void:

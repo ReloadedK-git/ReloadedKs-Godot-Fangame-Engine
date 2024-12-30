@@ -68,7 +68,7 @@ func _on_music_volume_gui_input(_event):
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 	
 	if Input.is_action_just_pressed("ui_left"):
-		if (music_volume - volume_step) > 0.0:
+		if (music_volume - volume_step) >= 0.0:
 			music_volume -= volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 
@@ -81,7 +81,7 @@ func _on_sound_volume_gui_input(_event):
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 	
 	if Input.is_action_just_pressed("ui_left"):
-		if (sound_volume - volume_step) > 0.0:
+		if (sound_volume - volume_step) >= 0.0:
 			sound_volume -= volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 

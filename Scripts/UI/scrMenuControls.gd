@@ -43,7 +43,7 @@ func initial_device_detection():
 	if input_device == KEYBOARD:
 		$ControlsContainer/InputDevice/Label.text = "Device: Keyboard"
 	elif input_device == CONTROLLER:
-		emit_signal("change_input_device")
+		change_input_device.emit()
 		$ControlsContainer/InputDevice/Label.text = "Device: Controller"
 
 
@@ -54,7 +54,7 @@ func save_on_exit():
 
 
 func _on_input_device_pressed():
-	emit_signal("change_input_device")
+	change_input_device.emit()
 	
 	if input_device == KEYBOARD:
 		input_device = CONTROLLER
@@ -70,7 +70,7 @@ func _on_input_device_pressed():
 # tells buttons to re-display their input values
 func _on_reset_pressed():
 	InputMap.load_from_project_settings()
-	emit_signal("reset_all_inputs")
+	reset_all_inputs.emit()
 	GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
 
 

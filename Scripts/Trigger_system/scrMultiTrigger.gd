@@ -1,22 +1,24 @@
 @tool
-extends Area2D
+extends Polygon2D
 
 var global_trigger: Array = []
 @export var needs_activation: bool = true
+@onready var multitrigger_polygon: Polygon2D = $"."
+@onready var multitrigger_collision_polygon: CollisionPolygon2D = $Area2D/CollisionPolygon2D
 
 # Defines an activation value, one to show in the label and then turns it into
 # a string, for visual feedback
 @export var activation_id: int = 0:
 	set(activation_property_id):
 		activation_id = activation_property_id
-		$Label.text = str(activation_id)
+		$Area2D/Label.text = str(activation_id)
 
 # Defines a trigger value, one to show in the label and then turns it into a
 # string, for visual feedback
 @export var trigger_id: int = 0:
 	set(trigger_property_id):
 		trigger_id = trigger_property_id
-		$Label2.text = str(trigger_id)
+		$Area2D/Label2.text = str(trigger_id)
 
 # For sounds, you probably want to use WAV files
 @export var trigger_sound: AudioStreamWAV = null
@@ -35,17 +37,20 @@ func _ready():
 		# Be careful when you use @tool. Make sure this is set only when the
 		# game is running, and not in the editor
 		global_trigger = GLOBAL_GAME.triggered_events
+		
+		# Gets collision points from the drawn polygon
+		multitrigger_collision_polygon.polygon = multitrigger_polygon.get_polygon()
 
 
 func _physics_process(_delta):
 	if Engine.is_editor_hint():
 		
 		if needs_activation == false:
-			$Label.visible = false
-			$Label2.position.y = 2
+			$Area2D/Label.visible = false
+			$Area2D/Label2.position.y = 2
 		else:
-			$Label.visible = true
-			$Label2.position.y = 10
+			$Area2D/Label.visible = true
+			$Area2D/Label2.position.y = 10
 
 
 
@@ -61,9 +66,7 @@ func trigger_behaviour():
 	queue_free()
 
 
-
-func _on_body_entered(_body):
-	
+func _on_area_2d_body_entered(_body):
 	# Checks if the triggers needs to activate from other trigger
 	if needs_activation == true:
 		

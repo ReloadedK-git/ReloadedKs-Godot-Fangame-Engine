@@ -149,12 +149,5 @@ func set_window_scale():
 	# Only updates the scaling in windowed mode. Avoids redrawing and stutters
 	# in certain OS
 	if get_window().get_mode() == 0:
-	
-		var newSize = Vector2(INITIAL_WINDOW_WIDTH * WINDOW_SCALING, INITIAL_WINDOW_HEIGHT * WINDOW_SCALING)
-		var oldSize = Vector2(get_window().size)
-		
-		# Check to avoid recentering when not changing scale
-		if oldSize != newSize:
-			get_window().size = newSize
-			get_window().move_to_center()
+		get_window().size = Vector2(INITIAL_WINDOW_WIDTH * WINDOW_SCALING, INITIAL_WINDOW_HEIGHT * WINDOW_SCALING)
 	

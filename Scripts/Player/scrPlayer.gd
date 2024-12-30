@@ -14,6 +14,7 @@ var frozen: bool = false
 var d_jump: bool = true
 var d_jump_aux: bool = false
 var in_water: bool = false
+var in_water_djump: bool = false
 var v_speed_modifier: float = 1.0
 var can_walljump: bool = false
 var is_walljumping: bool = false
@@ -222,8 +223,7 @@ func handle_jumping() -> void:
 		# If d_jump is available or you're inside a platform, the player now
 		# jumps with d_jump_speed. Inside of platforms you can jump infinitely,
 		# and they are the ones who set d_jump_aux to true or false.
-		# Same logic applies to water
-		elif d_jump or d_jump_aux or in_water or GLOBAL_GAME.debug_inf_jump:
+		elif d_jump or d_jump_aux or in_water_djump or GLOBAL_GAME.debug_inf_jump:
 			velocity.y = -d_jump_speed
 			d_jump = false
 			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndDJump)
@@ -372,6 +372,9 @@ func handle_shooting():
 			
 			# After everything is set and done, creates the bullet
 			get_parent().add_child(create_bullet_id)
+			
+			# Emit the "player_shot" signal
+			player_shot.emit()
 
 
 # Method to handle sprite animations
@@ -458,20 +461,32 @@ func handle_debug_keys(event: InputEvent) -> void:
 			# Toggle godmode
 			if event.keycode == KEY_1:
 				GLOBAL_GAME.debug_godmode = !GLOBAL_GAME.debug_godmode
+				
+				# Sound for godmode
+				if GLOBAL_GAME.debug_godmode:
+					GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndBlockChange)
 			
 			# Toggle infjump
 			if event.keycode == KEY_2:
 				GLOBAL_GAME.debug_inf_jump = !GLOBAL_GAME.debug_inf_jump
+				
+				# Sound for infinite jump
+				if GLOBAL_GAME.debug_inf_jump:
+					GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndBouncyBlock)
 			
 			# Toggle hitbox view
 			if event.keycode == KEY_3:
 				GLOBAL_GAME.debug_hitbox = !GLOBAL_GAME.debug_hitbox
 				$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
+				
+				# Sound for debug hitbox
+				if GLOBAL_GAME.debug_hitbox:
+					GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndFadingBlock)
 			
 			# Debug save
 			if event.keycode == KEY_4:
 				GLOBAL_SAVELOAD.save_game(true)
-				GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndCoin)
+				GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndSave)
 
 
 # Everything that should happen after the player dies
@@ -512,8 +527,41 @@ func on_death():
 # -> Gives infinite djump while touching them
 func _on_platforms_body_entered(_body):
 	d_jump_aux = true
+
+# Checks if we're no longer touching a platform after leaving another 
+# platform, only then setting d_jump_aux to false
 func _on_platforms_body_exited(_body):
-	d_jump_aux = false
+	if !$extraCollisions/Platforms.has_overlapping_bodies():
+		d_jump_aux = false
+		
+		# The player will snap to platforms only if they have it set to true.
+		# NOTE: Snapping works well enough in most situations, but due to how
+		# Godot handles physics, they're not as consistent as gamemaker's. Keep
+		# that in mind if you plan to make things like needle and you need
+		# lots of precision!
+		if _body.snap:
+			
+			# Margin variables. Makes platforms feel more "natural" and tight
+			var horizontal_margin = 22 * _body.get_scale().x
+			var vertical_margin = 16
+			
+			# Horizontal and vertical detection
+			if (position.x > _body.position.x - horizontal_margin) and (position.x < _body.position.x + horizontal_margin):
+				if _body.position.y - vertical_margin > position.y:
+					
+					# Checks if we're moving upwards after leaving a platform
+					if (velocity.y < 0):
+						if _body.move_speed.y < 0:
+							
+							# If the platform is going up and so are we, it simply 
+							# sets the velocity to 0
+							velocity.y = 0
+						else:
+							
+							# If the platform is going down but we are going up,
+							# it sets the velocity to the platform's, times 100.
+							# Brute force approach that somehow works well enough
+							velocity.y = (_body.move_speed.y + 1) * 100
 
 
 # Killers
@@ -526,8 +574,21 @@ func _on_killers_body_entered(_body):
 # -> Indicates whether the player is inside of water
 func _on_water_area_entered(_area):
 	in_water = true
+	
+	# If the water type is not catharsis (type 3)
+	if _area.get_parent().water_type != 3:
+		in_water_djump = true
+
+# Checks if we're no longer touching water after leaving another body of
+# water, only then setting in_water to false
 func _on_water_area_exited(_area):
-	in_water = false
+	if !$extraCollisions/Water.has_overlapping_areas():
+		in_water = false
+		in_water_djump = false
+		
+		# If the water type is refresh (type 2)
+		if _area.get_parent().water_type == 2:
+			d_jump = true
 
 
 # IsCrushed

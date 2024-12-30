@@ -1,5 +1,5 @@
 @tool
-extends TileMap
+extends TileMapLayer
 
 @onready var animation_player: Node = get_node("AnimationPlayer")
 @export var tilemap_color: Color = Color.BLUE

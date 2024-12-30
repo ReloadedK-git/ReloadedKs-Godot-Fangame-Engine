@@ -1,14 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyy6q5ebg838k"]
+[gd_scene load_steps=7 format=3 uid="uid://dyy6q5ebg838k"]
 
 [ext_resource type="Texture2D" uid="uid://dwbd007gqb7k5" path="res://Graphics/Tilemaps/tilPlatformBlock.png" id="1_rn1wv"]
 [ext_resource type="Script" path="res://Scripts/Tilemaps/scrHideTilemap.gd" id="2_p0m6r"]
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_06x5k"]
+tile_data = PackedInt32Array(786432, 0, 0, 1638403, 0, 0, 4, 0, 0, 1114116, 0, 0, 786444, 0, 0, 1966093, 0, 0, 2031629, 0, 0, 2097165, 0, 0, 2162701, 0, 0, 2228237, 0, 0, 2293773, 0, 0, 1900558, 0, 0, 2359310, 0, 0, 1900559, 0, 0, 2359311, 0, 0, 1900560, 0, 0, 2359312, 0, 0, 1900561, 0, 0, 2359313, 0, 0, 1966098, 0, 0, 2031634, 0, 0, 2097170, 0, 0, 2162706, 0, 0, 2228242, 0, 0, 2293778, 0, 0, 1638421, 0, 0)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_wrusw"]
+tile_data = PackedInt32Array(0, 0, 0, 24, 0, 0)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ecn4o"]
 texture = ExtResource("1_rn1wv")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
-0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="TileSet" id="TileSet_gfgas"]
@@ -16,9 +20,10 @@ tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 64
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_ecn4o")
+pattern_0 = SubResource("TileMapPattern_06x5k")
+pattern_1 = SubResource("TileMapPattern_wrusw")
 
-[node name="platformBlockTilemap" type="TileMap" groups=["PlatformBlock"]]
+[node name="tilPlatformBlock" type="TileMapLayer" groups=["PlatformBlock"]]
 tile_set = SubResource("TileSet_gfgas")
 rendering_quadrant_size = 32
-format = 2
 script = ExtResource("2_p0m6r")

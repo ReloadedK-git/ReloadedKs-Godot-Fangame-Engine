@@ -1,25 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://disuddxn6h6vm"]
+[gd_scene load_steps=7 format=3 uid="uid://disuddxn6h6vm"]
 
 [ext_resource type="Texture2D" uid="uid://mgx6x5nn2vb8" path="res://Graphics/Tilemaps/tilSpikes.png" id="1_sfnk6"]
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_466ks"]
+tile_data = PackedInt32Array(65538, 0, 0)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_yy357"]
+tile_data = PackedInt32Array(65543, 0, 0)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_gvxri"]
+tile_data = PackedInt32Array(196608, 0, 0, 196609, 0, 0, 2, 65536, 0, 196610, 0, 0, 3, 65536, 0, 196611, 0, 0, 4, 65536, 0, 196612, 0, 0, 5, 65536, 0, 196613, 0, 0, 6, 65536, 0, 196614, 0, 0, 7, 65536, 0, 196615, 0, 0, 8, 65536, 0, 196616, 0, 0, 9, 65536, 0, 196617, 0, 0, 10, 65536, 0, 196618, 0, 0, 11, 65536, 0, 196619, 0, 0, 12, 65536, 0, 196620, 0, 0, 13, 65536, 0, 196621, 0, 0, 14, 65536, 0, 196622, 0, 0, 15, 65536, 0, 196623, 0, 0)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1s4bh"]
 texture = ExtResource("1_sfnk6")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
-0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 0, 16)
 1:0/0 = 0
-1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-1:0/0/physics_layer_0/angular_velocity = 0.0
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -16, 16, 16, -16, 16)
 0:1/0 = 0
-0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:1/0/physics_layer_0/angular_velocity = 0.0
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0, 16, -16, 16, 16)
 1:1/0 = 0
-1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-1:1/0/physics_layer_0/angular_velocity = 0.0
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(16, 0, -16, 16, -16, -16)
 
 [sub_resource type="TileSet" id="TileSet_5lym1"]
@@ -27,7 +28,9 @@ tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 8
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_1s4bh")
+pattern_0 = SubResource("TileMapPattern_466ks")
+pattern_1 = SubResource("TileMapPattern_yy357")
+pattern_2 = SubResource("TileMapPattern_gvxri")
 
-[node name="tilSpikes" type="TileMap" groups=["Killers"]]
+[node name="tilSpikes" type="TileMapLayer" groups=["Killers"]]
 tile_set = SubResource("TileSet_5lym1")
-format = 2

@@ -8,7 +8,6 @@ var scroll_current: int = 0
 var scroll_amount: int = 8
 var scroll_end: int = 0
 var margin_container_amount: int = 64
-var pause_menu := preload("res://Objects/UI/objPauseMenuMain.tscn")
 
 
 
@@ -36,6 +35,11 @@ func _physics_process(_delta):
 	
 	# Returns to the main pause menu by pressing "shoot"
 	if Input.is_action_just_pressed("ui_select"):
+		
+		# Loads the pause menu scene
+		var pause_menu = load("res://Objects/UI/objPauseMenuMain.tscn")
+		
+		# Instances the pause menu scene
 		if pause_menu != null:
 			var pause_menu_instance = pause_menu.instantiate()
 			add_sibling(pause_menu_instance)

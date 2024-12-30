@@ -1,4 +1,4 @@
-extends TileMap
+extends TileMapLayer
 
 
 # Hides tilemaps. Just for convenience, really

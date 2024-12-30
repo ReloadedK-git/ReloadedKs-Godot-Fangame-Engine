@@ -132,3 +132,24 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Minor changes to ***rMenuSettings***.
 * Quitting to the main menu from the pause menu now behaves differently.
 * Added new sound effect to ***objFadingBlock***.
+
+### v1.11 (30-12-2024)
+
+* Engine ported to Godot v4.3.
+* Fixed issues with ***scrGlobalSaveload*** after updating to Godot v4.3.
+* Fixed issues with ***objJumpSwitchSpike*** and ***objTriggerBlock*** when parent node position changes (credits to *Gaph*).
+* Added distance_to_hidden parameter to ***JumpSwitchSpike*** (credits to *Gaph*).
+* Changed every *TileMap* node to *TileMapLayer*.
+* Fixed a bug with platforms and water, to properly check if the player is or is not colliding with them.
+* Added platform snapping (check ***objPlayer***).
+* Added a *"snap"* property to ***objMovingPlatform***.
+* Minor fixes to ***objMenuControls***.
+* Minor fixes to ***scrPauseMenuMain*** and ***scrMenuSettings***.
+* Locked several nodes for ease of editing (***objTriggerBlock***, ***objTrigger***, ***objMultiTrigger***, ***objWater***).
+* ***objWater*** is now made of polygons, for ease of use when editing.
+* Added a *"Water Type"* property for ***objWater***, allowing it to switch between the 3 classic water types (regular, refresh, catharsis).
+* Added new functionality to ***objPlayer*** regarding water and platforms.
+* ***objTrigger*** and ***objMultiTrigger*** are now made of polygons, for ease of use when editing.
+* Minor changes to some testing rooms.
+* Added debug activation sounds to ***objPlayer***.
+* The cursor will no longer be hidden by default (check ***scrGlobalGame***).

@@ -1,6 +1,8 @@
 extends AnimatableBody2D
 
 @export var move_speed: Vector2 = Vector2.ZERO
+@export var snap: bool = true
+
 
 
 func _physics_process(_delta):

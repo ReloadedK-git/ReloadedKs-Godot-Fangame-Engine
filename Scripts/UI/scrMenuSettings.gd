@@ -78,7 +78,7 @@ func _on_music_volume_gui_input(_event):
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 	
 	if Input.is_action_just_pressed("ui_left"):
-		if (music_volume - volume_step) > 0.0:
+		if (music_volume - volume_step) >= 0.0:
 			music_volume -= volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 
@@ -91,7 +91,7 @@ func _on_sfx_volume_gui_input(_event):
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 	
 	if Input.is_action_just_pressed("ui_left"):
-		if (sound_volume - volume_step) > 0.0:
+		if (sound_volume - volume_step) >= 0.0:
 			sound_volume -= volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 
@@ -126,17 +126,22 @@ func _on_hud_scale_gui_input(_event):
 
 # Window scaling
 func _on_window_scale_gui_input(_event):
+	
+	# Lambda function which scales and centers the game window
+	var scale_and_center_window = func():
+		GLOBAL_SETTINGS.WINDOW_SCALING = window_scaling
+		GLOBAL_SETTINGS.set_window_scale()
+		get_window().move_to_center()
+	
 	if Input.is_action_just_pressed("ui_right"):
 		if (window_scaling) < 2.5:
 			window_scaling += window_scaling_step
-			GLOBAL_SETTINGS.WINDOW_SCALING = window_scaling
-			GLOBAL_SETTINGS.set_window_scale()
+			scale_and_center_window.call()
 	
 	if Input.is_action_just_pressed("ui_left"):
 		if (window_scaling) > 1.0:
 			window_scaling -= window_scaling_step
-			GLOBAL_SETTINGS.WINDOW_SCALING = window_scaling
-			GLOBAL_SETTINGS.set_window_scale()
+			scale_and_center_window.call()
 
 
 # Vsync on/off
@@ -265,6 +270,3 @@ func set_camera_anchor_positions():
 	for settings_container_nodes in $SettingsContainer.get_children():
 		if settings_container_nodes.has_focus():
 			camera_anchor_node.position.y = settings_container_nodes.position.y
-
-
-
