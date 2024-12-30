@@ -15,8 +15,8 @@ extends Camera2D
 @export_category("Border Limits")
 @export var stop_left_at: int = -10000000
 @export var stop_up_at: int = -10000000
-@export var stop_right_at: int = -10000000
-@export var stop_down_at: int = -10000000
+@export var stop_right_at: int = 10000000
+@export var stop_down_at: int = 10000000
 var focus_speed: float = 0.1
 var get_xy: Vector2 = Vector2.ZERO
 
