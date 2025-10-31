@@ -40,5 +40,5 @@ func _input(event):
 		if event.pressed:
 			if main_menu != null:
 				get_tree().change_scene_to_file(main_menu)
-				GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+				GLOBAL_SOUNDS.play_sound("sndPause")
 	

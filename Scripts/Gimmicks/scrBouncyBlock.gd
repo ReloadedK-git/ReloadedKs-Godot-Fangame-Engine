@@ -15,7 +15,7 @@ func _physics_process(_delta):
 		# Plays animation and sound if the animation isn't currently playing
 		if !anim_node.is_playing():
 			anim_node.play("default")
-			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndBouncyBlock)
+			GLOBAL_SOUNDS.play_sound("sndBouncyBlock")
 		
 		# Adds vertical velocity and gives back djump to the player
 		var player_collision = collision.get_collider()

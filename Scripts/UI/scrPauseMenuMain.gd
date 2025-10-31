@@ -11,6 +11,7 @@ var sound_volume: float = 1.0
 var volume_step: float = 0.1
 
 
+
 # Loads and sets values, gives focus, sets button labels and colors
 func _ready():
 	
@@ -38,14 +39,19 @@ func _ready():
 	$CanvasLayer/VBoxContainer/OptionsContainer/ItemsMenu.grab_focus()
 
 
+
+# Quits pause menu if "button_pause" is pressed
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("button_pause"):
+		quit_pause()
+
+
+
 # Goes back to the main menu room if "button_shoot" is pressed
 func _physics_process(_delta):
 	
 	# Sets and updates the text from each one of the button's labels
 	set_labels_text()
-	
-	if Input.is_action_just_pressed("button_pause"):
-		quit_pause()
 
 
 
@@ -56,31 +62,31 @@ func _on_items_menu_pressed():
 		add_sibling(items_menu_instance)
 		
 		# Play sound and destroy itself
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+		GLOBAL_SOUNDS.play_sound("sndPause")
 		queue_free()
 
 
 # Music volume
-func _on_music_volume_gui_input(_event):
-	if Input.is_action_just_pressed("ui_right"):
+func _on_music_volume_gui_input(event):
+	if event.is_action_pressed("ui_right"):
 		if (music_volume) < 0.99:
 			music_volume += volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 	
-	if Input.is_action_just_pressed("ui_left"):
+	if event.is_action_pressed("ui_left"):
 		if (music_volume - volume_step) >= 0.0:
 			music_volume -= volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 
 
 # Sound volume
-func _on_sound_volume_gui_input(_event):
-	if Input.is_action_just_pressed("ui_right"):
+func _on_sound_volume_gui_input(event):
+	if event.is_action_pressed("ui_right"):
 		if (sound_volume) < 0.99:
 			sound_volume += volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 	
-	if Input.is_action_just_pressed("ui_left"):
+	if event.is_action_pressed("ui_left"):
 		if (sound_volume - volume_step) >= 0.0:
 			sound_volume -= volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))

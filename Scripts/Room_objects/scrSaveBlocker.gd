@@ -29,5 +29,5 @@ func _physics_process(_delta):
 func react_to_hit(_attack_type, _attack_damage):
 	if (activate_visual == false):
 		sprite_alpha = 1
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndSaveBlocker)
+		GLOBAL_SOUNDS.play_sound("sndSaveBlocker")
 		activate_visual = true

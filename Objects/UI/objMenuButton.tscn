@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://614aveijpptq"]
 
-[ext_resource type="Script" path="res://Scripts/UI/scrMenuButton.gd" id="1_e4euh"]
+[ext_resource type="Script" uid="uid://uobydv66wrso" path="res://Scripts/UI/scrMenuButton.gd" id="1_e4euh"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="2_w25ho"]
 
 [node name="objMenuButton" type="TextureButton"]

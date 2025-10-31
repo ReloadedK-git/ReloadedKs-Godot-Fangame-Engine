@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cjqr3qh2x6l67"]
 
-[ext_resource type="Script" path="res://Scripts/Gimmicks/scrFadingBlock.gd" id="1_0ydmg"]
+[ext_resource type="Script" uid="uid://dxt8vd1aeab1g" path="res://Scripts/Gimmicks/scrFadingBlock.gd" id="1_0ydmg"]
 [ext_resource type="Texture2D" uid="uid://ce6up10x0wqqg" path="res://Graphics/Sprites/Gimmicks/sprFadingBlock.png" id="1_suvai"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ylcf1"]

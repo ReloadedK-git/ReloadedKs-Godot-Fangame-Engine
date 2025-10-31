@@ -26,6 +26,9 @@ func _ready():
 		# Initial target position update
 		beam_raycast.target_position = beam_target.position
 		
+		# Resets beam alpha
+		beam_sprite.modulate.a = 0
+		
 		# Set beam visibility using a single timer
 		beam_sprite.set_visible(false)
 		await get_tree().create_timer(0.025, false, true).timeout
@@ -41,6 +44,11 @@ func _ready():
 # and ceiling). The origin point of the node should always be outside of walls
 func _physics_process(delta):
 	if not Engine.is_editor_hint():
+		
+		# Fades in beam alpha for visual effect
+		if beam_sprite.modulate.a < 1:
+			beam_sprite.modulate.a += delta * 5
+		
 		# Collision checking and behaviour. If no collision is detected, the
 		# beam returns to its original target_position
 		if beam_raycast.is_colliding():

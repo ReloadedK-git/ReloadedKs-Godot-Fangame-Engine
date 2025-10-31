@@ -29,7 +29,7 @@ func _on_area_2d_body_entered(_body):
 	# This keeps the current direction the player is looking at.
 	# I like it this way, but each time you reset after warping, the direction
 	# will have changed to the one the player had before warping
-	var player_looking_at = GLOBAL_INSTANCES.objPlayerID.xscale
+	var player_looking_at = GLOBAL_INSTANCES.objPlayerID.looking_at
 	GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped = player_looking_at
 	
 	# This variable prevents objPlayerController from teleporting to the last
@@ -48,7 +48,7 @@ func _on_area_2d_body_entered(_body):
 		objWarpTransition.fade_from_black()
 	
 	# Plays a warp sound
-	GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndWarp)
+	GLOBAL_SOUNDS.play_sound("sndWarp")
 	
 	# Clear/reset our global trigger array
 	GLOBAL_GAME.triggered_events.clear()

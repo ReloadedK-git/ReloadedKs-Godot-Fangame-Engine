@@ -1,0 +1,95 @@
+[gd_scene load_steps=10 format=3 uid="uid://dibde8s2u2lxx"]
+
+[ext_resource type="Texture2D" uid="uid://5p4i0spe8rvn" path="res://Graphics/Sprites/Gimmicks/sprWindField.png" id="1_qcyf2"]
+[ext_resource type="Script" uid="uid://crejwa5tgpqtu" path="res://Scripts/Gimmicks/objFan.gd" id="2_1sjie"]
+[ext_resource type="Texture2D" uid="uid://ck0ge31ns3ed2" path="res://Graphics/Sprites/Gimmicks/sprFan.png" id="3_8imow"]
+
+[sub_resource type="Shader" id="Shader_vttrj"]
+code = "shader_type canvas_item;
+
+uniform vec2 motion = vec2(0.0);
+uniform float scale = 1.0;
+uniform vec2 offset = vec2(0.0);
+
+void vertex(){
+	UV = (VERTEX + offset + TIME * motion) * TEXTURE_PIXEL_SIZE * (1.0/scale);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qcyf2"]
+shader = SubResource("Shader_vttrj")
+shader_parameter/motion = Vector2(0, 200)
+shader_parameter/scale = 1.0
+shader_parameter/offset = Vector2(22, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2arb"]
+atlas = ExtResource("3_8imow")
+region = Rect2(0, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcyf2"]
+atlas = ExtResource("3_8imow")
+region = Rect2(18, 0, 18, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1sjie"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2arb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcyf2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d2arb"]
+size = Vector2(32, 14)
+
+[node name="objFan" type="Polygon2D"]
+editor_description = "1) Set wind direction and force
+2) Create/move wind polygon points"
+z_index = 3
+texture_repeat = 2
+material = SubResource("ShaderMaterial_qcyf2")
+texture = ExtResource("1_qcyf2")
+polygon = PackedVector2Array(-16, 0, 16, 0, 16, -64, -16, -64)
+script = ExtResource("2_1sjie")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+monitorable = false
+metadata/_edit_lock_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-16, 0, 16, 0, 16, -64, -16, -64)
+
+[node name="Fans" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Fans"]
+position = Vector2(-8, -7)
+sprite_frames = SubResource("SpriteFrames_1sjie")
+autoplay = "default"
+frame_progress = 0.84631217
+metadata/_edit_lock_ = true
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Fans"]
+position = Vector2(8, -7)
+sprite_frames = SubResource("SpriteFrames_1sjie")
+autoplay = "default"
+frame_progress = 0.16719286
+metadata/_edit_lock_ = true
+
+[node name="Area2D2" type="Area2D" parent="Fans"]
+collision_layer = 0
+monitorable = false
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fans/Area2D2"]
+z_index = -1
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_d2arb")
+debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+
+[connection signal="body_entered" from="Fans/Area2D2" to="." method="_on_area_2d_2_body_entered"]

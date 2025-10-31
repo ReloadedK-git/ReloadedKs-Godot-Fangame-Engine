@@ -26,7 +26,7 @@ func is_saving_allowed() -> void:
 	# (not saving) again
 	if ($Sprite2D.frame == 1):
 		if (can_save == true):
-			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndSave)
+			GLOBAL_SOUNDS.play_sound("sndSave")
 			
 			# The actual saving is done here
 			GLOBAL_SAVELOAD.save_game(true)

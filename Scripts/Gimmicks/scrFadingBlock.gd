@@ -10,6 +10,12 @@ var fading_alpha: float = 0.016
 
 
 
+func _ready() -> void:
+	
+	# Stop fading block sound
+	GLOBAL_SOUNDS.stop_sound("sndFadingBlock")
+
+
 func _physics_process(_delta):
 	if is_fading:
 		
@@ -42,5 +48,5 @@ func _on_area_2d_body_entered(_body):
 	# Starts fading if hasn't already
 	if !is_fading:
 		is_fading = true
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndFadingBlock)
+		GLOBAL_SOUNDS.play_sound("sndFadingBlock")
 	

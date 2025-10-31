@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://c363rig7brl0p"]
 
-[ext_resource type="Script" path="res://Scripts/Gimmicks/scrMovingPlatform.gd" id="1_5ngkx"]
+[ext_resource type="Script" uid="uid://ba00ni5ikjhx2" path="res://Scripts/Gimmicks/scrMovingPlatform.gd" id="1_5ngkx"]
 [ext_resource type="Texture2D" uid="uid://d2ccdxn67nati" path="res://Graphics/Sprites/Gimmicks/sprMovingPlatform.png" id="1_12dda"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5cfgk"]
 size = Vector2(32, 16)
 
-[node name="objMovingPlatform" type="AnimatableBody2D" groups=["Platform"]]
+[node name="objMovingPlatform" type="AnimatableBody2D" groups=["Orbiter", "Platform"]]
 collision_layer = 4
 collision_mask = 64
 sync_to_physics = false

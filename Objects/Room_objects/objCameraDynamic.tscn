@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://cdx3h81o7hqb4"]
 
-[ext_resource type="Script" path="res://Scripts/Room_objects/scrCameraDynamic.gd" id="1_335kd"]
+[ext_resource type="Script" uid="uid://dpoagotloidy2" path="res://Scripts/Room_objects/scrCameraDynamic.gd" id="1_335kd"]
 [ext_resource type="Texture2D" uid="uid://b6wjn6wemp8tk" path="res://Graphics/Sprites/Room_objects/sprCamera.png" id="2_uq2mm"]
 
-[node name="objCameraDynamic" type="Camera2D"]
+[node name="objCameraDynamic" type="Camera2D" groups=["Camera"]]
 process_callback = 0
 script = ExtResource("1_335kd")
 

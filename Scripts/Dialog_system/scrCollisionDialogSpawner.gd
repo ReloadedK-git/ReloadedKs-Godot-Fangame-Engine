@@ -12,6 +12,7 @@ func _ready():
 	global_dialog = GLOBAL_GAME.dialog_events
 	
 	if global_dialog.has(dialog_ID):
+		visible = false 
 		queue_free()
 
 

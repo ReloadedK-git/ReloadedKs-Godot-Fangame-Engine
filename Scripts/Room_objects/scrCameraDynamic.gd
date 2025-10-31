@@ -12,7 +12,7 @@ extends Camera2D
 # inside of a room, without any border limit.
 # If you want the camera to stop at a certain point, you set the limits inside
 # of each room in the object's properties
-@export_category("Border Limits")
+@export_category("Limits")
 @export var stop_left_at: int = -10000000
 @export var stop_up_at: int = -10000000
 @export var stop_right_at: int = 10000000
@@ -23,44 +23,74 @@ var get_xy: Vector2 = Vector2.ZERO
 
 
 func _ready():
-		
-		# Gets camera target (player object, mostly)
-		# We know from objPlayerStart that objPlayer gets created alongside
-		# this camera object, so we just check in there if it actually exists
-		if is_instance_valid(target_node):
-			position = target_node.position
-		else:
-			target_node = self
-		
-		# Camera zoom at start
-		if !ignore_global_zoom:
-			zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
-		else:
-			zoom = manual_zoom_amount
-		
-		# Invisible sprite, just for room creation
-		$Sprite2D.visible = false
-		
+	
+	# If you want to target the player, you should make sure it's instanced
+	# before the camera. This is so the camera instantly focuses on it,
+	# preventing a strange effect each time you restart.
+	# Always place the player above the camera scene inside the node tree:
+	# -> Room_related
+	# |--> objPlayer
+	# |--> objCameraDynamic
+	# If you don't do this, you should get a warning
+	if target_node.is_in_group("Player"):
+		if get_index() < target_node.get_index():
+			push_error("\n\n Remember to place the player BEFORE the camera! \n Example: \n -objPlayer \n -objCameraDynamic")
+			pass
+	
+	# Gets camera target (player object, mostly)
+	# We know from objPlayerStart that objPlayer gets created alongside
+	# this camera object, so we just check in there if it actually exists
+	if is_instance_valid(target_node):
+		global_position = target_node.global_position
+	else:
+		target_node = self
+	
+	# Camera zoom at start
+	if !ignore_global_zoom:
+		zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
+	else:
+		zoom = manual_zoom_amount
+	
+	# Invisible sprite, just for room creation
+	$Sprite2D.visible = false
+	
+	# Global limits are all 0 by default. If we load and they are all 0,
+	# limits from the camera object are used. If they're not 0, it means
+	# they were changed and saved, so we read and use those values to set
+	# the limits instantly
+	if ((GLOBAL_SAVELOAD.variableGameData.global_limit_top == 0) and
+	(GLOBAL_SAVELOAD.variableGameData.global_limit_left == 0) and
+	(GLOBAL_SAVELOAD.variableGameData.global_limit_right == 0) and
+	(GLOBAL_SAVELOAD.variableGameData.global_limit_bottom == 0)):
+	
 		# Sets the camera's limits
 		for limit_array_1 in 4:
 			var limit_array_2 = [stop_left_at, stop_up_at, stop_right_at, stop_down_at]
 			set_limit(limit_array_1, limit_array_2[limit_array_1])
-	
+	else:
+		
+		# Sets limits from the current savefile
+		for limit_array_1 in 4:
+			var limit_array_2 = [GLOBAL_SAVELOAD.variableGameData.global_limit_left,
+			GLOBAL_SAVELOAD.variableGameData.global_limit_top,
+			GLOBAL_SAVELOAD.variableGameData.global_limit_right,
+			GLOBAL_SAVELOAD.variableGameData.global_limit_bottom]
+			set_limit(limit_array_1, limit_array_2[limit_array_1])
 
 
 # Updates the camera target
 func _physics_process(_delta):
 	
 	# Godot's "instance_exists"
-	# Gets objPlayer's position, stores it on a local variable, follows it while
+	# Gets objPlayer's global_position, stores it on a local variable, follows it while
 	# adding some linear interpolation
 	if is_instance_valid(target_node):
-		get_xy = target_node.position
-		position = lerp(position, target_node.position, focus_speed)
+		get_xy = target_node.global_position
+		global_position = lerp(global_position, target_node.global_position, focus_speed)
 	else:
 		
 		# If the player no longer exists, it gets the values of the variable
 		# get_xy, which no longer updates, but it still stored the player's
-		# last position, so we continue lerping to it
-		position = lerp(position, get_xy, focus_speed)
+		# last global_position, so we continue lerping to it
+		global_position = lerp(global_position, get_xy, focus_speed)
 	

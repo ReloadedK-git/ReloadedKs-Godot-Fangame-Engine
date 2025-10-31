@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://bm40t36a6m8sc" path="res://Objects/Tiles/til32x32.tscn" id="3_8wqnp"]
 [ext_resource type="PackedScene" uid="uid://uc3dfxqfjl7l" path="res://Objects/Backgrounds/objBackgroundTexture.tscn" id="4_fbekd"]
 [ext_resource type="PackedScene" uid="uid://cjgn1pokbuu0p" path="res://Objects/Backgrounds/objBackgroundScrolling.tscn" id="5_5652x"]
-[ext_resource type="PackedScene" uid="uid://bp5rqk4l7tesk" path="res://Objects/Player/objPlayer.tscn" id="5_ws68y"]
 [ext_resource type="Texture2D" uid="uid://dlit77pi2a0te" path="res://Graphics/Backgrounds/bckPixelStarfield.png" id="6_4eqva"]
 [ext_resource type="PackedScene" uid="uid://cdx3h81o7hqb4" path="res://Objects/Room_objects/objCameraDynamic.tscn" id="6_h5c02"]
+[ext_resource type="PackedScene" uid="uid://cinj525l66hoo" path="res://Objects/Player/objPlayer.tscn" id="7_5rhr1"]
 [ext_resource type="PackedScene" uid="uid://b31w5fm4w5857" path="res://Objects/Room_objects/objSavePoint.tscn" id="7_cvscx"]
 [ext_resource type="PackedScene" uid="uid://bo3vrmvp7ayf8" path="res://Objects/Room_objects/objWarp.tscn" id="8_k8bft"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="9_3lttj"]
@@ -36,7 +36,7 @@ background_index = ExtResource("6_4eqva")
 
 [node name="Room_related" type="Node2D" parent="."]
 
-[node name="objPlayer" parent="Room_related" instance=ExtResource("5_ws68y")]
+[node name="objPlayer" parent="Room_related" instance=ExtResource("7_5rhr1")]
 position = Vector2(400, 144)
 
 [node name="objCameraDynamic" parent="Room_related" node_paths=PackedStringArray("target_node") instance=ExtResource("6_h5c02")]
@@ -119,6 +119,24 @@ theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("9_3lttj")
 theme_override_font_sizes/font_size = 20
 text = "Testing Room 04"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="objWarp5" parent="Room_related" instance=ExtResource("8_k8bft")]
+position = Vector2(624, 432)
+warp_to = "uid://cqqjt5aa6vthb"
+
+[node name="Label5" type="Label" parent="Room_related/objWarp5"]
+offset_left = -80.0
+offset_top = -48.0
+offset_right = 80.0
+offset_bottom = -16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("9_3lttj")
+theme_override_font_sizes/font_size = 20
+text = "Testing Room 05"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2

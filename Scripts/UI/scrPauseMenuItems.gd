@@ -45,7 +45,7 @@ func _physics_process(_delta):
 			add_sibling(pause_menu_instance)
 			
 			# Play sound and destroy itself
-			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+			GLOBAL_SOUNDS.play_sound("sndPause")
 			queue_free()
 	
 	# Unsets pause and quits this menu by pressing "pause"

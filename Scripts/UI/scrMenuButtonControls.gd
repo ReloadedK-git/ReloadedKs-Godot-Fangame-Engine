@@ -112,7 +112,7 @@ func change_input_device():
 func _on_focus_entered():
 	$Label.set("theme_override_colors/font_outline_color", Color(1, 0, 0, 1))
 	if (can_play_menu_sound == true):
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndMenuButton)
+		GLOBAL_SOUNDS.play_sound("sndMenuButton")
 
 
 # Changes the text outline color via code

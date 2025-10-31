@@ -61,7 +61,7 @@ func trigger_behaviour():
 		
 		# Play a sound when triggered, if we loaded one previously
 		if trigger_sound != null:
-			GLOBAL_SOUNDS.play_sound(trigger_sound)
+			GLOBAL_SOUNDS.play_sound(trigger_sound.get_path().get_file().trim_suffix('.wav'))
 	
 	queue_free()
 

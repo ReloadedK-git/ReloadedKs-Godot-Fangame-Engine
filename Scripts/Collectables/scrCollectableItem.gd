@@ -54,7 +54,7 @@ func _on_area_2d_body_entered(_body):
 	# The collectable can only be picked up if it wasn't saved yet
 	if !GLOBAL_SAVELOAD.variableGameData.has(item_name):
 		if (picked_collectable == false):
-			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndItem)
+			GLOBAL_SOUNDS.play_sound("sndItem")
 			item_sprite.modulate = 'ffffff80'
 			
 			# Sets the HUD autoload

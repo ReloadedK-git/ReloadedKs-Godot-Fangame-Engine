@@ -37,7 +37,7 @@ func react_to_hit(attack_type, attack_damage):
 		
 		$AnimationPlayer.stop(false)
 		$AnimationPlayer.play("hitBlink")
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndHit)
+		GLOBAL_SOUNDS.play_sound("sndHit")
 		total_hp -= attack_damage
 	
 	# If total hp is zero or less, we destroy this object

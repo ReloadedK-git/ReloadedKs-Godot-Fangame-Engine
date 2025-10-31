@@ -28,17 +28,22 @@ func _ready():
 
 
 
+# Changes scene if the "main_menu" key is pressed
+func _input(event: InputEvent) -> void:
+	
+	if event.is_action_pressed("ui_select"):
+		if main_menu != null:
+			get_tree().change_scene_to_file(main_menu)
+			GLOBAL_SOUNDS.play_sound("sndPause")
+
+
+
 # Key press checking (main_menu, quit)
 func _physics_process(_delta):
 	
 	# Updates the bottom labels to show the proper key ids
 	bottom_text_labels_update()
-	
-	# Changes scene if the "main_menu" key is pressed
-	if Input.is_action_just_pressed("ui_select"):
-		if main_menu != null:
-			get_tree().change_scene_to_file(main_menu)
-			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+
 
 
 # FILES
@@ -58,10 +63,24 @@ func generic_files(file_id):
 	# we saved previously on GLOBAL_SAVELOAD
 	if GLOBAL_SAVELOAD.variableGameData.first_time_saving == true:
 		if starting_room != null:
+			
+			# We have to reset some camera variables before starting a new
+			# savefile, which handle camera limits
+			GLOBAL_GAME.global_limit_top = 0
+			GLOBAL_GAME.global_limit_left = 0
+			GLOBAL_GAME.global_limit_right = 0
+			GLOBAL_GAME.global_limit_bottom = 0
 			get_tree().change_scene_to_file(starting_room)
 		else:
 			print("You forgot to set your starting room!")
 	else:
+		
+		# We have to set some camera variables before loading, which handle
+		# camera limits
+		GLOBAL_GAME.global_limit_top = GLOBAL_SAVELOAD.variableGameData.global_limit_top
+		GLOBAL_GAME.global_limit_left = GLOBAL_SAVELOAD.variableGameData.global_limit_left
+		GLOBAL_GAME.global_limit_right = GLOBAL_SAVELOAD.variableGameData.global_limit_right
+		GLOBAL_GAME.global_limit_bottom = GLOBAL_SAVELOAD.variableGameData.global_limit_bottom
 		get_tree().change_scene_to_file(GLOBAL_SAVELOAD.variableGameData.room_name)
 
 func _on_file_1_pressed():
@@ -151,8 +170,8 @@ func exit_confirm_delete():
 	# Plays sound effect after a savefile is deleted, muting the menu button
 	# sfx
 	if confirm_delete_sfx == true:
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndCherry)
-		GLOBAL_SOUNDS.stop_sound(GLOBAL_SOUNDS.sndMenuButton)
+		GLOBAL_SOUNDS.play_sound("sndCherry")
+		GLOBAL_SOUNDS.stop_sound("sndMenuButton")
 		confirm_delete_sfx = false
 
 

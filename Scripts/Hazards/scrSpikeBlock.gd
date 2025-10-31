@@ -22,7 +22,7 @@ func _on_detection_area_body_exited(_body):
 		
 		if spike_block.frame == 0:
 			spike_block.play("default")
-			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndSpikeBlock)
+			GLOBAL_SOUNDS.play_sound("sndSpikeBlock")
 
 
 # Kills player by calling its death event if the spikes are out

@@ -17,6 +17,19 @@ var camera_height: float = 608
 # Sets the zoom scaling and position smoothing speed once
 func _ready():
 	
+	# If you want to target the player, you should make sure it's instanced
+	# before the camera. This is so the camera instantly focuses on it,
+	# preventing a strange effect each time you restart.
+	# Always place the player above the camera scene inside the node tree:
+	# -> Room_related
+	# |--> objPlayer
+	# |--> objCameraFixed
+	# If you don't do this, you should get a warning
+	if target_node.is_in_group("Player"):
+		if get_index() < target_node.get_index():
+			push_error("\n\n Remember to place the player BEFORE the camera! \n Example: \n -objPlayer \n -objCameraDynamic")
+			pass
+	
 	# Sets the camera for each reset
 	if is_instance_valid(target_node):
 		set_camera_target()
@@ -51,5 +64,5 @@ func set_camera_target():
 	var camera_width_zoom: float = camera_width / GLOBAL_SETTINGS.ZOOM_SCALING
 	var camera_height_zoom: float = camera_height / GLOBAL_SETTINGS.ZOOM_SCALING
 	
-	position.x = floor(target_node.position.x / camera_width_zoom) * camera_width_zoom + (camera_width_zoom / 2)
-	position.y = floor(target_node.position.y / camera_height_zoom) * camera_height_zoom + (camera_height_zoom / 2)
+	global_position.x = floor(target_node.global_position.x / camera_width_zoom) * camera_width_zoom + (camera_width_zoom / 2)
+	global_position.y = floor(target_node.global_position.y / camera_height_zoom) * camera_height_zoom + (camera_height_zoom / 2)

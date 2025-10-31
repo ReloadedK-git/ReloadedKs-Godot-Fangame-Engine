@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsvww8xsb6foq"]
+
+[ext_resource type="Script" uid="uid://bx0oe23myvfn1" path="res://Scripts/Gimmicks/scrOrbitController.gd" id="1_gnmtf"]
+[ext_resource type="Texture2D" uid="uid://du8ypc5xn2vx8" path="res://Graphics/Sprites/Gimmicks/sprOrbitController.png" id="2_a3uee"]
+
+[node name="objOrbitController" type="Node2D" groups=["OrbitController"]]
+editor_description = "Add supported objects as children and they will rotate (at a radious and rotation speed). Make sure the children are added into the \"orbiters\" group!"
+script = ExtResource("1_gnmtf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+texture = ExtResource("2_a3uee")

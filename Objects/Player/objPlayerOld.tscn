@@ -1,0 +1,271 @@
+[gd_scene load_steps=30 format=3 uid="uid://bp5rqk4l7tesk"]
+
+[ext_resource type="Script" uid="uid://c7ykuy0iqtu8o" path="res://Scripts/Player/scrPlayerOld.gd" id="1_qesj7"]
+[ext_resource type="Texture2D" uid="uid://burygy08cq204" path="res://Graphics/Sprites/Player/sprPlayerFall.png" id="2_vhr1p"]
+[ext_resource type="Texture2D" uid="uid://dd3vx3fvdxdrh" path="res://Graphics/Sprites/Player/sprPlayerIdle.png" id="3_rctx2"]
+[ext_resource type="Texture2D" uid="uid://dbu5de27ltlgx" path="res://Graphics/Sprites/Player/sprPlayerJump.png" id="4_m4r65"]
+[ext_resource type="Texture2D" uid="uid://nc32sed5ti8l" path="res://Graphics/Sprites/Player/sprPlayerRunning.png" id="5_e7ay4"]
+[ext_resource type="Texture2D" uid="uid://iek6jj5sm1cc" path="res://Graphics/Sprites/Player/sprPlayerSliding.png" id="5_ps24y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5dja"]
+atlas = ExtResource("2_vhr1p")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7qgg"]
+atlas = ExtResource("2_vhr1p")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4v86k"]
+atlas = ExtResource("3_rctx2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrxqi"]
+atlas = ExtResource("3_rctx2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dnhi4"]
+atlas = ExtResource("3_rctx2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8120"]
+atlas = ExtResource("3_rctx2")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cltco"]
+atlas = ExtResource("4_m4r65")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mo52n"]
+atlas = ExtResource("4_m4r65")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhxw8"]
+atlas = ExtResource("5_e7ay4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4fa6"]
+atlas = ExtResource("5_e7ay4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8d6w0"]
+atlas = ExtResource("5_e7ay4")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7dx1"]
+atlas = ExtResource("5_e7ay4")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51kg8"]
+atlas = ExtResource("5_e7ay4")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqccs"]
+atlas = ExtResource("5_e7ay4")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55pgy"]
+atlas = ExtResource("5_ps24y")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ke5h3"]
+atlas = ExtResource("5_ps24y")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vrq0l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b5dja")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7qgg")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4v86k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wrxqi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dnhi4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8120")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cltco")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mo52n")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhxw8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4fa6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8d6w0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7dx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51kg8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqccs")
+}],
+"loop": true,
+"name": &"running",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55pgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ke5h3")
+}],
+"loop": true,
+"name": &"slidding",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x466q"]
+size = Vector2(12, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vob8"]
+size = Vector2(12, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nadji"]
+size = Vector2(12, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ewgw8"]
+size = Vector2(10, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x6gqu"]
+size = Vector2(1, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mo373"]
+size = Vector2(12, 20)
+
+[node name="objPlayer" type="CharacterBody2D" groups=["Player"]]
+z_index = 2
+collision_mask = 6
+slide_on_ceiling = false
+floor_constant_speed = true
+floor_block_on_wall = false
+floor_snap_length = 8.0
+platform_on_leave = 2
+script = ExtResource("1_qesj7")
+
+[node name="playerSprites" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vrq0l")
+animation = &"idle"
+
+[node name="playerMask" type="CollisionShape2D" parent="."]
+editor_description = "Should only detect:
+-Walls
+-Platforms"
+position = Vector2(1, 6)
+shape = SubResource("RectangleShape2D_x466q")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="ColorRect" type="ColorRect" parent="playerMask"]
+visible = false
+offset_left = -6.0
+offset_top = -10.0
+offset_right = 6.0
+offset_bottom = 10.0
+color = Color(1, 0, 1, 0.498039)
+
+[node name="extraCollisions" type="Node2D" parent="."]
+
+[node name="Platforms" type="Area2D" parent="extraCollisions"]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Platforms"]
+visible = false
+position = Vector2(1, 6)
+shape = SubResource("RectangleShape2D_5vob8")
+debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+
+[node name="Killers" type="Area2D" parent="extraCollisions"]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Killers"]
+visible = false
+position = Vector2(1, 6)
+shape = SubResource("RectangleShape2D_5vob8")
+debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+
+[node name="Water" type="Area2D" parent="extraCollisions"]
+collision_layer = 0
+collision_mask = 128
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Water"]
+visible = false
+position = Vector2(1, 6)
+shape = SubResource("RectangleShape2D_nadji")
+debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+
+[node name="IsCrushed" type="Area2D" parent="extraCollisions"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IsCrushed"]
+visible = false
+position = Vector2(1, 6)
+shape = SubResource("RectangleShape2D_ewgw8")
+debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+
+[node name="Vines" type="Area2D" parent="extraCollisions"]
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Vines"]
+visible = false
+position = Vector2(7.5, 6)
+shape = SubResource("RectangleShape2D_x6gqu")
+debug_color = Color(0, 1, 0.0156863, 0.419608)
+
+[node name="SheepBlocks" type="Area2D" parent="extraCollisions"]
+collision_layer = 0
+collision_mask = 1024
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/SheepBlocks"]
+visible = false
+position = Vector2(1, 6)
+shape = SubResource("RectangleShape2D_mo373")
+debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+
+[connection signal="body_entered" from="extraCollisions/Platforms" to="." method="_on_platforms_body_entered"]
+[connection signal="body_exited" from="extraCollisions/Platforms" to="." method="_on_platforms_body_exited"]
+[connection signal="body_entered" from="extraCollisions/Killers" to="." method="_on_killers_body_entered"]
+[connection signal="area_entered" from="extraCollisions/Water" to="." method="_on_water_area_entered"]
+[connection signal="area_exited" from="extraCollisions/Water" to="." method="_on_water_area_exited"]
+[connection signal="body_entered" from="extraCollisions/IsCrushed" to="." method="_on_is_crushed_body_entered"]
+[connection signal="body_entered" from="extraCollisions/Vines" to="." method="_on_vines_body_entered"]
+[connection signal="body_exited" from="extraCollisions/Vines" to="." method="_on_vines_body_exited"]
+[connection signal="body_entered" from="extraCollisions/SheepBlocks" to="." method="_on_sheep_blocks_body_entered"]

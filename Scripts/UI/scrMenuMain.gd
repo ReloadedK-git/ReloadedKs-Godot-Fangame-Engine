@@ -17,14 +17,18 @@ func _ready():
 	get_node("ButtonContainer/StartGame").grab_focus()
 
 
+
+# Exits the game if the "pause" key is pressed inside of the main menu
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
+
+
+
 func _physics_process(_delta):
 	
 	# Updates bottom labels
 	bottom_text_labels_update()
-	
-	# Exits the game if the "pause" key is pressed inside of the main menu
-	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()
 
 
 
@@ -44,14 +48,14 @@ func bottom_text_labels_update():
 func _on_start_game_pressed():
 	if files_menu != null:
 		get_tree().change_scene_to_file(files_menu)
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+		GLOBAL_SOUNDS.play_sound("sndPause")
 
 
 # Options
 func _on_options_pressed():
 	if settings_menu != null:
 		get_tree().change_scene_to_file(settings_menu)
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+		GLOBAL_SOUNDS.play_sound("sndPause")
 
 
 # Exits the game

@@ -90,7 +90,7 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Removed ***sprWater*** and ***sprTrigger***, since they were no longer necessary.
 * Removed script for ***objWater***.
 * Checked the "local to scene" property for ***objWater***, ***objTrigger***, ***objMultiTrigger*** and ***objSignProximity***.
-* Added several block-based gimmicks (***objFadingBlock, objBouncyBlock, objSpikeBlock***, ***objSheepBlocks***).
+* Added several block-based gimmicks (***objFadingBlock, objBouncyBlock, objSpikeBlock***, ***tilSheepBlocks***).
 * Added manual zooming to ***objCameraDynamic*** and ***objCameraFixed***.
 * Added ***objCollisionDialogSpawner***.
 * Added extra dialog scene for ***objCollisionDialogSpawner***.
@@ -153,3 +153,46 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Minor changes to some testing rooms.
 * Added debug activation sounds to ***objPlayer***.
 * The cursor will no longer be hidden by default (check ***scrGlobalGame***).
+
+### v1.12 (01-11-2025)
+
+
+* Reworked ***objPlayer*** from scratch. It makes use of a limited state machine, which makes it more flexible and easier to work with.
+* Added "climbing" gimmick to ***objPlayer***.
+* Reworked platform snapping.
+* Renamed "d_jump_aux" to "inside_platform_jump" for ***objPlayer***.
+* Jump height while colliding with a moving platform is now equal to a single jump.
+* Reworked player interactions with ***objWater***.
+* Minor fixes to ***objBullet***.
+* Added ***objParticlesManager***. Replaces ***scrGlobalParticles***. Makes adding and loading particle materials easier.
+* Changed ***objSoundManager***. Removed unnecessary preloads and made syntax simpler.
+* Multiple objects changed due to the new sound system.
+* Deleted ***objPhysicsBox***, ***scrPhysicsBox*** and ***sprPhysicsBox***.
+* Added ***objJumpBlock***.
+* Minor fixes to ***scrCollisionDialogueSpawner***.
+* Minor fixes to ***objLaserDynamic***.
+* Minor changes to ***tilSheepBlocks*** and ***objFadingBlock***.
+* Added ***objOrbitController***. Works with ***objCherry*** and ***objMovingPlatform***.
+* Added ***objPathSaw***.
+* Added ***objPathPlatform***.
+* Added ***objFan***.
+* Added ***tilClimbSurface***.
+* Added ***objCoinManager***.
+* Changed ***objCoin***.
+* Added ***objFakeBlock***.
+* Added ***objCameraMover***.
+* Added new room (***rTestRoom05***).
+* Minor changes to several test rooms.
+* Changed ***rTemplate***.
+* Minor changes to ***objTitle***.
+* Added clamp to window scaling (credits to *Polarb*).
+* Added warnings to ***objCameraDynamic*** and ***objCameraFixed***.
+* Minor changes to ***objCameraDynamic***.
+* Removed "Extra buttons" from the settings menu.
+* Removed EXTRA_KEYS from ***scrGlobalSettings***, ***scrGlobalSaveload*** and ***objSign***.
+* Removed extra directional keys from project settings. Added new input actions for regular directional keys.
+* Fixed input bugs for ***scrPauseMenu***, ***scrMenuSettings***, ***scrMenuMain***, ***scrMenuFiles*** and ***objPlayer***.
+* Minor fixes to ***scrMenuSettings*** and ***scrPauseMenu***.
+* Added camera related changes to ***scrMenuFiles***.
+* Camera border limits are now saved.
+* Added global camera limit variables into ***scrGlobalGame***.

@@ -19,6 +19,9 @@ func _ready():
 	else:
 		$".".material.set_shader_parameter("new_color", tilemap_color)
 		$".".material.set_shader_parameter("blinking", tilemap_blinking)
+		
+		# Stop sheep block sound
+		GLOBAL_SOUNDS.stop_sound("sndSheepBlock")
 
 
 # Updates shader color on the editor

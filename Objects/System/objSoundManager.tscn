@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://v76rkjcj1yms"]
 
-[ext_resource type="Script" path="res://Scripts/Globals/scrSoundManager.gd" id="1_5balp"]
+[ext_resource type="Script" uid="uid://cljc0jl8yswhk" path="res://Scripts/Globals/scrSoundManager.gd" id="1_5balp"]
 
 [node name="objSoundManager" type="Node"]
 script = ExtResource("1_5balp")

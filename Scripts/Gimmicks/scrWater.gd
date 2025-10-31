@@ -11,7 +11,7 @@ func _ready() -> void:
 	water_collision_polygon.polygon = water_polygon.get_polygon()
 
 
-# Updates water color
+# Updates water color and gives d_jump to the player
 func _physics_process(_delta) -> void:
 	if Engine.is_editor_hint():
 		water_color()

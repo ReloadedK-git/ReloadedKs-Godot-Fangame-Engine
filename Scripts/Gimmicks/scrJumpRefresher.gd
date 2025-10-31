@@ -39,7 +39,7 @@ func _on_body_entered(body):
 		$GPUParticles2D.emitting = true
 		$Timer.start()
 		body.d_jump = true
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndJumpRefresher)
+		GLOBAL_SOUNDS.play_sound("sndJumpRefresher")
 
 
 # Enables interaction with the player again

@@ -11,7 +11,6 @@ var HUD_SCALING: float = 1.0
 var WINDOW_SCALING: float = 1.0
 var VSYNC: bool = true
 var AUTORESET: bool = false
-var EXTRA_KEYS: bool = false
 
 # Default values, for when you need to reset them from the settings menu
 const DEFAULT_MUSIC_VOLUME: float = 1.0
@@ -22,7 +21,6 @@ const DEFAULT_HUD_SCALING: float = 1.0
 const DEFAULT_WINDOW_SCALING: float = 1.0
 const DEFAULT_VSYNC: bool = true
 const DEFAULT_AUTORESET: bool = false
-const DEFAULT_EXTRA_KEYS: bool = false
 
 # Window related variables, for handling window modes
 @onready var INITIAL_WINDOW_WIDTH: int = get_window().size.x
@@ -63,7 +61,6 @@ func save_settings() -> void:
 	configFile.set_value("settings", "window_scaling", WINDOW_SCALING)
 	configFile.set_value("settings", "vsync", VSYNC)
 	configFile.set_value("settings", "autoreset", AUTORESET)
-	configFile.set_value("settings", "extra_keys", EXTRA_KEYS)
 	
 	for action in InputMap.get_actions():
 		configFile.set_value("controls", action, InputMap.action_get_events(action))
@@ -84,7 +81,6 @@ func load_settings() -> void:
 	WINDOW_SCALING = configFile.get_value("settings", "window_scaling", WINDOW_SCALING)
 	VSYNC = configFile.get_value("settings", "vsync", VSYNC)
 	AUTORESET = configFile.get_value("settings", "autoreset", AUTORESET)
-	EXTRA_KEYS = configFile.get_value("settings", "extra_keys", EXTRA_KEYS)
 	
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), linear_to_db(SOUND_VOLUME))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(MUSIC_VOLUME))
@@ -111,7 +107,6 @@ func default_settings() -> void:
 	WINDOW_SCALING = DEFAULT_WINDOW_SCALING
 	VSYNC = DEFAULT_VSYNC
 	AUTORESET = DEFAULT_AUTORESET
-	EXTRA_KEYS = DEFAULT_EXTRA_KEYS
 	
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(MUSIC_VOLUME))
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), linear_to_db(SOUND_VOLUME))
@@ -128,7 +123,7 @@ func default_settings() -> void:
 
 # Sets the game's window mode by checking the FULLSCREEN boolean
 func set_window_mode():
-	if FULLSCREEN == true:
+	if FULLSCREEN:
 		get_window().mode = Window.MODE_FULLSCREEN
 	else:
 		get_window().mode = Window.MODE_WINDOWED
@@ -137,17 +132,20 @@ func set_window_mode():
 
 # Sets the game's vsync mode by checking the VSYNC boolean
 func set_vsync_mode():
-	if VSYNC == true:
+	if VSYNC:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 
-# Sets the window scaling
+# Sets the window scaling. Also clamps it to the screen size
 func set_window_scale():
 	
 	# Only updates the scaling in windowed mode. Avoids redrawing and stutters
 	# in certain OS
 	if get_window().get_mode() == 0:
-		get_window().size = Vector2(INITIAL_WINDOW_WIDTH * WINDOW_SCALING, INITIAL_WINDOW_HEIGHT * WINDOW_SCALING)
-	
+		var new_size = Vector2(INITIAL_WINDOW_WIDTH * WINDOW_SCALING, INITIAL_WINDOW_HEIGHT * WINDOW_SCALING)
+		var SCREEN_SIZE = DisplayServer.screen_get_size(get_window().get_current_screen())
+		new_size.x = min(new_size.x, SCREEN_SIZE.x)
+		new_size.y = min(new_size.y, SCREEN_SIZE.y)
+		get_window().size = new_size

@@ -2,22 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dx46i1jk4hllc"
-path="res://.godot/imported/sprPhysicsBox.png-3d4df45bf63697c5492ad74b8937dd69.ctex"
+uid="uid://vtmx6ebuw01t"
+path="res://.godot/imported/bckBlack.png-90dea3e897bea1eef055eff3784ee610.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/Sprites/Gimmicks/sprPhysicsBox.png"
-dest_files=["res://.godot/imported/sprPhysicsBox.png-3d4df45bf63697c5492ad74b8937dd69.ctex"]
+source_file="res://Graphics/Backgrounds/bckBlack.png"
+dest_files=["res://.godot/imported/bckBlack.png-90dea3e897bea1eef055eff3784ee610.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -25,6 +27,10 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

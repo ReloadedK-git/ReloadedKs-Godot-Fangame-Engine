@@ -10,14 +10,13 @@ var attack_type: int = GlobalClass.weapon_type.BULLET
 var attack_damage: int = GLOBAL_GAME.player_bullet_damage
 
 
+
 # The direction the bullet should be moving towards. This is assigned from
 # objPlayer, on _handle_shooting(). Once we get the direction we want, we add
 # the proper speed to bullet_direction's x
 func _ready():
-	if (looking_at == 1):
-		bullet_direction.x = bullet_speed 
-	elif (looking_at == -1):
-		bullet_direction.x = -bullet_speed
+	bullet_direction.x = bullet_speed * looking_at
+
 
 func _physics_process(_delta):
 	

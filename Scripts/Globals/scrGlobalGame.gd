@@ -31,6 +31,12 @@ var dialog_events: Array = []
 # For moving the player to a specific position after warping to a different room
 var warp_to_point: Vector2 = Vector2.ZERO
 
+# Global camera limits
+var global_limit_top: int = 0
+var global_limit_left: int = 0
+var global_limit_right: int = 0
+var global_limit_bottom: int = 0
+
 
 """
 Public readonly variables, meant to be accessed but not modified outside of this script
@@ -58,32 +64,8 @@ func _ready():
 	# Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 
-# The global functions we want to handle each frame. They're self contained
-# and should only fire once or be toggled on and off
+# The global functions we want to handle each frame
 func _physics_process(delta):
-	
-	if Input.is_action_just_pressed("button_debug"):
-		toggle_debug_mode()
-	
-	if Input.is_action_just_pressed("button_music"):
-		pause_music()
-	
-	if Input.is_action_just_pressed("button_pause"):
-		pause_game()
-	
-	if Input.is_action_just_pressed("button_fullscreen"):
-		GLOBAL_SETTINGS.FULLSCREEN = !GLOBAL_SETTINGS.FULLSCREEN
-		GLOBAL_SETTINGS.set_window_mode()
-	
-	if Input.is_action_just_pressed("button_fullgame_restart"):
-		full_game_restart()
-	
-	if Input.is_action_just_pressed("button_quitgame"):
-		game_quit()
-	
-	# Resetting is more complex, as it needs to make a few checks before
-	# the reset key is even pressed
-	handle_resetting()
 	
 	# Global time counter
 	time_counter(delta)
@@ -102,7 +84,29 @@ func _input(event):
 	if event is InputEventJoypadButton and event.is_pressed():
 		if global_input_device != CONTROLLER:
 			global_input_device = CONTROLLER
-
+	
+	if event.is_action_pressed("button_pause"):
+		pause_game()
+	
+	if event.is_action_pressed("button_debug"):
+		toggle_debug_mode()
+	
+	if event.is_action_pressed("button_music"):
+		pause_music()
+	
+	if event.is_action_pressed("button_fullscreen"):
+		GLOBAL_SETTINGS.FULLSCREEN = !GLOBAL_SETTINGS.FULLSCREEN
+		GLOBAL_SETTINGS.set_window_mode()
+	
+	if event.is_action_pressed("button_fullgame_restart"):
+		full_game_restart()
+	
+	if event.is_action_pressed("button_quitgame"):
+		game_quit()
+	
+	# Resetting is more complex, as it needs to make a few checks before
+	# the reset key is even pressed
+	handle_resetting(event)
 
 
 # A global pause which adds/removes a pause menu instance
@@ -117,7 +121,7 @@ func pause_game() -> void:
 			var pause_menu := preload("res://Objects/UI/objPauseMenuMain.tscn")
 			cur_pause_menu = pause_menu.instantiate()
 			add_child(cur_pause_menu)
-			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+			GLOBAL_SOUNDS.play_sound("sndPause")
 
 
 # If [param to_scene] is supplied and ends in `.tscn`, it will attempt to 
@@ -172,7 +176,7 @@ func toggle_debug_mode() -> void:
 	
 	# Plays a sound effect to indicate debug mode is on
 	if debug_mode:
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndWarp) 
+		GLOBAL_SOUNDS.play_sound("sndWarp") 
 
 # Pauses music using a keyboard shortcut
 func pause_music() -> void:
@@ -180,7 +184,7 @@ func pause_music() -> void:
 
 
 # The "R" key. Resets the game if certain conditions are met
-func handle_resetting() -> void:
+func handle_resetting(reset_key) -> void:
 	
 	# We check what room we're in, to not reset inside of menus
 	if is_valid_room():
@@ -198,7 +202,7 @@ func handle_resetting() -> void:
 	
 	# To avoid R spamming, we check for a single-frame press. As long as we're
 	# allowed to reset and we press the proper button, we will reset
-	if Input.is_action_just_pressed("button_reset") and (can_reset):
+	if reset_key.is_action_pressed("button_reset") and (can_reset):
 		reset()
 
 

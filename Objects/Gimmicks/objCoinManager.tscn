@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3thq0spqy6s5"]
+
+[ext_resource type="PackedScene" uid="uid://dr8oelp87b8uc" path="res://Objects/Gimmicks/objCoin.tscn" id="1_atk1c"]
+[ext_resource type="Script" uid="uid://c62wgqnepv8w5" path="res://Scripts/Gimmicks/scrCoinManager.gd" id="2_5njsj"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_5njsj"]
+scenes/1/scene = ExtResource("1_atk1c")
+
+[sub_resource type="TileSet" id="TileSet_bb8t6"]
+sources/0 = SubResource("TileSetScenesCollectionSource_5njsj")
+
+[node name="objCoinManager" type="TileMapLayer"]
+tile_set = SubResource("TileSet_bb8t6")
+script = ExtResource("2_5njsj")

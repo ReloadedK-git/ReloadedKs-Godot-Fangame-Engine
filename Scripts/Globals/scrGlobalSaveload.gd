@@ -23,6 +23,10 @@ const defaultGameData = {
 	"player_y" : 0,
 	"player_sprite_flipped" : false,
 	"room_name" : "",
+	"global_limit_top" : 0,
+	"global_limit_left" : 0,
+	"global_limit_right" : 0,
+	"global_limit_bottom" : 0,
 	"total_time" : 0.0,
 	"total_deaths" : 0
 }
@@ -129,8 +133,12 @@ func save_game(save_position = true) -> void:
 	if is_instance_valid(GLOBAL_INSTANCES.objPlayerID) && save_position:
 		variableGameData.player_x = GLOBAL_INSTANCES.objPlayerID.position.x
 		variableGameData.player_y = GLOBAL_INSTANCES.objPlayerID.position.y
-		variableGameData.player_sprite_flipped = GLOBAL_INSTANCES.objPlayerID.xscale
+		variableGameData.player_sprite_flipped = GLOBAL_INSTANCES.objPlayerID.looking_at
 		variableGameData.room_name = get_tree().get_current_scene().get_scene_file_path()
+		variableGameData.global_limit_top = GLOBAL_GAME.global_limit_top
+		variableGameData.global_limit_left = GLOBAL_GAME.global_limit_left
+		variableGameData.global_limit_right = GLOBAL_GAME.global_limit_right
+		variableGameData.global_limit_bottom = GLOBAL_GAME.global_limit_bottom
 		merge_items_data()
 		take_screenshot()
 	variableGameData.total_time = GLOBAL_GAME.time

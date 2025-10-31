@@ -25,10 +25,9 @@ func _physics_process(_delta):
 func _on_focus_entered():
 	$Label.set("theme_override_colors/font_outline_color", color_focused)
 	if (can_play_menu_sound == true):
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndMenuButton)
+		GLOBAL_SOUNDS.play_sound("sndMenuButton")
 
 # Changes the text outline color via code
 func _on_focus_exited():
 	$Label.set("theme_override_colors/font_outline_color", color_unfocused)
 	
-

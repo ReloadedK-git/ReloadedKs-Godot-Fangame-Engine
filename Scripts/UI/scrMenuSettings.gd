@@ -14,7 +14,6 @@ var volume_step: float = 0.1
 var fullscreen_on: bool = false
 var vsync_on: bool = true
 var autoreset_on: bool = false
-var extra_keys_on: bool = false
 
 # Scaling related
 var zoom_scaling: float = 1.0
@@ -50,14 +49,6 @@ func _physics_process(_delta):
 	# Sets and updates the text from each one of the button's labels
 	set_labels_text()
 	
-	# Goes back to the main menu if the "settings" key is pressed. Also plays 
-	# a sound to indicate we changed rooms
-	if Input.is_action_just_pressed("ui_select"):
-		if main_menu != null:
-			save_on_exit()
-			get_tree().change_scene_to_file(main_menu)
-			GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
-	
 	# Re-updates fullscreen in case we press "F4" in the middle of the settings
 	# menu
 	fullscreen_on = GLOBAL_SETTINGS.FULLSCREEN
@@ -67,30 +58,38 @@ func _physics_process(_delta):
 func _input(event):
 	if (event is InputEventKey) or (event is InputEventJoypadButton):
 		set_camera_anchor_positions()
+	
+	# Goes back to the main menu if the "settings" key is pressed. Also plays 
+	# a sound to indicate we changed rooms
+	if event.is_action_pressed("ui_select"):
+		if main_menu != null:
+			save_on_exit()
+			get_tree().change_scene_to_file(main_menu)
+			GLOBAL_SOUNDS.play_sound("sndPause")
 
 ##################################################################################################################
 
 # Music volume
-func _on_music_volume_gui_input(_event):
-	if Input.is_action_just_pressed("ui_right"):
+func _on_music_volume_gui_input(event):
+	if event.is_action_pressed("ui_right"):
 		if (music_volume) < 0.99:
 			music_volume += volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 	
-	if Input.is_action_just_pressed("ui_left"):
+	if event.is_action_pressed("ui_left"):
 		if (music_volume - volume_step) >= 0.0:
 			music_volume -= volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 
 
 # Sounds volume
-func _on_sfx_volume_gui_input(_event):
-	if Input.is_action_just_pressed("ui_right"):
+func _on_sfx_volume_gui_input(event):
+	if event.is_action_pressed("ui_right"):
 		if (sound_volume) < 0.99:
 			sound_volume += volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 	
-	if Input.is_action_just_pressed("ui_left"):
+	if event.is_action_pressed("ui_left"):
 		if (sound_volume - volume_step) >= 0.0:
 			sound_volume -= volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
@@ -103,29 +102,29 @@ func _on_fullscreen_pressed():
 	GLOBAL_SETTINGS.set_window_mode()
 
 # Zoom scale
-func _on_zoom_scale_gui_input(_event):
-	if Input.is_action_just_pressed("ui_right"):
+func _on_zoom_scale_gui_input(event):
+	if event.is_action_pressed("ui_right"):
 		if (zoom_scaling) < 2:
 			zoom_scaling += zoom_scaling_step
 	
-	if Input.is_action_just_pressed("ui_left"):
+	if event.is_action_pressed("ui_left"):
 		if (zoom_scaling) > 1:
 			zoom_scaling -= zoom_scaling_step
 
 
 # HUD scale
-func _on_hud_scale_gui_input(_event):
-	if Input.is_action_just_pressed("ui_right"):
+func _on_hud_scale_gui_input(event):
+	if event.is_action_pressed("ui_right"):
 		if (HUD_scaling) < 1.5:
 			HUD_scaling += HUD_scaling_step
 	
-	if Input.is_action_just_pressed("ui_left"):
+	if event.is_action_pressed("ui_left"):
 		if (HUD_scaling) > 1:
 			HUD_scaling -= HUD_scaling_step
 
 
 # Window scaling
-func _on_window_scale_gui_input(_event):
+func _on_window_scale_gui_input(event):
 	
 	# Lambda function which scales and centers the game window
 	var scale_and_center_window = func():
@@ -133,12 +132,12 @@ func _on_window_scale_gui_input(_event):
 		GLOBAL_SETTINGS.set_window_scale()
 		get_window().move_to_center()
 	
-	if Input.is_action_just_pressed("ui_right"):
+	if event.is_action_pressed("ui_right"):
 		if (window_scaling) < 2.5:
 			window_scaling += window_scaling_step
 			scale_and_center_window.call()
 	
-	if Input.is_action_just_pressed("ui_left"):
+	if event.is_action_pressed("ui_left"):
 		if (window_scaling) > 1.0:
 			window_scaling -= window_scaling_step
 			scale_and_center_window.call()
@@ -156,16 +155,11 @@ func _on_auto_reset_pressed():
 	autoreset_on = !autoreset_on
 
 
-# Extra keys on/off
-func _on_extra_keys_pressed():
-	extra_keys_on = !extra_keys_on
-
-
 # Reset the setting's values back to their default ones. Also plays a
 # confirmation sound effect
 func _on_defaults_pressed():
 	reset_settings_to_default()
-	GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+	GLOBAL_SOUNDS.play_sound("sndPause")
 
 
 # Go to the controls room
@@ -173,7 +167,7 @@ func _on_controls_pressed():
 	if controls_menu != null:
 		save_on_exit()
 		get_tree().change_scene_to_file(controls_menu)
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+		GLOBAL_SOUNDS.play_sound("sndPause")
 
 
 # Return to the main menu
@@ -181,7 +175,7 @@ func _on_back_pressed():
 	if main_menu != null:
 		save_on_exit()
 		get_tree().change_scene_to_file(main_menu)
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+		GLOBAL_SOUNDS.play_sound("sndPause")
 
 ##########################################################################################################
 
@@ -200,7 +194,6 @@ func load_from_global_settings():
 	window_scaling = GLOBAL_SETTINGS.WINDOW_SCALING
 	vsync_on = GLOBAL_SETTINGS.VSYNC
 	autoreset_on = GLOBAL_SETTINGS.AUTORESET
-	extra_keys_on = GLOBAL_SETTINGS.EXTRA_KEYS
 
 
 # Sets and updates the text from each one of the button's labels
@@ -213,7 +206,6 @@ func set_labels_text():
 	$SettingsContainer/WindowScale/Label.text = "Window Scale: " + str(window_scaling) + "x"
 	$SettingsContainer/Vsync/Label.text = "Vsync: " + str(bool_to_on_off(vsync_on))
 	$SettingsContainer/AutoReset/Label.text = "Reset on Death: " + str(bool_to_on_off(autoreset_on))
-	$SettingsContainer/ExtraKeys/Label.text = "Extra keys: " + str(bool_to_on_off(extra_keys_on))
 	$SettingsContainer/Reset/Label.text = "Reset to Defaults"
 	$SettingsContainer/Controls/Label.text = "Controls"
 	$SettingsContainer/Back/Label.text = "Back"
@@ -229,7 +221,6 @@ func save_on_exit():
 	GLOBAL_SETTINGS.HUD_SCALING = HUD_scaling
 	GLOBAL_SETTINGS.WINDOW_SCALING = window_scaling
 	GLOBAL_SETTINGS.AUTORESET = autoreset_on
-	GLOBAL_SETTINGS.EXTRA_KEYS = extra_keys_on
 	
 	# Sets HUD scaling by calling objHUDs method once
 	if is_instance_valid(objHUD):
@@ -251,7 +242,6 @@ func reset_settings_to_default():
 	window_scaling = GLOBAL_SETTINGS.DEFAULT_WINDOW_SCALING
 	vsync_on = GLOBAL_SETTINGS.DEFAULT_VSYNC
 	autoreset_on = GLOBAL_SETTINGS.DEFAULT_AUTORESET
-	extra_keys_on = GLOBAL_SETTINGS.DEFAULT_EXTRA_KEYS
 	
 	GLOBAL_SETTINGS.default_settings()
 

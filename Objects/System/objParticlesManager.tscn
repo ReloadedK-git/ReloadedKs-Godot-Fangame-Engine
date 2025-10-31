@@ -1,0 +1,11 @@
+[gd_scene load_steps=5 format=3 uid="uid://pd7j70j127p"]
+
+[ext_resource type="Script" uid="uid://j4mj1k3ik4hu" path="res://Scripts/System/scrParticlesManager.gd" id="1_p6df5"]
+[ext_resource type="Material" uid="uid://iomu88koaflo" path="res://Resources/Materials/matBloodEmitter.tres" id="2_oofnh"]
+[ext_resource type="Material" uid="uid://r060ph0sbxx2" path="res://Resources/Materials/matJumpParticle.tres" id="3_ijpmk"]
+[ext_resource type="Material" uid="uid://bi0d5fwmegvac" path="res://Resources/Materials/matJumpRefresher.tres" id="4_kw5uw"]
+
+[node name="objParticlesManager" type="Node2D"]
+editor_description = "Load your particle materials inside of this \"Particles List\" array. They will get preloaded when the game first runs"
+script = ExtResource("1_p6df5")
+particles_list = Array[ParticleProcessMaterial]([ExtResource("2_oofnh"), ExtResource("3_ijpmk"), ExtResource("4_kw5uw")])

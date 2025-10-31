@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bythhehuewmnx"]
+
+[ext_resource type="Script" uid="uid://dkg6jtcxyrtvf" path="res://Scripts/Room_objects/scrCameraMover.gd" id="1_6usej"]
+
+[node name="objCameraMover" type="Polygon2D"]
+z_index = 1
+color = Color(1, 0.78431374, 0.19607843, 0.49803922)
+polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
+script = ExtResource("1_6usej")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+metadata/_edit_lock_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+visible = false
+polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
+metadata/_edit_lock_ = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

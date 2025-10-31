@@ -63,7 +63,7 @@ func _on_input_device_pressed():
 		input_device = KEYBOARD
 		$ControlsContainer/InputDevice/Label.text = "Device: Keyboard"
 	
-	GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+	GLOBAL_SOUNDS.play_sound("sndPause")
 
 
 # Reset all input events to their default values. Also emits a signal which
@@ -71,7 +71,7 @@ func _on_input_device_pressed():
 func _on_reset_pressed():
 	InputMap.load_from_project_settings()
 	reset_all_inputs.emit()
-	GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+	GLOBAL_SOUNDS.play_sound("sndPause")
 
 
 # Back to settings
@@ -79,7 +79,7 @@ func _on_back_pressed():
 	if settings_menu != null:
 		save_on_exit()
 		get_tree().change_scene_to_file(settings_menu)
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndPause)
+		GLOBAL_SOUNDS.play_sound("sndPause")
 
 
 # Set the anchor positions for each button in focus

@@ -59,7 +59,7 @@ func handle_debug_mode() -> void:
 			# Debug "cursor indicator"
 			$Sprite2D.set_visible(not Input.is_action_pressed("button_debug_teleport"))
 			$Sprite2D.position = get_global_mouse_position()
-			$Sprite2D.flip_h = !GLOBAL_INSTANCES.objPlayerID.xscale
+			$Sprite2D.flip_h = !GLOBAL_INSTANCES.objPlayerID.looking_at
 			
 			# Booleans for extra debug keys
 			if show_extra_debug:

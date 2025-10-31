@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://bhhpevlqkk6n2"]
+[gd_scene load_steps=31 format=4 uid="uid://bhhpevlqkk6n2"]
 
 [ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="1_tjral"]
 [ext_resource type="AudioStream" uid="uid://cbtxeavsqivpn" path="res://Audio/Music/musLevel01.ogg" id="2_7au35"]
@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://uc3dfxqfjl7l" path="res://Objects/Backgrounds/objBackgroundTexture.tscn" id="4_dumue"]
 [ext_resource type="Texture2D" uid="uid://cbifnd0ykxhs" path="res://Graphics/Backgrounds/bckCastle.png" id="5_kwx58"]
 [ext_resource type="PackedScene" uid="uid://cdx3h81o7hqb4" path="res://Objects/Room_objects/objCameraDynamic.tscn" id="5_tia65"]
-[ext_resource type="PackedScene" uid="uid://bp5rqk4l7tesk" path="res://Objects/Player/objPlayer.tscn" id="6_jfw1u"]
+[ext_resource type="PackedScene" uid="uid://cinj525l66hoo" path="res://Objects/Player/objPlayer.tscn" id="6_8l0l7"]
 [ext_resource type="PackedScene" uid="uid://bo3vrmvp7ayf8" path="res://Objects/Room_objects/objWarp.tscn" id="7_pmbuh"]
 [ext_resource type="PackedScene" uid="uid://b31w5fm4w5857" path="res://Objects/Room_objects/objSavePoint.tscn" id="8_3f73m"]
 [ext_resource type="PackedScene" uid="uid://0sf7hvl14lqd" path="res://Objects/Gimmicks/tilSheepBlocks.tscn" id="8_3tsjv"]
-[ext_resource type="Shader" path="res://Scripts/Shaders/shSheepBlocks.gdshader" id="9_jmqlv"]
+[ext_resource type="Shader" uid="uid://bx6om85phmsfn" path="res://Scripts/Shaders/shSheepBlocks.gdshader" id="9_jmqlv"]
 [ext_resource type="PackedScene" uid="uid://bes18loo3v73l" path="res://Objects/Room_objects/objSaveBlocker.tscn" id="10_8wd4j"]
 [ext_resource type="PackedScene" uid="uid://b7tet5lpfxc3k" path="res://Objects/Gimmicks/objBouncyBlock.tscn" id="11_nwo54"]
 [ext_resource type="PackedScene" uid="uid://cjqr3qh2x6l67" path="res://Objects/Gimmicks/objFadingBlock.tscn" id="12_db3ss"]
@@ -19,7 +19,6 @@
 [ext_resource type="PackedScene" uid="uid://cp85j3jgqvoma" path="res://Objects/Hazards/objLaserDynamic.tscn" id="13_ocyj7"]
 [ext_resource type="PackedScene" uid="uid://dyy6q5ebg838k" path="res://Objects/Gimmicks/tilPlatformBlock.tscn" id="16_oxerl"]
 [ext_resource type="PackedScene" uid="uid://ddjx8w1j80w1t" path="res://Objects/Hazards/objSpikeBlock.tscn" id="18_87ase"]
-[ext_resource type="PackedScene" uid="uid://blj3cyjlb8uil" path="res://Objects/Gimmicks/objInvisibleBlock.tscn" id="18_om7he"]
 [ext_resource type="PackedScene" uid="uid://dvh5p5m0s4ju3" path="res://Objects/Collectables/objCollectableItem.tscn" id="19_ghuib"]
 [ext_resource type="PackedScene" uid="uid://da1qaif83tf17" path="res://Objects/Trigger_system/objTrigger.tscn" id="20_phxq1"]
 [ext_resource type="AudioStream" uid="uid://cdt6et828ao0j" path="res://Audio/Sounds/sndBlockChange.wav" id="21_vsjl8"]
@@ -27,19 +26,19 @@
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="22_fq4d1"]
 [ext_resource type="PackedScene" uid="uid://c363rig7brl0p" path="res://Objects/Gimmicks/objMovingPlatform.tscn" id="24_pf57r"]
 [ext_resource type="PackedScene" uid="uid://c7d7yav7g756d" path="res://Objects/Dialog_system/objCollisionDialogSpawner.tscn" id="26_vce6n"]
-[ext_resource type="PackedScene" path="res://Objects/Dialog_system/List/dialogTesting02.tscn" id="27_chs10"]
+[ext_resource type="PackedScene" uid="uid://dcni7tlrib6ai" path="res://Objects/Dialog_system/List/dialogTesting02.tscn" id="27_chs10"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rmwjs"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8l0l7"]
 shader = ExtResource("9_jmqlv")
 shader_parameter/new_color = Color(0, 0, 1, 1)
 shader_parameter/blinking = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_06lqa"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oq65f"]
 shader = ExtResource("9_jmqlv")
 shader_parameter/new_color = Color(1, 0, 0, 1)
 shader_parameter/blinking = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4sh1y"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_guacw"]
 shader = ExtResource("9_jmqlv")
 shader_parameter/new_color = Color(0, 0.823529, 0, 1)
 shader_parameter/blinking = false
@@ -63,7 +62,7 @@ metadata/_edit_lock_ = true
 
 [node name="Room_related" type="Node2D" parent="."]
 
-[node name="objPlayer" parent="Room_related" instance=ExtResource("6_jfw1u")]
+[node name="objPlayer" parent="Room_related" instance=ExtResource("6_8l0l7")]
 position = Vector2(560, 1136)
 
 [node name="objCameraDynamic" parent="Room_related" node_paths=PackedStringArray("target_node") instance=ExtResource("5_tia65")]
@@ -103,16 +102,16 @@ warp_to = "res://Rooms/01_Testing_rooms/rRoomSelection.tscn"
 [node name="Gimmicks" type="Node2D" parent="."]
 
 [node name="tilSheepBlocks" parent="Gimmicks" instance=ExtResource("8_3tsjv")]
-material = SubResource("ShaderMaterial_rmwjs")
+material = SubResource("ShaderMaterial_8l0l7")
 tile_map_data = PackedByteArray("AAASAB0AAAAAAAAAAAATABsAAAABAAAAAAATABwAAAABAAAAAAATAB0AAAAAAAAAAAAUAB0AAAAAAAAAAAA=")
 
 [node name="tilSheepBlocks2" parent="Gimmicks" instance=ExtResource("8_3tsjv")]
-material = SubResource("ShaderMaterial_06lqa")
+material = SubResource("ShaderMaterial_oq65f")
 tile_map_data = PackedByteArray("AAALABkAAAABAAAAAAALAB0AAAAAAAAAAAAMABkAAAABAAAAAAAMABwAAAABAAAAAAAMAB0AAAAAAAAAAAANABkAAAABAAAAAAANABwAAAABAAAAAAANAB0AAAAAAAAAAAAOABkAAAABAAAAAAAOAB0AAAAAAAAAAAA=")
 tilemap_color = Color(1, 0, 0, 1)
 
 [node name="tilSheepBlocks3" parent="Gimmicks" instance=ExtResource("8_3tsjv")]
-material = SubResource("ShaderMaterial_4sh1y")
+material = SubResource("ShaderMaterial_guacw")
 tile_map_data = PackedByteArray("AAAFABoAAAAAAAAAAAAFABsAAAAAAAAAAAAFABwAAAAAAAAAAAAFAB0AAAAAAAAAAAAGABoAAAABAAAAAAAGABsAAAABAAAAAAAGABwAAAABAAAAAAAGAB0AAAAAAAAAAAAHAB0AAAAAAAAAAAA=")
 tilemap_color = Color(0, 0.823529, 0, 1)
 
@@ -140,17 +139,11 @@ position = Vector2(544, 704)
 position = Vector2(672, 736)
 bounce_amount = 300
 
-[node name="objInvisibleBlock" parent="Gimmicks" instance=ExtResource("18_om7he")]
-position = Vector2(752, 496)
+[node name="objBouncyBlock3" parent="Gimmicks" instance=ExtResource("11_nwo54")]
+position = Vector2(736, 480)
 
-[node name="objInvisibleBlock2" parent="Gimmicks" instance=ExtResource("18_om7he")]
-position = Vector2(720, 496)
-
-[node name="objInvisibleBlock3" parent="Gimmicks" instance=ExtResource("18_om7he")]
-position = Vector2(656, 400)
-
-[node name="objInvisibleBlock4" parent="Gimmicks" instance=ExtResource("18_om7he")]
-position = Vector2(624, 400)
+[node name="objBouncyBlock4" parent="Gimmicks" instance=ExtResource("11_nwo54")]
+position = Vector2(672, 384)
 
 [node name="objMovingPlatform" parent="Gimmicks" instance=ExtResource("24_pf57r")]
 position = Vector2(48, 224)
@@ -192,7 +185,7 @@ position = Vector2(40, 688)
 target_position = Vector2(664, 0)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic/laserComponents" index="1"]
-region_rect = Rect2(-88.5, 0, 672, 14)
+region_rect = Rect2(-19, 0, 672, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic" index="1"]
 position = Vector2(664, 0)

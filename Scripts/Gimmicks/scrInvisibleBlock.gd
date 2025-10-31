@@ -17,7 +17,7 @@ func _ready():
 func make_visible():
 	if !block_is_visible:
 		sprite_node.visible = true
-		GLOBAL_SOUNDS.play_sound(GLOBAL_SOUNDS.sndBlockChange)
+		GLOBAL_SOUNDS.play_sound("sndBlockChange")
 		block_is_visible = true
 
 
