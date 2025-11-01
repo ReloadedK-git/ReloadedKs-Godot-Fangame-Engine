@@ -53,8 +53,13 @@ func _on_area_2d_body_entered(_body):
 	# Clear/reset our global trigger array
 	GLOBAL_GAME.triggered_events.clear()
 	
-	# Tells the warp it should change the scene on the next physics frame
+	# Tells the warp it should change the scene on the next physics frame.
+	# Also resets the global camera limits
 	if warp_to != "":
+		GLOBAL_GAME.global_limit_top = 0
+		GLOBAL_GAME.global_limit_left = 0
+		GLOBAL_GAME.global_limit_right = 0
+		GLOBAL_GAME.global_limit_bottom = 0
 		is_warping = true
 	else:
 		print('Error: no room scene has been selected')

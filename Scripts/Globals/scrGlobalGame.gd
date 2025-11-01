@@ -210,6 +210,13 @@ func handle_resetting(reset_key) -> void:
 # previous requirement (other than a savefile to read from)
 func reset():
 	
+	# Sets global camera limits from the savefile. Handles an edge case with
+	# camera movers, warping and resetting
+	GLOBAL_GAME.global_limit_top = GLOBAL_SAVELOAD.variableGameData.global_limit_top
+	GLOBAL_GAME.global_limit_left = GLOBAL_SAVELOAD.variableGameData.global_limit_left
+	GLOBAL_GAME.global_limit_right = GLOBAL_SAVELOAD.variableGameData.global_limit_right
+	GLOBAL_GAME.global_limit_bottom = GLOBAL_SAVELOAD.variableGameData.global_limit_bottom
+	
 	# A reset is essentially taking the main tree scene and then changing
 	# it to the one that's saved inside of our saveload dictionary (check
 	# scrGlobalSaveload)

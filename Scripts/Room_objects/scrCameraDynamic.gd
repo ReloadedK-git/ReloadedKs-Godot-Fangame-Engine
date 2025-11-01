@@ -58,10 +58,10 @@ func _ready():
 	# limits from the camera object are used. If they're not 0, it means
 	# they were changed and saved, so we read and use those values to set
 	# the limits instantly
-	if ((GLOBAL_SAVELOAD.variableGameData.global_limit_top == 0) and
-	(GLOBAL_SAVELOAD.variableGameData.global_limit_left == 0) and
-	(GLOBAL_SAVELOAD.variableGameData.global_limit_right == 0) and
-	(GLOBAL_SAVELOAD.variableGameData.global_limit_bottom == 0)):
+	if ((GLOBAL_GAME.global_limit_top == 0) and
+	(GLOBAL_GAME.global_limit_left == 0) and
+	(GLOBAL_GAME.global_limit_right == 0) and
+	(GLOBAL_GAME.global_limit_bottom == 0)):
 	
 		# Sets the camera's limits
 		for limit_array_1 in 4:
@@ -69,12 +69,12 @@ func _ready():
 			set_limit(limit_array_1, limit_array_2[limit_array_1])
 	else:
 		
-		# Sets limits from the current savefile
+		# Sets updated limits from the current savefile
 		for limit_array_1 in 4:
-			var limit_array_2 = [GLOBAL_SAVELOAD.variableGameData.global_limit_left,
-			GLOBAL_SAVELOAD.variableGameData.global_limit_top,
-			GLOBAL_SAVELOAD.variableGameData.global_limit_right,
-			GLOBAL_SAVELOAD.variableGameData.global_limit_bottom]
+			var limit_array_2 = [GLOBAL_GAME.global_limit_left,
+			GLOBAL_GAME.global_limit_top,
+			GLOBAL_GAME.global_limit_right,
+			GLOBAL_GAME.global_limit_bottom]
 			set_limit(limit_array_1, limit_array_2[limit_array_1])
 
 

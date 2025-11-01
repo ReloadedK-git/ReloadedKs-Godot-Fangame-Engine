@@ -35,14 +35,7 @@ func _physics_process(_delta: float) -> void:
 			var rotation_radians = global_rotation
 			var forward_vector = Vector2(sin(rotation_radians), -cos(rotation_radians))
 			
-			#print(body.velocity)
-			#print(forward_vector)
-			
-			#body.velocity = body.velocity.limit_length(wind_force)
-			#body.velocity += forward_vector * wind_force
-			
 			body.velocity.x += forward_vector.x * wind_force
-			
 			@warning_ignore("integer_division")
 			var wind_force_detection_margin: float = wind_force / 2.65
 			if (body.velocity.y > wind_force_detection_margin) or (body.velocity.y > -wind_force_detection_margin):

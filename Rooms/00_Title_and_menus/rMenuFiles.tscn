@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=4 uid="uid://g6hnxhpdvqml"]
 
-[ext_resource type="Script" path="res://Scripts/UI/scrMenuFiles.gd" id="1_27c2k"]
+[ext_resource type="Script" uid="uid://bikkuje74o3hm" path="res://Scripts/UI/scrMenuFiles.gd" id="1_27c2k"]
 [ext_resource type="PackedScene" uid="uid://dihcyhsflfr2g" path="res://Objects/Backgrounds/Specific_backgrounds/objBackgroundMenus.tscn" id="2_72266"]
 [ext_resource type="PackedScene" uid="uid://wr3v4lkgftxk" path="res://Objects/Tiles/til16x16.tscn" id="3_lir3v"]
 [ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="4_071b7"]
@@ -238,7 +238,7 @@ _text = "No"
 anchors_preset = 0
 
 [node name="Accept" type="HBoxContainer" parent="BottomText"]
-layout_mode = 2
+layout_mode = 0
 offset_top = 544.0
 offset_right = 800.0
 offset_bottom = 608.0

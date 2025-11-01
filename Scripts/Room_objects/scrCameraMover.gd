@@ -16,6 +16,7 @@ extends Polygon2D
 
 
 func _ready():
+	
 	# Hides the visible polygon2d
 	hide()
 	
