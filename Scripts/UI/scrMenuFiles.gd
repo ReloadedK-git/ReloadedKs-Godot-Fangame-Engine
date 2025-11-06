@@ -66,10 +66,7 @@ func generic_files(file_id):
 			
 			# We have to reset some camera variables before starting a new
 			# savefile, which handle camera limits
-			GLOBAL_GAME.global_limit_top = 0
-			GLOBAL_GAME.global_limit_left = 0
-			GLOBAL_GAME.global_limit_right = 0
-			GLOBAL_GAME.global_limit_bottom = 0
+			GLOBAL_GAME.global_camera_limits = [0, 0, 0, 0]
 			get_tree().change_scene_to_file(starting_room)
 		else:
 			print("You forgot to set your starting room!")
@@ -77,10 +74,7 @@ func generic_files(file_id):
 		
 		# We have to set some camera variables before loading, which handle
 		# camera limits
-		GLOBAL_GAME.global_limit_top = GLOBAL_SAVELOAD.variableGameData.global_limit_top
-		GLOBAL_GAME.global_limit_left = GLOBAL_SAVELOAD.variableGameData.global_limit_left
-		GLOBAL_GAME.global_limit_right = GLOBAL_SAVELOAD.variableGameData.global_limit_right
-		GLOBAL_GAME.global_limit_bottom = GLOBAL_SAVELOAD.variableGameData.global_limit_bottom
+		GLOBAL_GAME.global_camera_limits = GLOBAL_SAVELOAD.variableGameData.global_camera_limits
 		get_tree().change_scene_to_file(GLOBAL_SAVELOAD.variableGameData.room_name)
 
 func _on_file_1_pressed():

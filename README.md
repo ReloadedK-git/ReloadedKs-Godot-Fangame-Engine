@@ -195,4 +195,4 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Minor fixes to ***scrMenuSettings*** and ***scrPauseMenu***.
 * Added camera related changes to ***scrMenuFiles***.
 * Camera border limits are now saved.
-* Added global camera limit variables into ***scrGlobalGame***.
+* Added global camera limit variable into ***scrGlobalGame***.

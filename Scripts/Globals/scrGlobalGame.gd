@@ -31,11 +31,8 @@ var dialog_events: Array = []
 # For moving the player to a specific position after warping to a different room
 var warp_to_point: Vector2 = Vector2.ZERO
 
-# Global camera limits
-var global_limit_top: int = 0
-var global_limit_left: int = 0
-var global_limit_right: int = 0
-var global_limit_bottom: int = 0
+# Global camera limits array
+var global_camera_limits: Array = [0, 0, 0, 0]
 
 
 """
@@ -212,10 +209,7 @@ func reset():
 	
 	# Sets global camera limits from the savefile. Handles an edge case with
 	# camera movers, warping and resetting
-	GLOBAL_GAME.global_limit_top = GLOBAL_SAVELOAD.variableGameData.global_limit_top
-	GLOBAL_GAME.global_limit_left = GLOBAL_SAVELOAD.variableGameData.global_limit_left
-	GLOBAL_GAME.global_limit_right = GLOBAL_SAVELOAD.variableGameData.global_limit_right
-	GLOBAL_GAME.global_limit_bottom = GLOBAL_SAVELOAD.variableGameData.global_limit_bottom
+	GLOBAL_GAME.global_camera_limits = GLOBAL_SAVELOAD.variableGameData.global_camera_limits
 	
 	# A reset is essentially taking the main tree scene and then changing
 	# it to the one that's saved inside of our saveload dictionary (check

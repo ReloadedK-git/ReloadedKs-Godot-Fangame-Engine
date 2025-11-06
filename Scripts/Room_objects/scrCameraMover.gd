@@ -37,8 +37,8 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 			var tween = get_tree().create_tween()
 			tween = tween.set_parallel(true)
 			tween.set_ease(ease_type)
-			tween.tween_property(camera_target, "limit_top", stop_up_at, tween_time).set_trans(Tween.TRANS_QUAD)
 			tween.tween_property(camera_target, "limit_left", stop_left_at, tween_time).set_trans(Tween.TRANS_QUAD)
+			tween.tween_property(camera_target, "limit_top", stop_up_at, tween_time).set_trans(Tween.TRANS_QUAD)
 			tween.tween_property(camera_target, "limit_right", stop_right_at, tween_time).set_trans(Tween.TRANS_QUAD)
 			tween.tween_property(camera_target, "limit_bottom", stop_down_at, tween_time).set_trans(Tween.TRANS_QUAD)
 		
@@ -52,7 +52,4 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 
 # Change global camera limits to this scene's
 func change_global_limits() -> void:
-	GLOBAL_GAME.global_limit_top = stop_up_at
-	GLOBAL_GAME.global_limit_left = stop_left_at
-	GLOBAL_GAME.global_limit_right = stop_right_at
-	GLOBAL_GAME.global_limit_bottom = stop_down_at
+	GLOBAL_GAME.global_camera_limits = [stop_left_at, stop_up_at, stop_right_at, stop_down_at]

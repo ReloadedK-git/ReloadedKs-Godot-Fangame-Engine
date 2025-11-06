@@ -30,6 +30,7 @@ signal player_jumped
 signal player_djumped
 signal player_walljumped
 signal player_shot
+signal player_climbing
 
 # State machine's states
 enum STATE {
@@ -70,19 +71,13 @@ func _ready():
 	# Turns hitbox visible if debug setting is enabled
 	if GLOBAL_GAME.debug_hitbox:
 		$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
-	
-	# If we haven't saved before, it makes a special type of save which sets
-	# things up for the rest of the game. 
-	if (GLOBAL_SAVELOAD.variableGameData.first_time_saving == true):
-		await Engine.get_main_loop().physics_frame
-		set_first_time_saving()
 
 
 
 """
 ---------- INPUT EVENTS ----------
 """
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	
 	# Disables inputs when frozen (for dialogs events/cutscenes)
 	if !frozen:
@@ -187,8 +182,48 @@ func _input(event: InputEvent) -> void:
 """
 ---------- DEBUG KEY INPUTS ----------
 """
+# Handles all debug key toggles. Keys are hardcoded.
 func _unhandled_key_input(event: InputEvent):
-	handle_debug_keys(event)
+	
+	# Debug keys are activated only in debug mode
+	if GLOBAL_GAME.debug_mode:
+		if event is InputEventKey and event.is_pressed() and not event.is_echo():
+			
+			# Toggle godmode
+			if event.keycode == KEY_1:
+				GLOBAL_GAME.debug_godmode = !GLOBAL_GAME.debug_godmode
+				
+				# Sound for godmode
+				if GLOBAL_GAME.debug_godmode:
+					GLOBAL_SOUNDS.play_sound("sndBlockChange")
+			
+			# Toggle infjump
+			if event.keycode == KEY_2:
+				GLOBAL_GAME.debug_inf_jump = !GLOBAL_GAME.debug_inf_jump
+				
+				# Sound for infinite jump
+				if GLOBAL_GAME.debug_inf_jump:
+					GLOBAL_SOUNDS.play_sound("sndBouncyBlock")
+			
+			# Toggle hitbox view
+			if event.keycode == KEY_3:
+				GLOBAL_GAME.debug_hitbox = !GLOBAL_GAME.debug_hitbox
+				$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
+				
+				# Sound for debug hitbox
+				if GLOBAL_GAME.debug_hitbox:
+					GLOBAL_SOUNDS.play_sound("sndFadingBlock")
+			
+			# Debug save
+			if event.keycode == KEY_4:
+				GLOBAL_SAVELOAD.save_game(true)
+				GLOBAL_SOUNDS.play_sound("sndSave")
+			
+			# Add or reduce 1px to the player's horizontal position
+			if event.keycode == KEY_5:
+				position.x -= 1
+			if event.keycode == KEY_6:
+				position.x += 1
 
 
 
@@ -328,6 +363,9 @@ func _physics_process(delta):
 		if current_state != STATE.CLIMBING:
 			velocity.y = 0
 			current_state = STATE.CLIMBING
+			
+			# Emit the "player_jumped" signal
+			player_climbing.emit()
 	
 	# Teleports the player to the mouse position when "button_debug_teleport"
 	# is pressed (only on debug mode)
@@ -356,7 +394,7 @@ func handle_horizontal_movement():
 		orient_player()
 
 
-# Orients masks and bullets
+# Orient masks and bullets
 func orient_player() -> void:
 	var orient_masks = func(orientation: int):
 		$playerMask.position.x = orientation
@@ -462,50 +500,6 @@ func debug_mouse_teleport() -> void:
 			velocity.y = 0
 
 
-# Handles all debug key toggles. Keys are hardcoded.
-func handle_debug_keys(event: InputEvent) -> void:
-	
-	# Debug keys are activated only in debug mode
-	if GLOBAL_GAME.debug_mode:
-		if event is InputEventKey and event.is_pressed() and not event.is_echo():
-			
-			# Toggle godmode
-			if event.keycode == KEY_1:
-				GLOBAL_GAME.debug_godmode = !GLOBAL_GAME.debug_godmode
-				
-				# Sound for godmode
-				if GLOBAL_GAME.debug_godmode:
-					GLOBAL_SOUNDS.play_sound("sndBlockChange")
-			
-			# Toggle infjump
-			if event.keycode == KEY_2:
-				GLOBAL_GAME.debug_inf_jump = !GLOBAL_GAME.debug_inf_jump
-				
-				# Sound for infinite jump
-				if GLOBAL_GAME.debug_inf_jump:
-					GLOBAL_SOUNDS.play_sound("sndBouncyBlock")
-			
-			# Toggle hitbox view
-			if event.keycode == KEY_3:
-				GLOBAL_GAME.debug_hitbox = !GLOBAL_GAME.debug_hitbox
-				$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
-				
-				# Sound for debug hitbox
-				if GLOBAL_GAME.debug_hitbox:
-					GLOBAL_SOUNDS.play_sound("sndFadingBlock")
-			
-			# Debug save
-			if event.keycode == KEY_4:
-				GLOBAL_SAVELOAD.save_game(true)
-				GLOBAL_SOUNDS.play_sound("sndSave")
-			
-			# Add or reduce 1px to the player's horizontal position
-			if event.keycode == KEY_5:
-				position.x -= 1
-			if event.keycode == KEY_6:
-				position.x += 1
-
-
 # Everything that should happen when the player dies
 func on_death():
 	
@@ -569,6 +563,7 @@ func set_first_time_saving():
 	GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped = looking_at
 	GLOBAL_SAVELOAD.variableGameData.room_name = get_tree().get_current_scene().get_scene_file_path()
 	GLOBAL_SAVELOAD.variableGameData.first_time_saving = false
+	GLOBAL_SAVELOAD.take_screenshot()
 	
 	# After changing the variable game data to the proper values, we save them.
 	GLOBAL_SAVELOAD.save_data()
@@ -669,7 +664,7 @@ func _on_platform_snap_body_exited(body: Node2D) -> void:
 
 
 # ClimbSurface
-# Detects a climbable surface, allowing climbing when "button_up" is pressed
+# Detects a climbable surface, allowing climbing when "button_up" / "button_down" is pressed
 func _on_climb_surface_body_entered(_body: Node2D) -> void:
 	can_climb = true
 func _on_climb_surface_body_exited(_body: Node2D) -> void:

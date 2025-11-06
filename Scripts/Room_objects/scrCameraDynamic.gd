@@ -58,10 +58,7 @@ func _ready():
 	# limits from the camera object are used. If they're not 0, it means
 	# they were changed and saved, so we read and use those values to set
 	# the limits instantly
-	if ((GLOBAL_GAME.global_limit_top == 0) and
-	(GLOBAL_GAME.global_limit_left == 0) and
-	(GLOBAL_GAME.global_limit_right == 0) and
-	(GLOBAL_GAME.global_limit_bottom == 0)):
+	if GLOBAL_GAME.global_camera_limits == [0, 0, 0, 0]:
 	
 		# Sets the camera's limits
 		for limit_array_1 in 4:
@@ -71,10 +68,7 @@ func _ready():
 		
 		# Sets updated limits from the current savefile
 		for limit_array_1 in 4:
-			var limit_array_2 = [GLOBAL_GAME.global_limit_left,
-			GLOBAL_GAME.global_limit_top,
-			GLOBAL_GAME.global_limit_right,
-			GLOBAL_GAME.global_limit_bottom]
+			var limit_array_2 = GLOBAL_GAME.global_camera_limits
 			set_limit(limit_array_1, limit_array_2[limit_array_1])
 
 
@@ -93,4 +87,3 @@ func _physics_process(_delta):
 		# get_xy, which no longer updates, but it still stored the player's
 		# last global_position, so we continue lerping to it
 		global_position = lerp(global_position, get_xy, focus_speed)
-	
