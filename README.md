@@ -196,7 +196,7 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Camera border limits are now saved.
 * Added global camera limit variable into ***scrGlobalGame***.
 
-### v1.12 (01-01-2026)
+### v1.13 (01-01-2026)
 
 * Several changes and fixes to ***objPlayer***.
 * ***objPlayer***'s sprite and mask rotation is now handled independently of its velocity values.
