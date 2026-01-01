@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://bo0xmwa0251wv"]
 
-[ext_resource type="Script" path="res://Scripts/Hazards/scrDummyEnemy.gd" id="1_m3cl5"]
-[ext_resource type="Shader" path="res://Scripts/Shaders/shHitBlink.gdshader" id="2_33tsx"]
+[ext_resource type="Script" uid="uid://dl2ee3sa7ut50" path="res://Scripts/Hazards/scrDummyEnemy.gd" id="1_m3cl5"]
+[ext_resource type="Shader" uid="uid://lk78dobym6s7" path="res://Scripts/Shaders/shHitBlink.gdshader" id="2_33tsx"]
 [ext_resource type="Texture2D" uid="uid://duaprtq8m8lgj" path="res://Graphics/Sprites/Enemies/sprDummyEnemy.png" id="3_cxvf5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sywoh"]
@@ -81,8 +81,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0jwpp"]
 _data = {
-"RESET": SubResource("Animation_piwi7"),
-"hitBlink": SubResource("Animation_881sp")
+&"RESET": SubResource("Animation_piwi7"),
+&"hitBlink": SubResource("Animation_881sp")
 }
 
 [node name="objEnemyDummy" type="AnimatableBody2D" groups=["Killers"]]
@@ -105,5 +105,5 @@ shape = SubResource("RectangleShape2D_gwk32")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
 libraries = {
-"": SubResource("AnimationLibrary_0jwpp")
+&"": SubResource("AnimationLibrary_0jwpp")
 }

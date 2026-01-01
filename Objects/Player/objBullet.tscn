@@ -45,12 +45,8 @@ speed_scale = 2.0
 shape = SubResource("RectangleShape2D_dk02j")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.4
+wait_time = 0.9
 one_shot = true
 autostart = true
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-scale = Vector2(0.2, 0.2)
-
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

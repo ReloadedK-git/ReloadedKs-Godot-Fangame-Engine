@@ -6,10 +6,12 @@ extends CharacterBody2D
 var gravity: int = 1000
 var v_speed: int = 470
 var h_speed: int = 150
+var main_velocity: Vector2 = Vector2.ZERO
 var max_fall_speed: int = 470
 var s_jump_speed: int = 405
 var d_jump_speed: int = 350
 var jump_release_falloff: float = 0.45
+var is_player_alive: bool = true
 var looking_at: int = 1
 var frozen: bool = false
 var d_jump: bool = true
@@ -18,22 +20,21 @@ var in_water: bool = false
 var is_catharsis_water: bool = false
 var v_speed_modifier: float = 1.0
 var can_climb: bool = false
+var is_ice_physics: bool = false
+var on_ice_velocity: float = 0.0
+var is_pushing_physics_object: bool = false
+var is_on_wind: bool = false
+var wind_velocity: Vector2 = Vector2.ZERO
+var stored_wind_velocity: Vector2 = Vector2.ZERO
 var create_bullet := preload("res://Objects/Player/objBullet.tscn")
 var jump_particle := preload("res://Objects/Player/objJumpParticle.tscn")
 @onready var animated_sprite = $playerSprites
 @onready var player_mask: CollisionShape2D = $playerMask
 @onready var water_collider: Area2D = $extraCollisions/Water
 
-# Signals emitted by the player's actions
-signal player_died
-signal player_jumped
-signal player_djumped
-signal player_walljumped
-signal player_shot
-signal player_climbing
-
 # State machine's states
 enum STATE {
+	ON_CREATION,
 	IDLE,
 	RUNNING,
 	JUMPING,
@@ -43,7 +44,8 @@ enum STATE {
 }
 
 # Initial state
-var current_state: STATE = STATE.IDLE
+#var current_state: STATE = STATE.IDLE
+var current_state: STATE = STATE.ON_CREATION
 
 
 
@@ -68,9 +70,38 @@ func _ready():
 	# player does in fact exist and assigns it with its "id"
 	GLOBAL_INSTANCES.objPlayerID = self
 	
+	# Set sprite on the first frame by reading the savefile.
+	# If jumping or climbing, we set the sprite to "fall" since we'll be 
+	# instantly falling on reset.
+	# If running or idle, check if there's directional input to set the proper
+	# sprite
+	# For any other case, read the savefile and set the sprite directly
+	var set_sprite_on_horizotal_input = func():
+		if Input.get_axis("button_left", "button_right"):
+			animated_sprite.animation = "running"
+		else:
+			animated_sprite.animation = "idle"
+	
+	# Match the sprite by name
+	match GLOBAL_SAVELOAD.variableGameData.player_initial_sprite:
+		"jump":
+			animated_sprite.animation = "fall"
+		"climbing":
+			animated_sprite.animation = "fall"
+		"running":
+			set_sprite_on_horizotal_input.call()
+		"idle":
+			set_sprite_on_horizotal_input.call()
+		_:
+			animated_sprite.animation = GLOBAL_SAVELOAD.variableGameData.player_initial_sprite
+	
 	# Turns hitbox visible if debug setting is enabled
 	if GLOBAL_GAME.debug_hitbox:
 		$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
+	
+	# Signal connections
+	GLOBAL_SIGNALS.player_jumped.connect(wind_reset.bind())
+	GLOBAL_SIGNALS.player_djumped.connect(wind_reset.bind())
 
 
 
@@ -108,9 +139,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			# Adds downwards velocity if jumping input is released
 			# Can jump again mid-air
 			STATE.JUMPING:
-				if event.is_action_released("button_jump") and (velocity.y < 0):
-					if velocity.y < 0:
-						velocity.y *= jump_release_falloff
+				if event.is_action_released("button_jump") and (main_velocity.y < 0):
+					if main_velocity.y < 0:
+						main_velocity.y *= jump_release_falloff
 				if event.is_action_pressed("button_jump"):
 					handle_jumping()
 			
@@ -132,12 +163,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			STATE.WALLJUMPING:
 				var jump_direction = get_wall_normal()
 				var walljumping_action = func():
-					velocity.x = jump_direction.x * h_speed
-					velocity.y = -s_jump_speed
+					main_velocity.x = jump_direction.x * h_speed
+					main_velocity.y = -s_jump_speed
 					GLOBAL_SOUNDS.play_sound("sndJump")
 					
 					# Emit the "player_walljumped" signal
-					player_walljumped.emit()
+					GLOBAL_SIGNALS.player_walljumped.emit()
 				
 				# Walljumping should only happen if we hold the jump button first
 				if Input.is_action_pressed("button_jump"):
@@ -157,12 +188,12 @@ func _unhandled_input(event: InputEvent) -> void:
 					# walljumping state.
 					# Drop right walljump
 					if (Input.get_axis("button_left", "button_right") < 0) and (jump_direction == Vector2.LEFT):
-						velocity.y = 0
+						main_velocity.y = 0
 						current_state = STATE.FALLING
 						
 					# Drop left walljump
 					if (Input.get_axis("button_left", "button_right") > 0) and (jump_direction == Vector2.RIGHT):
-						velocity.y = 0
+						main_velocity.y = 0
 						current_state = STATE.FALLING
 			
 			
@@ -175,7 +206,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		# Extra input actions
 		# Shooting
 		if event.is_action_pressed("button_shoot"):
-			handle_shooting()
+			if current_state != STATE.WALLJUMPING:
+				handle_shooting()
 
 
 
@@ -232,22 +264,50 @@ func _unhandled_key_input(event: InputEvent):
 """
 func _physics_process(delta):
 	
+	# Method for handling velocity calculations. Should be called before
+	# move_and_slide()
+	set_velocities()
+	
 	# Method for handling all movement and collisions. Should be called before
 	# any kind of collision check
 	move_and_slide()
 	
+	# Resets vertical speed from main_velocity manually, by checking if the
+	# player is on the ground or touching the ceiling.
+	# Should be called AFTER move_and_slide()
+	reset_velocities()
+	
+	# Handles sprite, bullet and mask directions via input
+	orient_player()
+	
 	# State machine
 	match current_state:
+		
+		# Fixes on creation sprite visuals by having a transitional state
+		# Only active for a single physics frame
+		# If grounded, checks horizontal velocity to set the proper state
+		# If on air, changes to "falling"
+		STATE.ON_CREATION:
+			if is_on_floor():
+				if Input.get_axis("button_left", "button_right"):
+					current_state = STATE.RUNNING
+				else:
+					current_state = STATE.IDLE
+			else:
+				current_state = STATE.FALLING
+		
 		
 		# Grounded
 		# Gives d_jump
 		# No horizontal velocity
+		# Checks for 0 horizontal velocity (for ice physics)
 		# Can fall
 		# Affected by gravity
 		STATE.IDLE:
 			animated_sprite.play("idle")
-			velocity.x = 0
 			d_jump = true
+			if !frozen:
+				handle_horizontal_movement()
 			if !is_on_floor():
 				current_state = STATE.FALLING
 			add_gravity(delta)
@@ -261,7 +321,8 @@ func _physics_process(delta):
 		STATE.RUNNING:
 			animated_sprite.play("running")
 			d_jump = true
-			handle_horizontal_movement()
+			if !frozen:
+				handle_horizontal_movement()
 			if !is_on_floor():
 				current_state = STATE.FALLING
 			add_gravity(delta)
@@ -277,11 +338,11 @@ func _physics_process(delta):
 			if !frozen:
 				handle_horizontal_movement()
 			else:
-				velocity.y = 0
-			if velocity.y > 0:
+				main_velocity.y = 0
+			if main_velocity.y > 0:
 				current_state = STATE.FALLING
 			if is_on_floor():
-				if velocity.x == 0:
+				if main_velocity.x == 0:
 					current_state = STATE.IDLE
 				else:
 					current_state = STATE.RUNNING
@@ -291,16 +352,20 @@ func _physics_process(delta):
 		# On air only
 		# Can have horizontal velocity (when not frozen)
 		# Changes to "idle" or "running" state when on floor
+		# If there is horizontal velocity, accounts for ice physics for state transitions
 		# Affected by gravity
 		STATE.FALLING:
 			animated_sprite.play("fall")
 			if !frozen:
 				handle_horizontal_movement()
 			if is_on_floor():
-				if velocity.x == 0:
+				if main_velocity.x == 0:
 					current_state = STATE.IDLE
 				else:
-					current_state = STATE.RUNNING
+					if !is_ice_physics:
+						current_state = STATE.RUNNING
+					else:
+						current_state = STATE.IDLE
 			add_gravity(delta)
 	
 	
@@ -310,7 +375,7 @@ func _physics_process(delta):
 		# Not affected by gravity
 		STATE.WALLJUMPING:
 			animated_sprite.play("slidding")
-			velocity.y = 90
+			main_velocity.y = 90
 			if is_on_floor():
 				current_state = STATE.IDLE
 		
@@ -327,18 +392,27 @@ func _physics_process(delta):
 			
 			var direction_x = Input.get_axis("button_left", "button_right")
 			var direction_y = Input.get_axis("button_up", "button_down")
-			velocity.x = sign(direction_x) * h_speed
-			velocity.y = sign(direction_y) * h_speed
+			main_velocity.x = sign(direction_x) * h_speed
+			main_velocity.y = sign(direction_y) * h_speed
 			
-			if velocity.x != 0:
-				animated_sprite.set_flip_h(velocity.x < 0)
-				orient_player()
-				
-			if velocity == Vector2.ZERO:
+			if main_velocity == Vector2.ZERO:
 				animated_sprite.pause()
-				
+			
 			if !can_climb:
 				current_state = STATE.FALLING
+	
+	
+	
+	# If we are colliding with a climbable surface and we press "button_up" or
+	# "button_down", we stop our vertical velocity and enter the climbing state
+	# if we weren't there before
+	if (Input.is_action_pressed("button_up") or Input.is_action_pressed("button_down")) and can_climb:
+		if current_state != STATE.CLIMBING:
+			main_velocity.y = 0
+			current_state = STATE.CLIMBING
+			
+			# Emit the "player_climbed" signal
+			GLOBAL_SIGNALS.player_climbed.emit()
 	
 	
 	# If frozen and on air, sets state to "falling". If grounded, sets it to "idle"
@@ -348,24 +422,61 @@ func _physics_process(delta):
 		else:
 			current_state = STATE.IDLE
 	
+	
 	# Water checks for constant collisions. We only do when we're actually
 	# inside of water. We also change the falling speed
 	if in_water:
-		v_speed_modifier = 0.32
+		v_speed_modifier = 0.22
 		handle_water()
 	else:
 		v_speed_modifier = 1
 	
-	# If we are colliding with a climbable surface and we press "button_up" or
-	# "button_down", we stop our vertical velocity and enter the climbing state
-	# if we weren't there before
-	if (Input.is_action_pressed("button_up") or Input.is_action_pressed("button_down")) and can_climb:
-		if current_state != STATE.CLIMBING:
-			velocity.y = 0
-			current_state = STATE.CLIMBING
-			
-			# Emit the "player_jumped" signal
-			player_climbing.emit()
+	
+	# If ice physics are enabled, we get constant collisions from the IceBlocks
+	# node. If it returns an empty array while the player is floored, disables
+	# them. When disabled, on_ice_velocity is reset
+	if is_ice_physics:
+		var overlapping_bodies = $extraCollisions/IceBlocks.get_overlapping_bodies()
+		if overlapping_bodies == [] and is_on_floor():
+			is_ice_physics = false
+	else:
+		on_ice_velocity = 0.0
+	
+	
+	# If we're close to a physics block, enables constant collisions and
+	# applies central impulse 
+	if is_pushing_physics_object:
+		var PUSH_FORCE = 15.0
+		var MIN_PUSH_FORCE = 10.0
+		
+		for i in get_slide_collision_count():
+			var collision = get_slide_collision(i)
+			if collision.get_collider() is RigidBody2D:
+				var physics_block = collision.get_collider() as RigidBody2D
+				var push_force = (PUSH_FORCE * velocity.length() / h_speed) + MIN_PUSH_FORCE
+				physics_block.apply_central_impulse(-collision.get_normal() * push_force)
+	
+	
+	# Wind physics. When on a wind field, checks if there's stored wind
+	# velocity. If so, accelerates towards it.
+	# While climbing, wind speed is applied directly without acceleration.
+	# If wind physics are no longer active, sets stored wind velocity to 0 and
+	# decelerates towards it, but only while on air. When grounded, sets wind
+	# velocity to 0
+	var wind_easing = 0.05
+	if is_on_wind:
+		if stored_wind_velocity != Vector2.ZERO:
+			if current_state != STATE.CLIMBING:
+				wind_velocity = wind_velocity.lerp(stored_wind_velocity, wind_easing)
+			else:
+				wind_velocity = stored_wind_velocity
+	else:
+		stored_wind_velocity = Vector2.ZERO
+		if !is_on_floor() and current_state != STATE.CLIMBING:
+			wind_velocity = wind_velocity.lerp(Vector2.ZERO, wind_easing)
+		else:
+			wind_velocity = Vector2.ZERO
+	
 	
 	# Teleports the player to the mouse position when "button_debug_teleport"
 	# is pressed (only on debug mode)
@@ -376,35 +487,54 @@ func _physics_process(delta):
 """
 ---------- CUSTOM METHODS ----------
 """
-# Handles horizontal movement, also orienting and flipping the player sprite
+# Sets velocity by adding every velocity vector variable
+func set_velocities() -> void:
+	velocity = main_velocity + wind_velocity
+
+
+# Resets vertical main_velocity manually when touching the floor or ceiling, 
+# since we don't use velocity directly
+func reset_velocities() -> void:
+	if is_on_floor() or is_on_ceiling():
+		main_velocity.y = 0
+
+
+# Handles horizontal movement
 func handle_horizontal_movement():
+	
+	# The amount of "floor friction" for ice physics
+	var ice_speed: float = 10
 	
 	# Get the input direction and handle the movement
 	var main_direction: float = Input.get_axis("button_left", "button_right")
 	
-	# Adds horizontal velocity. Also handles controller stick deadzone (values
-	# go from -1.0 to 1.0)
-	velocity.x = sign(main_direction) * h_speed
-	
-	# Player needs to be moving in order to flip things around
-	if velocity.x != 0:
-		animated_sprite.set_flip_h(velocity.x < 0)
+	# Regular and ice physics horizontal velocity
+	if !is_ice_physics:
 		
-		# Orients masks and bullets
-		orient_player()
-
-
-# Orient masks and bullets
-func orient_player() -> void:
-	var orient_masks = func(orientation: int):
-		$playerMask.position.x = orientation
-		$extraCollisions.scale.x = orientation
-		looking_at = orientation
-	
-	if velocity.x > 0:
-		orient_masks.call(1)
+		# Adds horizontal velocity. Also handles controller stick deadzone (values
+		# go from -1.0 to 1.0)
+		main_velocity.x = sign(main_direction) * h_speed
 	else:
-		orient_masks.call(-1)
+		
+		# Adds horizontal velocity with acceleration/deceleration
+		if main_direction != 0:
+			main_velocity.x = move_toward(main_velocity.x, sign(main_direction) * h_speed, ice_speed)
+			on_ice_velocity = main_velocity.x
+		else:
+			main_velocity.x = move_toward(on_ice_velocity, 0, ice_speed / 3)
+			on_ice_velocity = main_velocity.x
+
+
+# Orient sprite direction, masks and bullets
+func orient_player() -> void:
+	
+	var direction_input: float = Input.get_axis("button_left", "button_right")
+	
+	if direction_input != 0:
+		animated_sprite.set_flip_h(direction_input < 0)
+		looking_at = roundi(direction_input)
+		$playerMask.position.x = roundi(direction_input)
+		$extraCollisions.scale.x = roundi(direction_input)
 
 
 # Handles gravity / falling
@@ -412,11 +542,11 @@ func add_gravity(delta) -> void:
 	
 	# Adds the gravity when you're grounded or not on a platform
 	if (is_on_floor() == false):
-		velocity.y += gravity * delta
+		main_velocity.y += gravity * delta
 		
 		# Clamps the falling value to max_fall_speed, which is also modified by 
 		# water physics. Check _handle_water().
-		velocity.y = min(v_speed * v_speed_modifier, velocity.y)
+		main_velocity.y = min(v_speed * v_speed_modifier, main_velocity.y)
 
 
 # Jumping logic
@@ -424,22 +554,26 @@ func handle_jumping() -> void:
 	
 	# Check if player is on floor (or inside a platform) to single jump
 	if is_on_floor() or inside_platform_jump:
-		velocity.y = -s_jump_speed
+		main_velocity.y = -s_jump_speed
 		GLOBAL_SOUNDS.play_sound("sndJump")
 		
+		# Sets d_jump when jumping while inside of a platform
+		if inside_platform_jump:
+			d_jump = true
+		
 		# Emit the "player_jumped" signal
-		player_jumped.emit()
+		GLOBAL_SIGNALS.player_jumped.emit()
 	else:
 		
 		# If not grounded and either d_jump, non-catharsis water or infinite
 		# jumping is enabled, we make a double jump
 		if (d_jump) or (in_water and !is_catharsis_water) or (GLOBAL_GAME.debug_inf_jump):
-			velocity.y = -d_jump_speed
+			main_velocity.y = -d_jump_speed
 			d_jump = false
 			GLOBAL_SOUNDS.play_sound("sndDJump")
 			
 			# Emit the "player_djumped" signal
-			player_djumped.emit()
+			GLOBAL_SIGNALS.player_djumped.emit()
 			
 			# Jump particles on djump, as long as the player is not in water
 			if (in_water == false):
@@ -472,7 +606,7 @@ func handle_shooting() -> void:
 		get_parent().add_child(create_bullet_id)
 		
 		# Emit the "player_shot" signal
-		player_shot.emit()
+		GLOBAL_SIGNALS.player_shot.emit()
 
 
 # Interaction with water
@@ -491,20 +625,27 @@ func handle_water() -> void:
 				is_catharsis_water = true
 
 
+# Resets wind physics values on jump/djump
+# Called from signals, keeping logic outside of the jump method
+func wind_reset() -> void:
+	wind_velocity = Vector2.ZERO
+	stored_wind_velocity = Vector2.ZERO
+
+
 # Teleports the player to the mouse position when "button_debug_teleport"
 # is pressed (only on debug mode)
 func debug_mouse_teleport() -> void:
 	if GLOBAL_GAME.debug_mode:
 		if Input.is_action_pressed("button_debug_teleport"):
 			position = get_global_mouse_position()
-			velocity.y = 0
+			main_velocity.y = 0
 
 
 # Everything that should happen when the player dies
 func on_death():
 	
-	# Death should only happen if we're out of godmode
-	if !GLOBAL_GAME.debug_godmode:
+	# Death should only happen if we're out of godmode and the player is alive
+	if !GLOBAL_GAME.debug_godmode and is_player_alive:
 		
 		# We load a particle emitter, which does the visual stuff we want
 		var blood_emitter = load("res://Objects/Player/objBloodEmitter.tscn")
@@ -521,7 +662,11 @@ func on_death():
 		GLOBAL_GAME.deaths += 1
 		
 		# Emit "player_died"
-		player_died.emit()
+		GLOBAL_SIGNALS.player_died.emit()
+		
+		# Sets is_player_alive to false, preventing multiple deaths when
+		# colliding with several Killer objects on the same frame
+		is_player_alive = false
 		
 		# Destroys the player
 		queue_free()
@@ -560,6 +705,7 @@ func set_first_time_saving():
 	
 	GLOBAL_SAVELOAD.variableGameData.player_x = position.x
 	GLOBAL_SAVELOAD.variableGameData.player_y = position.y
+	GLOBAL_SAVELOAD.variableGameData.player_initial_sprite = animated_sprite.get_animation()
 	GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped = looking_at
 	GLOBAL_SAVELOAD.variableGameData.room_name = get_tree().get_current_scene().get_scene_file_path()
 	GLOBAL_SAVELOAD.variableGameData.first_time_saving = false
@@ -646,7 +792,7 @@ func _on_platform_snap_body_exited(body: Node2D) -> void:
 			# Will only snap while jumping. Stops velocity, sets position and
 			# snaps to the colliding platform
 			if current_state == STATE.JUMPING:
-				velocity.y = 0
+				main_velocity.y = 0
 				
 				# Regular moving platforms will use move_speed, so we have a
 				# special case for them. Other types of platforms won't use
@@ -669,3 +815,27 @@ func _on_climb_surface_body_entered(_body: Node2D) -> void:
 	can_climb = true
 func _on_climb_surface_body_exited(_body: Node2D) -> void:
 	can_climb = false
+
+
+# IceBlocks
+# Detects ice/slippery floors
+func _on_ice_blocks_body_entered(_body: Node2D) -> void:
+	is_ice_physics = true
+
+
+# PhysicsObject
+# Detects objects affected by the physics engine and its properties
+func _on_physics_object_body_entered(_body: Node2D) -> void:
+	is_pushing_physics_object = true
+func _on_physics_object_body_exited(_body: Node2D) -> void:
+	is_pushing_physics_object = false
+
+
+# Wind
+# Detects wind fields
+func _on_wind_area_entered(_area: Area2D) -> void:
+	is_on_wind = true
+func _on_wind_area_exited(_area: Area2D) -> void:
+	var get_areas = $extraCollisions/Wind.get_overlapping_areas()
+	if get_areas == []:
+		is_on_wind = false

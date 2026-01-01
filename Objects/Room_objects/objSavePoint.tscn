@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b31w5fm4w5857"]
 
-[ext_resource type="Script" path="res://Scripts/Room_objects/scrSavePoint.gd" id="1_ldsdy"]
+[ext_resource type="Script" uid="uid://bd7rey02fkcfl" path="res://Scripts/Room_objects/scrSavePoint.gd" id="1_ldsdy"]
 [ext_resource type="Texture2D" uid="uid://d1jo7vo305wif" path="res://Graphics/Sprites/Room_objects/sprSave.png" id="1_tdmdo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_50khl"]

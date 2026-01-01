@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dvh5p5m0s4ju3"]
 
-[ext_resource type="Script" path="res://Scripts/Collectables/scrCollectableItem.gd" id="1_aey7k"]
+[ext_resource type="Script" uid="uid://dy4lu3cghd7ot" path="res://Scripts/Collectables/scrCollectableItem.gd" id="1_aey7k"]
 [ext_resource type="Texture2D" uid="uid://cs7d7k2kmj13y" path="res://Graphics/Sprites/Collectables/sprSecretItem.png" id="2_q8h6d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_51hid"]

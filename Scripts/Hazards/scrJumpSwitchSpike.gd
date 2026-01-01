@@ -21,7 +21,6 @@ var snap_range = Vector2(2, 2)
 var spike_speed: int = 16
 var distance_for_snapping: int = 1
 var changing_positions: bool = false
-var is_on_screen: bool = false
 
 # Direction enum
 enum Dir {
@@ -60,8 +59,9 @@ func _ready():
 		$CollisionPolygon2D.disabled = false
 
 		# Set a listener to the player's jump signals
-		GLOBAL_INSTANCES.objPlayerID.connect("player_jumped", begin_switch)
-		GLOBAL_INSTANCES.objPlayerID.connect("player_djumped", begin_switch)
+		GLOBAL_SIGNALS.connect("player_jumped", begin_switch)
+		GLOBAL_SIGNALS.connect("player_djumped", begin_switch)
+
 
 
 func _physics_process(delta):
@@ -70,8 +70,6 @@ func _physics_process(delta):
 		# Position switching
 		switch_positions(delta)
 		
-		# On screen/off screen functionality
-		enable_on_screen()
 	else:
 		if spike_hidden:
 			modulate = 'ffffff50'
@@ -131,20 +129,3 @@ func switch_positions(delta):
 				position = position.lerp(position_shown, delta * spike_speed)
 			else:
 				snap_to_grid.call()
-
-
-# Disables visibility and collisions if offscreen, for optimization purposes
-func enable_on_screen():
-	if is_on_screen:
-		$Sprite2D.visible = true
-		$CollisionPolygon2D.disabled = false
-	else:
-		$Sprite2D.visible = false
-		$CollisionPolygon2D.disabled = true
-
-
-# Signals to enable or disable collisions and visibility
-func _on_visible_on_screen_notifier_2d_screen_entered():
-	is_on_screen = true
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	is_on_screen = false

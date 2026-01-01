@@ -53,8 +53,3 @@ func _bullet_destroy() -> void:
 # Timer signal. Destroys the bullet after some wait time (0.4s)
 func _on_timer_timeout():
 	_bullet_destroy()
-
-
-# Destroys itself when outside of the view
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	queue_free()

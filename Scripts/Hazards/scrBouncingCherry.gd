@@ -19,4 +19,3 @@ func _physics_process(_delta):
 		if (object_collision):
 			move_speed = move_speed.bounce(object_collision.get_normal()) 
 	
-

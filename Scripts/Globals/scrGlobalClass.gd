@@ -17,4 +17,3 @@ enum weapon_type {
 	# can do with it. Custom classes are powerful!
 	SWORD
 }
-

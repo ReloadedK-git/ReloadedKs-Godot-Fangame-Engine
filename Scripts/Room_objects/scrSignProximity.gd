@@ -6,7 +6,6 @@ extends Area2D
 var player_is_colliding: bool = false
 var text_alpha: float = 0.0
 var alpha_amount: float = 0.1
-var on_screen: bool = true
 
 
 
@@ -23,21 +22,16 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	if not Engine.is_editor_hint():
+		text_label.set_visible(true)
 		
-		# Enables and disables visuals and functions if outside of view
-		text_label.set_visible(on_screen)
+		if player_is_colliding == true:
+			if text_alpha < 1:
+				text_alpha += alpha_amount
+		else:
+			if text_alpha > 0:
+				text_alpha -= alpha_amount * 2
 		
-		if on_screen == true:
-			text_label.set_visible(true)
-			
-			if player_is_colliding == true:
-				if text_alpha < 1:
-					text_alpha += alpha_amount
-			else:
-				if text_alpha > 0:
-					text_alpha -= alpha_amount * 2
-			
-			text_label.self_modulate = Color(1.0, 1.0, 1.0, text_alpha)
+		text_label.self_modulate = Color(1.0, 1.0, 1.0, text_alpha)
 	else:
 		text_label.text = sign_text
 
@@ -48,9 +42,3 @@ func _on_body_entered(_body):
 
 func _on_body_exited(_body):
 	player_is_colliding = false
-
-func _on_visible_on_screen_notifier_2d_screen_entered():
-	on_screen = true
-
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	on_screen = false

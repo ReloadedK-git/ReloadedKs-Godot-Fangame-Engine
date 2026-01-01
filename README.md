@@ -156,7 +156,6 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 
 ### v1.12 (01-11-2025)
 
-
 * Reworked ***objPlayer*** from scratch. It makes use of a limited state machine, which makes it more flexible and easier to work with.
 * Added "climbing" gimmick to ***objPlayer***.
 * Reworked platform snapping.
@@ -196,3 +195,34 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Added camera related changes to ***scrMenuFiles***.
 * Camera border limits are now saved.
 * Added global camera limit variable into ***scrGlobalGame***.
+
+### v1.12 (01-01-2026)
+
+* Several changes and fixes to ***objPlayer***.
+* ***objPlayer***'s sprite and mask rotation is now handled independently of its velocity values.
+* ***objPlayer***'s velocity is now handled by a method which uses separate velocity vectors.
+* Added ***tilIce*** and ice physics for ***objPlayer***.
+* Reworked wind physics for ***objPlayer***.
+* Jumping inside a platform now gives back d_jump to ***objPlayer***.
+* Fixed ***objPlayer***'s "on_death" method counting many deaths when dying multiple times on a single frame.
+* Fixed bug with ***objPlayer*** in which resetting would always start its sprite as idle.
+* Added extra "ON_CREATION" state to ***objPlayer***.
+* Changed water falling speed values for ***objPlayer***.
+* Changes in ***objPauseMenuMain***.
+* Minor changes to ***objInvisibleBlock***.
+* Minor changes to ***objBullet***.
+* Minor changes to ***objBouncyBlock***.
+* Minor changes to ***objJumpSwitchSpike***.
+* Minor changes to ***objJumpBlock***.
+* Changed ***objFan*** so it works with the new wind physics.
+* Changed ***objFan***'s sprite.
+* Changes process priority for ***objCameraDynamic*** and ***objCameraFixed***.
+* Changes to ***objSignProximity***.
+* Small fix to ***objCollisionDialogSpawner***.
+* Changed collision shape ordering for some objects.
+* Deleted "onScreenNotifier" node from several objects, as it wasn't as necessary for most use cases.
+* Deleted ***objPlayerOld*** (no longer supported, but you can still add it back copying it from the previous version).
+* Limited "max_fps" to 60 from project settings.
+* Disabled vsync by default.
+* Added "player_initial_sprite" to ***scrGlobalSaveload***.
+* Added ***scrGlobalSignals*** (GLOBAL_SIGNALS autoload).

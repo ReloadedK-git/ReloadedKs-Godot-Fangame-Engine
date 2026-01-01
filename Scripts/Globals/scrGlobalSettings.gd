@@ -9,7 +9,7 @@ var FULLSCREEN: bool = false
 var ZOOM_SCALING: float = 1.0
 var HUD_SCALING: float = 1.0
 var WINDOW_SCALING: float = 1.0
-var VSYNC: bool = true
+var VSYNC: bool = false
 var AUTORESET: bool = false
 
 # Default values, for when you need to reset them from the settings menu
@@ -19,7 +19,7 @@ const DEFAULT_FULLSCREEN: bool = false
 const DEFAULT_ZOOM_SCALING: float = 1.0
 const DEFAULT_HUD_SCALING: float = 1.0
 const DEFAULT_WINDOW_SCALING: float = 1.0
-const DEFAULT_VSYNC: bool = true
+const DEFAULT_VSYNC: bool = false
 const DEFAULT_AUTORESET: bool = false
 
 # Window related variables, for handling window modes

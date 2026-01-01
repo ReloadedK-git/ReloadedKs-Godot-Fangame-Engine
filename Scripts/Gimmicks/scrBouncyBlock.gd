@@ -19,7 +19,7 @@ func _physics_process(_delta):
 		
 		# Adds vertical velocity and gives back djump to the player
 		var player_collision = collision.get_collider()
-		player_collision.velocity.y = -bounce_amount
+		player_collision.main_velocity.y = -bounce_amount
 		player_collision.d_jump = true
 
 

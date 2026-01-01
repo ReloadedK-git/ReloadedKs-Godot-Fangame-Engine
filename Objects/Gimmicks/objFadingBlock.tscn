@@ -18,6 +18,7 @@ script = ExtResource("1_0ydmg")
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+z_index = -1
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_ylcf1")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)

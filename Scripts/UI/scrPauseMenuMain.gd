@@ -1,6 +1,7 @@
 extends Control
 
 @export_file("*.tscn") var main_menu: String
+@export var items_menu_enabled: bool = false
 @onready var music_bus: int = AudioServer.get_bus_index("Music")
 @onready var sounds_bus: int = AudioServer.get_bus_index("Sounds")
 
@@ -14,6 +15,15 @@ var volume_step: float = 0.1
 
 # Loads and sets values, gives focus, sets button labels and colors
 func _ready():
+	
+	# Sets position and visuals of items menu elements
+	if items_menu_enabled:
+		$CanvasLayer/VBoxContainer.position.y = -32
+		
+		# Updates bottom label
+		bottom_text_labels_update()
+	else:
+		$CanvasLayer/ViewItems.set_visible(false)
 	
 	# Pauses the game
 	GLOBAL_GAME.game_paused = true
@@ -34,9 +44,11 @@ func _ready():
 		set_button_colors(options_container_buttons.get_node("Label"))
 		options_container_buttons.color_unfocused = button_color_unfocused
 	
+	
+	
 	# Sets focus to the first option (we do this after setting the button's
 	# colors. Otherwise, the focus color will get overwritten)
-	$CanvasLayer/VBoxContainer/OptionsContainer/ItemsMenu.grab_focus()
+	$CanvasLayer/VBoxContainer/OptionsContainer/MusicVolume.grab_focus()
 
 
 
@@ -44,6 +56,17 @@ func _ready():
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("button_pause"):
 		quit_pause()
+	
+	# Items menu
+	if items_menu_enabled:
+		if event.is_action_pressed("button_shoot"):
+			if items_menu != null:
+				var items_menu_instance = items_menu.instantiate()
+				add_sibling(items_menu_instance)
+				
+				# Play sound and destroy itself
+				GLOBAL_SOUNDS.play_sound("sndPause")
+				queue_free()
 
 
 
@@ -52,6 +75,10 @@ func _physics_process(_delta):
 	
 	# Sets and updates the text from each one of the button's labels
 	set_labels_text()
+	
+	# Updates bottom label text to show the proper key ids
+	if items_menu_enabled:
+		bottom_text_labels_update()
 
 
 
@@ -102,17 +129,25 @@ func _on_quit_to_menu_pressed():
 
 # Resume game
 func _on_resume_game_pressed():
+	get_viewport().set_input_as_handled()
 	quit_pause()
 
 
 
 # Updates text labels to show the proper key ids
 func set_labels_text():
-	$CanvasLayer/VBoxContainer/OptionsContainer/ItemsMenu/Label.text = "View Items"
 	$CanvasLayer/VBoxContainer/OptionsContainer/MusicVolume/Label.text = "Music Volume: " + str(round(music_volume * 100)) + "%"
 	$CanvasLayer/VBoxContainer/OptionsContainer/SoundVolume/Label.text = "Sound Volume: " + str(round(sound_volume * 100)) + "%"
 	$CanvasLayer/VBoxContainer/OptionsContainer/QuitToMenu/Label.text = "Quit to Main Menu"
 	$CanvasLayer/VBoxContainer/OptionsContainer/ResumeGame/Label.text = "Resume"
+
+
+# Updates the labels to their proper keys. Keys are returned as text from
+# the global input map (check scrGlobalGame/get_input_name())
+func bottom_text_labels_update() -> void:
+	var key_items = GLOBAL_GAME.get_input_name("ui_select", GLOBAL_GAME.global_input_device)
+	
+	$CanvasLayer/ViewItems.text = " [" + key_items + "] View Items"
 
 
 # Sets the color of the button outlines when unfocused.

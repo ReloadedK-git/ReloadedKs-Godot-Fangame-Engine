@@ -41,9 +41,9 @@ _data = {
 }
 point_count = 5
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vttrj"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k4luf"]
 resource_local_to_scene = true
-size = Vector2(96, 32)
+size = Vector2(160, 112)
 
 [sub_resource type="Shader" id="Shader_vttrj"]
 code = "shader_type canvas_item;
@@ -70,25 +70,25 @@ shader_parameter/offset = Vector2(22, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_07h2r"]
 shader = SubResource("Shader_vttrj")
-shader_parameter/motion = Vector2(-5.4803667, 99.84972)
+shader_parameter/motion = Vector2(-4.110275, 74.88728)
 shader_parameter/scale = 1.0
 shader_parameter/offset = Vector2(22, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u2l2o"]
 shader = SubResource("Shader_vttrj")
-shader_parameter/motion = Vector2(5.480366, 99.84972)
+shader_parameter/motion = Vector2(2.740183, 49.92486)
 shader_parameter/scale = 1.0
 shader_parameter/offset = Vector2(22, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_840w3"]
 shader = SubResource("Shader_vttrj")
-shader_parameter/motion = Vector2(-4.11182, 149.94363)
+shader_parameter/motion = Vector2(-2.7412133, 99.96242)
 shader_parameter/scale = 1.0
 shader_parameter/offset = Vector2(22, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v5bjs"]
 shader = SubResource("Shader_vttrj")
-shader_parameter/motion = Vector2(-4.11182, 149.94363)
+shader_parameter/motion = Vector2(-2.05591, 74.97182)
 shader_parameter/scale = 1.0
 shader_parameter/offset = Vector2(22, 0)
 
@@ -298,21 +298,24 @@ position = Vector2(1248, 224)
 position = Vector2(2016, 1088)
 item_name = "Item 05"
 
-[node name="objSignProximity" type="Area2D" parent="Gimmicks"]
+[node name="objSignProximity2" type="Area2D" parent="Gimmicks"]
 position = Vector2(1328, 240)
 collision_layer = 0
 monitorable = false
 script = ExtResource("22_vttrj")
 sign_text = "Some things are not what they seem"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Gimmicks/objSignProximity"]
-shape = SubResource("RectangleShape2D_vttrj")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Gimmicks/objSignProximity2"]
+z_index = -1
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_k4luf")
+debug_color = Color(0, 0.6, 0.7019608, 0.19607843)
 
-[node name="Sprite2D" type="Sprite2D" parent="Gimmicks/objSignProximity"]
-visible = false
+[node name="Sprite2D" type="Sprite2D" parent="Gimmicks/objSignProximity2"]
 texture = ExtResource("23_eysx7")
 
-[node name="Label" type="Label" parent="Gimmicks/objSignProximity"]
+[node name="Label" type="Label" parent="Gimmicks/objSignProximity2"]
+z_index = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -332,10 +335,6 @@ text = "Some things are not what they seem"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Gimmicks/objSignProximity"]
-position = Vector2(9.53674e-07, -88)
-scale = Vector2(11.2, 10.4)
 
 [node name="FakeBlocks" type="Node2D" parent="Gimmicks"]
 
@@ -373,7 +372,7 @@ material = SubResource("ShaderMaterial_07h2r")
 position = Vector2(2064, 512)
 rotation = 3.1415927
 polygon = PackedVector2Array(-48, 0, 16, 0, 16, -256, -48, -256)
-wind_force = 100
+wind_force = 150
 
 [node name="objFan4" parent="Gimmicks/Fans" instance=ExtResource("26_k4luf")]
 material = SubResource("ShaderMaterial_u2l2o")
@@ -387,7 +386,7 @@ material = SubResource("ShaderMaterial_840w3")
 position = Vector2(2112, 496)
 rotation = 1.5707964
 polygon = PackedVector2Array(-48, 0, 16, 0, 16, -160, -48, -160)
-wind_force = 150
+wind_force = 200
 
 [node name="objFan6" parent="Gimmicks/Fans" instance=ExtResource("26_k4luf")]
 material = SubResource("ShaderMaterial_v5bjs")
@@ -416,7 +415,5 @@ curve = SubResource("Curve2D_k4luf")
 
 [node name="Trigger_related" type="Node2D" parent="."]
 
-[connection signal="body_entered" from="Gimmicks/objSignProximity" to="Gimmicks/objSignProximity" method="_on_body_entered"]
-[connection signal="body_exited" from="Gimmicks/objSignProximity" to="Gimmicks/objSignProximity" method="_on_body_exited"]
-[connection signal="screen_entered" from="Gimmicks/objSignProximity/VisibleOnScreenNotifier2D" to="Gimmicks/objSignProximity" method="_on_visible_on_screen_notifier_2d_screen_entered"]
-[connection signal="screen_exited" from="Gimmicks/objSignProximity/VisibleOnScreenNotifier2D" to="Gimmicks/objSignProximity" method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="body_entered" from="Gimmicks/objSignProximity2" to="Gimmicks/objSignProximity2" method="_on_body_entered"]
+[connection signal="body_exited" from="Gimmicks/objSignProximity2" to="Gimmicks/objSignProximity2" method="_on_body_exited"]

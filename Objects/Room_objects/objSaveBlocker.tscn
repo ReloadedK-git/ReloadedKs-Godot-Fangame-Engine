@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bes18loo3v73l"]
 
-[ext_resource type="Script" path="res://Scripts/Room_objects/scrSaveBlocker.gd" id="1_4qsx7"]
+[ext_resource type="Script" uid="uid://cksq2dtdnus7t" path="res://Scripts/Room_objects/scrSaveBlocker.gd" id="1_4qsx7"]
 [ext_resource type="Texture2D" uid="uid://caeqoedecr7xt" path="res://Graphics/Sprites/Room_objects/sprSaveBlocker.png" id="2_fbsx1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s4akc"]
@@ -15,4 +15,5 @@ script = ExtResource("1_4qsx7")
 texture = ExtResource("2_fbsx1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = -1
 shape = SubResource("RectangleShape2D_s4akc")

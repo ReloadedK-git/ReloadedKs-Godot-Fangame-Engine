@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://cp4afoylm07t3"]
+[gd_scene load_steps=31 format=4 uid="uid://cp4afoylm07t3"]
 
 [ext_resource type="PackedScene" uid="uid://byy0nyaw6gtki" path="res://Objects/Room_objects/objMusicPlayer.tscn" id="1_83y07"]
 [ext_resource type="AudioStream" uid="uid://cbtxeavsqivpn" path="res://Audio/Music/musLevel01.ogg" id="2_s7qj5"]
@@ -7,9 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://cjgn1pokbuu0p" path="res://Objects/Backgrounds/objBackgroundScrolling.tscn" id="4_raj0e"]
 [ext_resource type="Texture2D" uid="uid://bukwyfjur2ycm" path="res://Graphics/Backgrounds/bckDefaultGrid.png" id="5_4mkqd"]
 [ext_resource type="PackedScene" uid="uid://cinj525l66hoo" path="res://Objects/Player/objPlayer.tscn" id="6_v3p5w"]
-[ext_resource type="PackedScene" uid="uid://cu54hxafh2i6t" path="res://Objects/Room_objects/objSignProximity.tscn" id="8_pceb8"]
+[ext_resource type="Script" uid="uid://dccye8p4551tm" path="res://Scripts/Room_objects/scrSignProximity.gd" id="8_qmx31"]
 [ext_resource type="PackedScene" uid="uid://b31w5fm4w5857" path="res://Objects/Room_objects/objSavePoint.tscn" id="9_0ik58"]
 [ext_resource type="PackedScene" uid="uid://dvv6rb061ptd4" path="res://Objects/Gimmicks/tilConveyorBlock.tscn" id="9_cgcmh"]
+[ext_resource type="Texture2D" uid="uid://ox7qqy44wanl" path="res://Graphics/Sprites/Dialog_system/sprSign.png" id="9_vhwcm"]
+[ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="10_6vpna"]
 [ext_resource type="PackedScene" uid="uid://bes18loo3v73l" path="res://Objects/Room_objects/objSaveBlocker.tscn" id="10_mmqyb"]
 [ext_resource type="PackedScene" uid="uid://bo3vrmvp7ayf8" path="res://Objects/Room_objects/objWarp.tscn" id="11_txgun"]
 [ext_resource type="PackedScene" uid="uid://disuddxn6h6vm" path="res://Objects/Hazards/tilSpikes.tscn" id="13_684js"]
@@ -27,6 +29,10 @@
 [ext_resource type="PackedScene" uid="uid://bupj3p8n52ks3" path="res://Objects/Trigger_system/objMultiTrigger.tscn" id="25_rb82s"]
 [ext_resource type="AudioStream" uid="uid://bbskkobrph305" path="res://Audio/Sounds/sndCoin.wav" id="26_3t3hh"]
 [ext_resource type="PackedScene" uid="uid://dvh5p5m0s4ju3" path="res://Objects/Collectables/objCollectableItem.tscn" id="27_parnu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jitub"]
+resource_local_to_scene = true
+size = Vector2(224, 128)
 
 [node name="rTestRoom03" type="Node2D"]
 
@@ -51,9 +57,43 @@ position = Vector2(128, 240)
 position = Vector2(-16, 48)
 target_node = NodePath("../objPlayer")
 
-[node name="objSignProximity" parent="Room_related" instance=ExtResource("8_pceb8")]
+[node name="objSignProximity" type="Area2D" parent="Room_related"]
 position = Vector2(272, 240)
+collision_layer = 0
+monitorable = false
+script = ExtResource("8_qmx31")
 sign_text = "In this room, you'll have a fixed camera instead of a dynamic one"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room_related/objSignProximity"]
+z_index = -1
+position = Vector2(0, -48)
+shape = SubResource("RectangleShape2D_jitub")
+debug_color = Color(0, 0.6, 0.7019608, 0.19607843)
+
+[node name="Sprite2D" type="Sprite2D" parent="Room_related/objSignProximity"]
+texture = ExtResource("9_vhwcm")
+
+[node name="Label" type="Label" parent="Room_related/objSignProximity"]
+z_index = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -112.0
+offset_top = -56.0
+offset_right = 112.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("10_6vpna")
+theme_override_font_sizes/font_size = 20
+text = "In this room, you'll have a fixed camera instead of a dynamic one"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="objSavePoint" parent="Room_related" instance=ExtResource("9_0ik58")]
 position = Vector2(48, 208)
@@ -116,7 +156,7 @@ target_position = Vector2(0, 152)
 
 [node name="Sprite2D" parent="Hazards/objLaserStatic/laserComponents" index="1"]
 rotation = 1.5707964
-region_rect = Rect2(-59, 0, 160, 14)
+region_rect = Rect2(-12, 0, 160, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserStatic" index="1"]
 position = Vector2(0, 152)
@@ -129,7 +169,7 @@ target_position = Vector2(0, 184)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic/laserComponents" index="1"]
 rotation = 1.5707964
-region_rect = Rect2(-100, 0, 192, 14)
+region_rect = Rect2(-53, 0, 192, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic" index="1"]
 position = Vector2(0, 184)
@@ -142,7 +182,7 @@ target_position = Vector2(0, -344)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic2/laserComponents" index="1"]
 rotation = -1.5707964
-region_rect = Rect2(-31.5, 0, 352, 14)
+region_rect = Rect2(-85, 0, 352, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic2" index="1"]
 position = Vector2(0, -344)
@@ -155,7 +195,7 @@ target_position = Vector2(0, 152)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic3/laserComponents" index="1"]
 rotation = 1.5707964
-region_rect = Rect2(-60, 0, 160, 14)
+region_rect = Rect2(-13, 0, 160, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic3" index="1"]
 position = Vector2(0, 152)
@@ -230,6 +270,9 @@ points = PackedVector2Array(0, 0, -160, -64)
 
 [node name="Target" parent="Trigger_related/objTriggerBlock4" index="3"]
 position = Vector2(-160, -64)
+
+[connection signal="body_entered" from="Room_related/objSignProximity" to="Room_related/objSignProximity" method="_on_body_entered"]
+[connection signal="body_exited" from="Room_related/objSignProximity" to="Room_related/objSignProximity" method="_on_body_exited"]
 
 [editable path="Hazards/objLaserStatic"]
 [editable path="Hazards/objLaserDynamic"]

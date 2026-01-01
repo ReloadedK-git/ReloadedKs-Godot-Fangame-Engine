@@ -14,6 +14,7 @@ config/name="ReloadedK's Godot Fangame Engine"
 config/tags=PackedStringArray("fangame_engine")
 run/main_scene="res://Rooms/00_Title_and_menus/rTitle.tscn"
 config/features=PackedStringArray("4.5", "Mobile")
+run/max_fps=60
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 boot_splash/show_image=false
 config/icon="res://Resources/Project/icon.png"
@@ -28,6 +29,7 @@ GLOBAL_SAVELOAD="*res://Scripts/Globals/scrGlobalSaveload.gd"
 GLOBAL_SETTINGS="*res://Scripts/Globals/scrGlobalSettings.gd"
 GLOBAL_GAME="*res://Scripts/Globals/scrGlobalGame.gd"
 GLOBAL_INSTANCES="*res://Scripts/Globals/scrGlobalInstances.gd"
+GLOBAL_SIGNALS="*res://Scripts/Globals/scrGlobalSignals.gd"
 GLOBAL_MUSIC="*res://Scripts/Globals/scrGlobalMusicPlayer.gd"
 GLOBAL_SOUNDS="*res://Objects/System/objSoundManager.tscn"
 objHUD="*res://Objects/System/objHUD.tscn"
@@ -208,6 +210,9 @@ button_quitgame={
 2d_physics/layer_10="Vines"
 2d_physics/layer_11="SheepBlocks"
 2d_physics/layer_12="ClimbSurface"
+2d_physics/layer_13="IceBlocks"
+2d_physics/layer_14="PhysicsObject"
+2d_physics/layer_15="Wind"
 
 [rendering]
 

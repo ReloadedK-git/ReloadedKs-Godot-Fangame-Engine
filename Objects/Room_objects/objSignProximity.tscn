@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cu54hxafh2i6t"]
 
-[ext_resource type="Script" path="res://Scripts/Room_objects/scrSignProximity.gd" id="1_8wc6x"]
+[ext_resource type="Script" uid="uid://dccye8p4551tm" path="res://Scripts/Room_objects/scrSignProximity.gd" id="1_8wc6x"]
 [ext_resource type="Texture2D" uid="uid://ox7qqy44wanl" path="res://Graphics/Sprites/Dialog_system/sprSign.png" id="2_knnk8"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="3_mwrcr"]
 
@@ -9,17 +9,24 @@ resource_local_to_scene = true
 size = Vector2(32, 32)
 
 [node name="objSignProximity" type="Area2D"]
+editor_description = "1) Place in room
+2) Change sign text
+3) Right click -> Make Local
+4) Stretch collision shape"
 collision_layer = 0
 monitorable = false
 script = ExtResource("1_8wc6x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = -1
 shape = SubResource("RectangleShape2D_gjj3h")
+debug_color = Color(0, 0.6, 0.7019608, 0.19607843)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_knnk8")
 
 [node name="Label" type="Label" parent="."]
+z_index = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -39,11 +46,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(9.53674e-07, -88)
-scale = Vector2(11.2, 10.4)
-
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
-[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

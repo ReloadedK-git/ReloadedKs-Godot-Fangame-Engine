@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://b7tet5lpfxc3k"]
 
-[ext_resource type="Script" path="res://Scripts/Gimmicks/scrBouncyBlock.gd" id="1_10h41"]
+[ext_resource type="Script" uid="uid://d00bmlg3cabht" path="res://Scripts/Gimmicks/scrBouncyBlock.gd" id="1_10h41"]
 [ext_resource type="Texture2D" uid="uid://dvm4yxmqjf3lu" path="res://Graphics/Sprites/Gimmicks/sprBouncyBlock.png" id="2_xtexr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_acgxs"]

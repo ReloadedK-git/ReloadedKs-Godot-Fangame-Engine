@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c44srhbx7sxh5"]
 
-[ext_resource type="Script" path="res://Scripts/UI/scrPauseMenuItems.gd" id="1_1pkdm"]
+[ext_resource type="Script" uid="uid://sf1phs0cio4t" path="res://Scripts/UI/scrPauseMenuItems.gd" id="1_1pkdm"]
 [ext_resource type="PackedScene" uid="uid://cktvymptg823" path="res://Objects/UI/objPauseItem.tscn" id="2_06rfl"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="2_h5uh2"]
 [ext_resource type="Texture2D" uid="uid://cs7d7k2kmj13y" path="res://Graphics/Sprites/Collectables/sprSecretItem.png" id="3_g8tfo"]

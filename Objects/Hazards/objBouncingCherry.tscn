@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://4frecr1v7p44"]
 
-[ext_resource type="Script" path="res://Scripts/Hazards/scrBouncingCherry.gd" id="1_uplw4"]
+[ext_resource type="Script" uid="uid://impikkv2i3tp" path="res://Scripts/Hazards/scrBouncingCherry.gd" id="1_uplw4"]
 [ext_resource type="Texture2D" uid="uid://bwlyhgiw23fwi" path="res://Graphics/Sprites/Hazards/sprCherry.png" id="2_xqd8d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qmtqc"]

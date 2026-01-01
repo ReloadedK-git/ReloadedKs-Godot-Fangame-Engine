@@ -5,12 +5,14 @@ extends AnimatableBody2D
 var start_moving: bool = false
 
 
+
 func _ready():
 	
 	# If move_speed is zero, we don't really need to check for collisions, so
 	# we queue_free() their nodes saving some memory
 	if (move_speed == Vector2.ZERO):
 		$playerDetector.queue_free()
+
 
 
 func _physics_process(_delta):
@@ -54,7 +56,6 @@ func _physics_process(_delta):
 				# Stops when colliding with a platform block
 				if (collision_interaction == 2):
 					move_speed = Vector2.ZERO
-					
 				
 				# Bounces when colliding with a platform block
 				if (collision_interaction == 3):

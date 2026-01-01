@@ -28,13 +28,11 @@ func _ready():
 	bottom_text_labels_update()
 
 
-func _physics_process(_delta):
-	
-	# Updates bottom label
-	bottom_text_labels_update()
+
+func _input(event: InputEvent) -> void:
 	
 	# Returns to the main pause menu by pressing "shoot"
-	if Input.is_action_just_pressed("ui_select"):
+	if event.is_action_pressed("ui_select"):
 		
 		# Loads the pause menu scene
 		var pause_menu = load("res://Objects/UI/objPauseMenuMain.tscn")
@@ -49,7 +47,7 @@ func _physics_process(_delta):
 			queue_free()
 	
 	# Unsets pause and quits this menu by pressing "pause"
-	if Input.is_action_just_pressed("button_pause"):
+	if event.is_action_pressed("button_pause"):
 		
 		# Unset pause, unpause game
 		GLOBAL_GAME.game_paused = false
@@ -57,6 +55,13 @@ func _physics_process(_delta):
 		
 		# Destroy itself
 		queue_free()
+
+
+
+func _physics_process(_delta):
+	
+	# Updates bottom label
+	bottom_text_labels_update()
 	
 	# Scrolls down
 	if Input.is_action_pressed("ui_down"):

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://ddjx8w1j80w1t"]
 
 [ext_resource type="Texture2D" uid="uid://b8wgwndny30y8" path="res://Graphics/Sprites/Hazards/sprSpikeBlock.png" id="1_l11mg"]
-[ext_resource type="Script" path="res://Scripts/Hazards/scrSpikeBlock.gd" id="1_y4liw"]
+[ext_resource type="Script" uid="uid://d0muk346b2xs5" path="res://Scripts/Hazards/scrSpikeBlock.gd" id="1_y4liw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xi4bt"]
 atlas = ExtResource("1_l11mg")
@@ -58,30 +58,36 @@ z_index = 1
 position = Vector2(-4, -4)
 sprite_frames = SubResource("SpriteFrames_4p3wj")
 centered = false
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 1
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_g0coj")
+metadata/_edit_lock_ = true
 
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_layer = 0
 monitorable = false
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_ita0j")
 debug_color = Color(0, 0.6, 0, 0.419608)
+metadata/_edit_lock_ = true
 
 [node name="KillArea" type="Area2D" parent="."]
 z_index = -1
 collision_layer = 0
 monitorable = false
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KillArea"]
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_67auf")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

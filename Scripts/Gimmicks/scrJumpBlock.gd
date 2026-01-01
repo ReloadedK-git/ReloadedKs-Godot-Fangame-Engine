@@ -17,12 +17,12 @@ func _ready() -> void:
 		# Set a listener to the player's jump signals
 		match switch_on:
 			1:
-				GLOBAL_INSTANCES.objPlayerID.connect("player_jumped", block_switch)
-				GLOBAL_INSTANCES.objPlayerID.connect("player_djumped", block_switch)
+				GLOBAL_SIGNALS.connect("player_jumped", block_switch)
+				GLOBAL_SIGNALS.connect("player_djumped", block_switch)
 			2:
-				GLOBAL_INSTANCES.objPlayerID.connect("player_jumped", block_switch)
+				GLOBAL_SIGNALS.connect("player_jumped", block_switch)
 			3:
-				GLOBAL_INSTANCES.objPlayerID.connect("player_djumped", block_switch)
+				GLOBAL_SIGNALS.connect("player_djumped", block_switch)
 	else:
 		colorize_block()
 

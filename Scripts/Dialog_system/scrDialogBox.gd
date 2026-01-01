@@ -16,7 +16,7 @@ func _ready():
 	# Freezes objPlayer in place
 	if is_instance_valid(GLOBAL_INSTANCES.objPlayerID):
 		GLOBAL_INSTANCES.objPlayerID.frozen = true
-		GLOBAL_INSTANCES.objPlayerID.velocity.x = 0
+		GLOBAL_INSTANCES.objPlayerID.main_velocity = Vector2.ZERO
 	
 	# Shows the text as soon as the node is loaded
 	load_dialog()

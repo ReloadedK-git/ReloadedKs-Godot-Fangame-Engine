@@ -21,22 +21,22 @@ shader_parameter/motion = Vector2(0, 200)
 shader_parameter/scale = 1.0
 shader_parameter/offset = Vector2(22, 0)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d2arb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1sjie"]
 atlas = ExtResource("3_8imow")
-region = Rect2(0, 0, 18, 14)
+region = Rect2(0, 0, 34, 14)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qcyf2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8imow"]
 atlas = ExtResource("3_8imow")
-region = Rect2(18, 0, 18, 14)
+region = Rect2(34, 0, 34, 14)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1sjie"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_d2arb")
+"texture": SubResource("AtlasTexture_1sjie")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qcyf2")
+"texture": SubResource("AtlasTexture_8imow")
 }],
 "loop": true,
 "name": &"default",
@@ -58,27 +58,21 @@ script = ExtResource("2_1sjie")
 
 [node name="Area2D" type="Area2D" parent="."]
 visible = false
-collision_layer = 0
-monitorable = false
+collision_layer = 16384
 metadata/_edit_lock_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
 polygon = PackedVector2Array(-16, 0, 16, 0, 16, -64, -16, -64)
-
-[node name="Fans" type="Node2D" parent="."]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Fans"]
-position = Vector2(-8, -7)
-sprite_frames = SubResource("SpriteFrames_1sjie")
-autoplay = "default"
-frame_progress = 0.84631217
 metadata/_edit_lock_ = true
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Fans"]
-position = Vector2(8, -7)
+[node name="Fans" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Fans"]
+position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_1sjie")
 autoplay = "default"
-frame_progress = 0.16719286
+frame_progress = 0.67822134
 metadata/_edit_lock_ = true
 
 [node name="Area2D2" type="Area2D" parent="Fans"]
@@ -91,5 +85,6 @@ z_index = -1
 position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_d2arb")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
+metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="Fans/Area2D2" to="." method="_on_area_2d_2_body_entered"]

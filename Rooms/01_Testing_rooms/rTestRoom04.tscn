@@ -185,7 +185,7 @@ position = Vector2(40, 688)
 target_position = Vector2(664, 0)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic/laserComponents" index="1"]
-region_rect = Rect2(-19, 0, 672, 14)
+region_rect = Rect2(-39.5, 0, 672, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic" index="1"]
 position = Vector2(664, 0)

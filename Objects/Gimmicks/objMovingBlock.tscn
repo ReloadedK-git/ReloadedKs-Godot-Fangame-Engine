@@ -28,6 +28,7 @@ target_position = Vector2(0, -16)
 max_results = 1
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+z_index = -1
 position = Vector2(3.8147e-06, 9.53674e-07)
 scale = Vector2(1.6, 1.6)
 

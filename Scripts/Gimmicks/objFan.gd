@@ -1,7 +1,7 @@
 @tool
 extends Polygon2D
 
-@export var wind_force: int = 200
+@export var wind_force: int = 400
 @export var enable_fans: bool = true
 @onready var fan_sprites: Node2D = $Fans
 @onready var wind_polygon: Polygon2D = $"."
@@ -15,31 +15,32 @@ extends Polygon2D
 func _ready() -> void:
 	wind_collision_polygon.polygon = wind_polygon.get_polygon()
 	material = material.duplicate()
+	
+	# Enable/disable the fan sprites and collision mask
+	$Fans.set_visible(enable_fans)
 
 
 
 func _physics_process(_delta: float) -> void:
 	
 	if Engine.is_editor_hint():
-		material.set_shader_parameter("motion", Vector2.DOWN.rotated(deg_to_rad(get_rotation())) * wind_force)
+		wind_collision_polygon.polygon = wind_polygon.get_polygon()
+		@warning_ignore("integer_division")
+		material.set_shader_parameter("motion", Vector2.DOWN.rotated(deg_to_rad(get_rotation())) * (wind_force / 2))
 		
 		# Enable/disable the fan sprites and collision mask
 		$Fans.set_visible(enable_fans)
 	
-	# If not on the editor, detects collisions with the player and moves it
+	# If not in the editor, detects collisions with the player and moves it
 	# according to the wind direction
 	else:
+		
 		var overlapping_bodies = $Area2D.get_overlapping_bodies()
 		for body in overlapping_bodies:
-			
 			var rotation_radians = global_rotation
 			var forward_vector = Vector2(sin(rotation_radians), -cos(rotation_radians))
 			
-			body.velocity.x += forward_vector.x * wind_force
-			@warning_ignore("integer_division")
-			var wind_force_detection_margin: float = wind_force / 2.65
-			if (body.velocity.y > wind_force_detection_margin) or (body.velocity.y > -wind_force_detection_margin):
-				body.velocity.y += forward_vector.y * wind_force
+			body.stored_wind_velocity = forward_vector * wind_force
 
 
 

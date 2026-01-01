@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b6wjn6wemp8tk" path="res://Graphics/Sprites/Room_objects/sprCamera.png" id="2_uq2mm"]
 
 [node name="objCameraDynamic" type="Camera2D" groups=["Camera"]]
+process_priority = 1
 process_callback = 0
 script = ExtResource("1_335kd")
 
