@@ -533,8 +533,8 @@ func orient_player() -> void:
 	if direction_input != 0:
 		animated_sprite.set_flip_h(direction_input < 0)
 		looking_at = roundi(direction_input)
-		$playerMask.position.x = roundi(direction_input)
-		$extraCollisions.scale.x = roundi(direction_input)
+		$playerMask.position.x = 1.5 * sign(looking_at)
+		$extraCollisions.scale.x = looking_at
 
 
 # Handles gravity / falling
