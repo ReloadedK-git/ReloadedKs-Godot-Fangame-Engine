@@ -28,9 +28,10 @@ var wind_velocity: Vector2 = Vector2.ZERO
 var stored_wind_velocity: Vector2 = Vector2.ZERO
 var create_bullet := preload("res://Objects/Player/objBullet.tscn")
 var jump_particle := preload("res://Objects/Player/objJumpParticle.tscn")
-@onready var animated_sprite = $playerSprites
+@onready var animated_sprite = $playerSpriteOrigin/playerSprites
 @onready var player_mask: CollisionShape2D = $playerMask
 @onready var water_collider: Area2D = $extraCollisions/Water
+@onready var sprite_origin = $playerSpriteOrigin
 
 # State machine's states
 enum STATE {
@@ -58,7 +59,7 @@ func _ready():
 	# the saved position, and also set its sprite and orientation
 	if !GLOBAL_SAVELOAD.variableGameData.first_time_saving:
 		set_position_on_load()
-		animated_sprite.flip_h = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped < 0
+		sprite_origin.scale.x = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped
 		looking_at = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped
 	else:
 		# If we haven't saved before, it makes a special type of save which sets
@@ -531,10 +532,8 @@ func orient_player() -> void:
 	var direction_input: float = Input.get_axis("button_left", "button_right")
 	
 	if direction_input != 0:
-		animated_sprite.set_flip_h(direction_input < 0)
 		looking_at = roundi(direction_input)
-		$playerMask.position.x = 1.5 * sign(looking_at)
-		$extraCollisions.scale.x = looking_at
+		sprite_origin.scale.x = looking_at
 
 
 # Handles gravity / falling
