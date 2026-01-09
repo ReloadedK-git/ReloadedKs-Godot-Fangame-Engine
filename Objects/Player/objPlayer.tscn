@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://cinj525l66hoo"]
+[gd_scene load_steps=35 format=3 uid="uid://cinj525l66hoo"]
 
 [ext_resource type="Script" uid="uid://cs0j0kvct6xf7" path="res://Scripts/Player/scrPlayer.gd" id="1_i4y4g"]
 [ext_resource type="Texture2D" uid="uid://3vvx835ga47v" path="res://Graphics/Sprites/Player/sprPlayerClimb.png" id="2_cyx51"]
@@ -182,37 +182,22 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x466q"]
-size = Vector2(12, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vob8"]
-size = Vector2(12, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nadji"]
-size = Vector2(12, 20)
+size = Vector2(11, 21)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ewgw8"]
-size = Vector2(10, 18)
+size = Vector2(9, 19)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x6gqu"]
-size = Vector2(1, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mo373"]
-size = Vector2(12, 20)
+size = Vector2(1, 21)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i4y4g"]
-size = Vector2(11.8, 0.90625)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qff8s"]
-size = Vector2(12, 20)
+size = Vector2(10.8, 0.906)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0m0v4"]
-size = Vector2(12, 21)
+size = Vector2(11, 22)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6okb"]
-size = Vector2(14, 22)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_05aji"]
-size = Vector2(12, 20)
+size = Vector2(13, 23)
 
 [node name="objPlayer" type="CharacterBody2D" groups=["Player"]]
 z_index = 2
@@ -233,17 +218,17 @@ animation = &"idle"
 editor_description = "Should only detect:
 -Walls
 -Platforms"
-position = Vector2(1, 6)
+position = Vector2(1.5, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="ColorRect" type="ColorRect" parent="playerMask"]
 visible = false
 z_index = 1
-offset_left = -6.0
-offset_top = -10.0
-offset_right = 6.0
-offset_bottom = 10.0
+offset_left = -5.5
+offset_top = -10.5
+offset_right = 5.5
+offset_bottom = 10.5
 color = Color(1, 0, 1, 0.498039)
 
 [node name="extraCollisions" type="Node2D" parent="."]
@@ -255,8 +240,8 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Platforms"]
 visible = false
-position = Vector2(1, 6)
-shape = SubResource("RectangleShape2D_5vob8")
+position = Vector2(1.5, 5.5)
+shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
 [node name="Killers" type="Area2D" parent="extraCollisions"]
@@ -265,8 +250,8 @@ collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Killers"]
 visible = false
-position = Vector2(0.99999976, 6)
-shape = SubResource("RectangleShape2D_5vob8")
+position = Vector2(1.5, 5.5)
+shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
 [node name="Water" type="Area2D" parent="extraCollisions"]
@@ -276,8 +261,8 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Water"]
 visible = false
-position = Vector2(1, 6)
-shape = SubResource("RectangleShape2D_nadji")
+position = Vector2(1.5, 5.5)
+shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
 [node name="IsCrushed" type="Area2D" parent="extraCollisions"]
@@ -287,7 +272,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IsCrushed"]
 visible = false
-position = Vector2(1, 6)
+position = Vector2(1.5, 5.5)
 shape = SubResource("RectangleShape2D_ewgw8")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -297,7 +282,7 @@ collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Walljumps"]
 visible = false
-position = Vector2(7.5, 6)
+position = Vector2(7.5, 5.5)
 shape = SubResource("RectangleShape2D_x6gqu")
 debug_color = Color(0, 1, 0.0156863, 0.419608)
 
@@ -307,8 +292,8 @@ collision_mask = 1024
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/SheepBlocks"]
 visible = false
-position = Vector2(1, 6)
-shape = SubResource("RectangleShape2D_mo373")
+position = Vector2(1.5, 5.5)
+shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
 [node name="PlatformSnap" type="Area2D" parent="extraCollisions"]
@@ -318,7 +303,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/PlatformSnap"]
 visible = false
-position = Vector2(1, 15.453125)
+position = Vector2(1.5, 15.453)
 shape = SubResource("RectangleShape2D_i4y4g")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -328,8 +313,8 @@ collision_mask = 2048
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/ClimbSurface"]
 visible = false
-position = Vector2(0.99999976, 6)
-shape = SubResource("RectangleShape2D_qff8s")
+position = Vector2(1.5, 5.5)
+shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
 [node name="IceBlocks" type="Area2D" parent="extraCollisions"]
@@ -338,7 +323,7 @@ collision_mask = 4096
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IceBlocks"]
 visible = false
-position = Vector2(1, 6.5)
+position = Vector2(1.5, 6)
 shape = SubResource("RectangleShape2D_0m0v4")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -348,7 +333,7 @@ collision_mask = 8192
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/PhysicsObject"]
 visible = false
-position = Vector2(1, 6)
+position = Vector2(1.5, 5.5)
 shape = SubResource("RectangleShape2D_y6okb")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -358,8 +343,8 @@ collision_mask = 16384
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Wind"]
 visible = false
-position = Vector2(1, 6)
-shape = SubResource("RectangleShape2D_05aji")
+position = Vector2(1.5, 5.5)
+shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
 [connection signal="body_entered" from="extraCollisions/Platforms" to="." method="_on_platforms_body_entered"]
