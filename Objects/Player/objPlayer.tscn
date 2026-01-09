@@ -215,13 +215,12 @@ script = ExtResource("1_i4y4g")
 [node name="playerSprites" type="AnimatedSprite2D" parent="playerSpriteOrigin"]
 sprite_frames = SubResource("SpriteFrames_vrq0l")
 animation = &"idle"
-offset = Vector2(-1.5, 0)
+offset = Vector2(-1.5, -5.5)
 
 [node name="playerMask" type="CollisionShape2D" parent="."]
 editor_description = "Should only detect:
 -Walls
 -Platforms"
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
@@ -243,7 +242,6 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Platforms"]
 visible = false
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -253,7 +251,6 @@ collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Killers"]
 visible = false
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -264,7 +261,6 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Water"]
 visible = false
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -275,7 +271,6 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IsCrushed"]
 visible = false
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_ewgw8")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -285,7 +280,6 @@ collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Walljumps"]
 visible = false
-position = Vector2(6, 5.5)
 shape = SubResource("RectangleShape2D_x6gqu")
 debug_color = Color(0, 1, 0.0156863, 0.419608)
 
@@ -295,7 +289,6 @@ collision_mask = 1024
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/SheepBlocks"]
 visible = false
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -306,7 +299,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/PlatformSnap"]
 visible = false
-position = Vector2(0, 15.453)
+position = Vector2(0, 9.953)
 shape = SubResource("RectangleShape2D_i4y4g")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -316,7 +309,6 @@ collision_mask = 2048
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/ClimbSurface"]
 visible = false
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -326,7 +318,7 @@ collision_mask = 4096
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IceBlocks"]
 visible = false
-position = Vector2(0, 6)
+position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_0m0v4")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -336,7 +328,6 @@ collision_mask = 8192
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/PhysicsObject"]
 visible = false
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_y6okb")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
@@ -346,7 +337,6 @@ collision_mask = 16384
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Wind"]
 visible = false
-position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 

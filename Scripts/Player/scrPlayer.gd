@@ -578,7 +578,7 @@ func handle_jumping() -> void:
 			if (in_water == false):
 				var jump_particle_id = jump_particle.instantiate()
 				get_parent().add_child(jump_particle_id)
-				jump_particle_id.global_position = Vector2(global_position.x, global_position.y + 12)
+				jump_particle_id.global_position = Vector2(global_position.x, global_position.y + 6.5)
 
 
 # Classic fangame bullet attack
@@ -598,7 +598,7 @@ func handle_shooting() -> void:
 		# Bullet's x coordinate:
 		#	-Takes into account the global x
 		#	-The bullet spacing, relative to where we are looking at 
-		create_bullet_id.global_position = Vector2(global_position.x, global_position.y + 5)
+		create_bullet_id.global_position = Vector2(global_position.x, global_position.y - 0.5)
 		GLOBAL_SOUNDS.play_sound("sndShoot")
 		
 		# After everything is set and done, creates the bullet
@@ -649,7 +649,7 @@ func on_death():
 		# We load a particle emitter, which does the visual stuff we want
 		var blood_emitter = load("res://Objects/Player/objBloodEmitter.tscn")
 		var blood_emitter_id = blood_emitter.instantiate()
-		blood_emitter_id.position = Vector2(position.x, position.y)
+		blood_emitter_id.position = Vector2(position.x, position.y - 5.5)
 		blood_emitter_id.side = looking_at
 		
 		# We add a sibling node to the player, not a child node, since the
@@ -798,9 +798,9 @@ func _on_platform_snap_body_exited(body: Node2D) -> void:
 				# move_speed.y directly, so we don't need to calculate it in
 				# order to snap the player to them
 				if body.move_speed != Vector2.ZERO:
-					global_position.y = body.global_position.y - 16 - abs(body.move_speed.y)
+					global_position.y = body.global_position.y - 10.5 - abs(body.move_speed.y)
 				else:
-					global_position.y = body.global_position.y - 16
+					global_position.y = body.global_position.y - 10.5
 				
 				# This function "tests" if the player is above and close to the
 				# floor, including platforms, and if true, teleports and
