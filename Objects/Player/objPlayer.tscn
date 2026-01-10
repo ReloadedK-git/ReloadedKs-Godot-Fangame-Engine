@@ -211,6 +211,7 @@ platform_floor_layers = 4294967046
 script = ExtResource("1_i4y4g")
 
 [node name="playerSpriteOrigin" type="Node2D" parent="."]
+position = Vector2(0, 5.5)
 
 [node name="playerSprites" type="AnimatedSprite2D" parent="playerSpriteOrigin"]
 sprite_frames = SubResource("SpriteFrames_vrq0l")
@@ -221,6 +222,7 @@ offset = Vector2(-1.5, -5.5)
 editor_description = "Should only detect:
 -Walls
 -Platforms"
+position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
@@ -234,6 +236,7 @@ offset_bottom = 10.5
 color = Color(1, 0, 1, 0.498039)
 
 [node name="extraCollisions" type="Node2D" parent="."]
+position = Vector2(0, 5.5)
 
 [node name="Platforms" type="Area2D" parent="extraCollisions"]
 collision_layer = 0

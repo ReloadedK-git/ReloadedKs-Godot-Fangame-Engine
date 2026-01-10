@@ -1,3 +1,4 @@
+@tool
 extends CharacterBody2D
 
 """
@@ -32,6 +33,23 @@ var jump_particle := preload("res://Objects/Player/objJumpParticle.tscn")
 @onready var player_mask: CollisionShape2D = $playerMask
 @onready var water_collider: Area2D = $extraCollisions/Water
 @onready var sprite_origin = $playerSpriteOrigin
+@onready var extra_collisions = $extraCollisions
+
+# exported variables
+@export var align_to_grid: bool = true:
+	set(value):
+		# wait until all nodes are defined, as setters may run before ready
+		if not is_node_ready():
+			await ready
+		align_to_grid = value
+		if value:
+			sprite_origin.position.y = 5.5
+			player_mask.position.y = 5.5
+			extra_collisions.position.y = 5.5
+		else:
+			sprite_origin.position.y = 0
+			player_mask.position.y = 0
+			extra_collisions.position.y = 0
 
 # State machine's states
 enum STATE {
@@ -55,6 +73,11 @@ var current_state: STATE = STATE.ON_CREATION
 """
 func _ready():
 	
+	# With @tool set, this code also runs in the editor
+	# This avoids running any further code
+	if Engine.is_editor_hint():
+		return
+	
 	# If a savefile exists (we've saved at least once), we move the player to
 	# the saved position, and also set its sprite and orientation
 	if !GLOBAL_SAVELOAD.variableGameData.first_time_saving:
@@ -64,6 +87,14 @@ func _ready():
 	else:
 		# If we haven't saved before, it makes a special type of save which sets
 		# things up for the rest of the game. 
+		
+		# handle spawning on the ground if the toggle is enabled
+		if !Engine.is_editor_hint():
+			sprite_origin.position.y = 0
+			player_mask.position.y = 0
+			if align_to_grid:
+				position.y += 5.5
+		
 		await Engine.get_main_loop().physics_frame
 		set_first_time_saving()
 	
@@ -264,7 +295,13 @@ func _unhandled_key_input(event: InputEvent):
 ---------- MAIN LOGIC LOOP ----------
 """
 func _physics_process(delta):
-	
+	# As this script is marked with @tool, this code runs in the editor
+	# This allows us to make the scene react when editor buttons are clicked
+	# but physics will also apply making the kid fall down so we don't want
+	# physics to actually run
+	if Engine.is_editor_hint():
+		return
+
 	# Method for handling velocity calculations. Should be called before
 	# move_and_slide()
 	set_velocities()
@@ -534,6 +571,7 @@ func orient_player() -> void:
 	if direction_input != 0:
 		looking_at = roundi(direction_input)
 		sprite_origin.scale.x = looking_at
+		extra_collisions.scale.x = looking_at
 
 
 # Handles gravity / falling
