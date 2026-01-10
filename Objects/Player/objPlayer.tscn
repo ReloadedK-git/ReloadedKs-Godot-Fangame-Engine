@@ -283,6 +283,7 @@ collision_mask = 512
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Walljumps"]
 visible = false
+position = Vector2(6, 0)
 shape = SubResource("RectangleShape2D_x6gqu")
 debug_color = Color(0, 1, 0.0156863, 0.419608)
 
