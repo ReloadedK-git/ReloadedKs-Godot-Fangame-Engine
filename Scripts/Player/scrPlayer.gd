@@ -534,6 +534,7 @@ func orient_player() -> void:
 	if direction_input != 0:
 		looking_at = roundi(direction_input)
 		sprite_origin.scale.x = looking_at
+		$extraCollisions.scale.x = looking_at
 
 
 # Handles gravity / falling
