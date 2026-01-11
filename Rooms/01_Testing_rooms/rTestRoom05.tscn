@@ -199,13 +199,13 @@ radius = Vector2i(96, 96)
 position = Vector2(96, 0)
 
 [node name="objMovingPlatform2" parent="Gimmicks/Orbits/objOrbitController" instance=ExtResource("15_b0jdb")]
-position = Vector2(5.8783045e-15, 96)
+position = Vector2(5.8781105e-15, 96)
 
 [node name="objMovingPlatform3" parent="Gimmicks/Orbits/objOrbitController" instance=ExtResource("15_b0jdb")]
-position = Vector2(-96, 1.1756609e-14)
+position = Vector2(-96, 1.1756221e-14)
 
 [node name="objMovingPlatform4" parent="Gimmicks/Orbits/objOrbitController" instance=ExtResource("15_b0jdb")]
-position = Vector2(-1.7634914e-14, -96)
+position = Vector2(-1.7634331e-14, -96)
 
 [node name="objOrbitController2" parent="Gimmicks/Orbits" instance=ExtResource("7_ynhqv")]
 position = Vector2(640, 320)

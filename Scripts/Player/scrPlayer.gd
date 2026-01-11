@@ -1,3 +1,4 @@
+@tool
 extends CharacterBody2D
 
 """
@@ -28,9 +29,27 @@ var wind_velocity: Vector2 = Vector2.ZERO
 var stored_wind_velocity: Vector2 = Vector2.ZERO
 var create_bullet := preload("res://Objects/Player/objBullet.tscn")
 var jump_particle := preload("res://Objects/Player/objJumpParticle.tscn")
-@onready var animated_sprite = $playerSprites
+@onready var animated_sprite = $playerSpriteOrigin/playerSprites
 @onready var player_mask: CollisionShape2D = $playerMask
 @onready var water_collider: Area2D = $extraCollisions/Water
+@onready var sprite_origin = $playerSpriteOrigin
+@onready var extra_collisions = $extraCollisions
+
+# exported variables
+@export var align_to_grid: bool = true:
+	set(value):
+		# wait until all nodes are defined, as setters may run before ready
+		align_to_grid = value
+		if not is_node_ready():
+			await ready
+		if value:
+			sprite_origin.position.y = 5.5
+			player_mask.position.y = 5.5
+			extra_collisions.position.y = 5.5
+		else:
+			sprite_origin.position.y = 0
+			player_mask.position.y = 0
+			extra_collisions.position.y = 0
 
 # State machine's states
 enum STATE {
@@ -54,17 +73,32 @@ var current_state: STATE = STATE.ON_CREATION
 """
 func _ready():
 	
+	# With @tool set, this code also runs in the editor, but most of it is for actual gameplay
+	# If we're in the editor, we stop running any further code
+	# Otherwise we undo the editor specific changes
+	var was_aligned_to_grid = align_to_grid
+	if Engine.is_editor_hint():
+		return
+	
 	# If a savefile exists (we've saved at least once), we move the player to
 	# the saved position, and also set its sprite and orientation
 	if !GLOBAL_SAVELOAD.variableGameData.first_time_saving:
 		set_position_on_load()
-		animated_sprite.flip_h = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped < 0
+		sprite_origin.scale.x = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped
 		looking_at = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped
 	else:
 		# If we haven't saved before, it makes a special type of save which sets
 		# things up for the rest of the game. 
+		
+		# when entering a room for the first time (including very first room), 
+		# obey the align_to_grid value that the room set for the player
+		if align_to_grid:
+			position.y += 5.5
+		
 		await Engine.get_main_loop().physics_frame
 		set_first_time_saving()
+	
+	align_to_grid = false
 	
 	# Sets a very important global variable. Lets everything know that the
 	# player does in fact exist and assigns it with its "id"
@@ -263,7 +297,13 @@ func _unhandled_key_input(event: InputEvent):
 ---------- MAIN LOGIC LOOP ----------
 """
 func _physics_process(delta):
-	
+	# As this script is marked with @tool, this code runs in the editor
+	# This allows us to make the scene react when editor buttons are clicked
+	# but physics will also apply making the kid fall down so we don't want
+	# physics to actually run
+	if Engine.is_editor_hint():
+		return
+
 	# Method for handling velocity calculations. Should be called before
 	# move_and_slide()
 	set_velocities()
@@ -531,10 +571,9 @@ func orient_player() -> void:
 	var direction_input: float = Input.get_axis("button_left", "button_right")
 	
 	if direction_input != 0:
-		animated_sprite.set_flip_h(direction_input < 0)
 		looking_at = roundi(direction_input)
-		$playerMask.position.x = roundi(direction_input)
-		$extraCollisions.scale.x = roundi(direction_input)
+		sprite_origin.scale.x = looking_at
+		extra_collisions.scale.x = looking_at
 
 
 # Handles gravity / falling
@@ -579,7 +618,7 @@ func handle_jumping() -> void:
 			if (in_water == false):
 				var jump_particle_id = jump_particle.instantiate()
 				get_parent().add_child(jump_particle_id)
-				jump_particle_id.global_position = Vector2(global_position.x, global_position.y + 12)
+				jump_particle_id.global_position = Vector2(global_position.x, global_position.y + 6.5)
 
 
 # Classic fangame bullet attack
@@ -599,7 +638,7 @@ func handle_shooting() -> void:
 		# Bullet's x coordinate:
 		#	-Takes into account the global x
 		#	-The bullet spacing, relative to where we are looking at 
-		create_bullet_id.global_position = Vector2(global_position.x, global_position.y + 5)
+		create_bullet_id.global_position = Vector2(global_position.x, global_position.y - 0.5)
 		GLOBAL_SOUNDS.play_sound("sndShoot")
 		
 		# After everything is set and done, creates the bullet
@@ -650,7 +689,7 @@ func on_death():
 		# We load a particle emitter, which does the visual stuff we want
 		var blood_emitter = load("res://Objects/Player/objBloodEmitter.tscn")
 		var blood_emitter_id = blood_emitter.instantiate()
-		blood_emitter_id.position = Vector2(position.x, position.y)
+		blood_emitter_id.position = Vector2(position.x, position.y - 5.5)
 		blood_emitter_id.side = looking_at
 		
 		# We add a sibling node to the player, not a child node, since the
@@ -691,6 +730,11 @@ func set_position_on_load():
 		# to those coordinates and then set them to 0,0 again
 		if GLOBAL_GAME.warp_to_point != Vector2.ZERO:
 			position = GLOBAL_GAME.warp_to_point
+			
+		# when entering a room for the first time, 
+		# obey the align_to_grid value that the room set for the player
+		if align_to_grid:
+			position.y += 5.5
 		
 		GLOBAL_GAME.warp_to_point = Vector2.ZERO
 		GLOBAL_GAME.is_changing_rooms = false
@@ -799,9 +843,9 @@ func _on_platform_snap_body_exited(body: Node2D) -> void:
 				# move_speed.y directly, so we don't need to calculate it in
 				# order to snap the player to them
 				if body.move_speed != Vector2.ZERO:
-					global_position.y = body.global_position.y - 16 - abs(body.move_speed.y)
+					global_position.y = body.global_position.y - 10.5 - abs(body.move_speed.y)
 				else:
-					global_position.y = body.global_position.y - 16
+					global_position.y = body.global_position.y - 10.5
 				
 				# This function "tests" if the player is above and close to the
 				# floor, including platforms, and if true, teleports and
