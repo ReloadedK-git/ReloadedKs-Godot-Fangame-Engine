@@ -39,9 +39,9 @@ var jump_particle := preload("res://Objects/Player/objJumpParticle.tscn")
 @export var align_to_grid: bool = true:
 	set(value):
 		# wait until all nodes are defined, as setters may run before ready
+		align_to_grid = value
 		if not is_node_ready():
 			await ready
-		align_to_grid = value
 		if value:
 			sprite_origin.position.y = 5.5
 			player_mask.position.y = 5.5
@@ -73,8 +73,10 @@ var current_state: STATE = STATE.ON_CREATION
 """
 func _ready():
 	
-	# With @tool set, this code also runs in the editor
-	# This avoids running any further code
+	# With @tool set, this code also runs in the editor, but most of it is for actual gameplay
+	# If we're in the editor, we stop running any further code
+	# Otherwise we undo the editor specific changes
+	var was_aligned_to_grid = align_to_grid
 	if Engine.is_editor_hint():
 		return
 	
@@ -88,15 +90,15 @@ func _ready():
 		# If we haven't saved before, it makes a special type of save which sets
 		# things up for the rest of the game. 
 		
-		# handle spawning on the ground if the toggle is enabled
-		if !Engine.is_editor_hint():
-			sprite_origin.position.y = 0
-			player_mask.position.y = 0
-			if align_to_grid:
-				position.y += 5.5
+		# when entering a room for the first time (including very first room), 
+		# obey the align_to_grid value that the room set for the player
+		if align_to_grid:
+			position.y += 5.5
 		
 		await Engine.get_main_loop().physics_frame
 		set_first_time_saving()
+	
+	align_to_grid = false
 	
 	# Sets a very important global variable. Lets everything know that the
 	# player does in fact exist and assigns it with its "id"
@@ -728,6 +730,11 @@ func set_position_on_load():
 		# to those coordinates and then set them to 0,0 again
 		if GLOBAL_GAME.warp_to_point != Vector2.ZERO:
 			position = GLOBAL_GAME.warp_to_point
+			
+		# when entering a room for the first time, 
+		# obey the align_to_grid value that the room set for the player
+		if align_to_grid:
+			position.y += 5.5
 		
 		GLOBAL_GAME.warp_to_point = Vector2.ZERO
 		GLOBAL_GAME.is_changing_rooms = false
