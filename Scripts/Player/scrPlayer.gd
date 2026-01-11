@@ -24,6 +24,7 @@ var is_ice_physics: bool = false
 var on_ice_velocity: float = 0.0
 var is_pushing_physics_object: bool = false
 var is_on_wind: bool = false
+var is_in_walljumpable: bool = false
 var wind_velocity: Vector2 = Vector2.ZERO
 var stored_wind_velocity: Vector2 = Vector2.ZERO
 var create_bullet := preload("res://Objects/Player/objBullet.tscn")
@@ -144,7 +145,9 @@ func _unhandled_input(event: InputEvent) -> void:
 						main_velocity.y *= jump_release_falloff
 				if event.is_action_pressed("button_jump"):
 					handle_jumping()
-			
+				
+				if is_in_walljumpable:
+					current_state = STATE.WALLJUMPING
 			
 			# Changes to "jumping" if there's jumping input, on air only
 			# Needs d_jump to jump again in the air before setting the "jumping" state
@@ -156,7 +159,9 @@ func _unhandled_input(event: InputEvent) -> void:
 						if d_jump or inside_platform_jump or (in_water and !is_catharsis_water) or GLOBAL_GAME.debug_inf_jump:
 							handle_jumping()
 							current_state = STATE.JUMPING
-			
+					
+					if is_in_walljumpable:
+						current_state = STATE.WALLJUMPING
 			
 			# Changes to "jumping" if there's both jumping and movement input
 			# Changes to "falling" if there's movement input opposite to the walljump
@@ -733,9 +738,13 @@ func _on_killers_body_entered(_body: Node2D) -> void:
 # Walljumps
 # Indicates whether the player is touching a walljump surface
 func _on_walljumps_body_entered(_body: Node2D) -> void:
+	is_in_walljumpable = true
 	if !is_on_floor():
 		current_state = STATE.WALLJUMPING
+
+
 func _on_walljumps_body_exited(_body: Node2D) -> void:
+	is_in_walljumpable = false
 	if current_state != STATE.JUMPING:
 		current_state = STATE.FALLING
 
