@@ -1,11 +1,9 @@
 extends Node
 
 
-"""
+"""-----------------------------------------------------------------------
 Public variables, meant to be accessed and modified outside of this script
-"""
-
-# Misc
+-----------------------------------------------------------------------"""
 var is_changing_rooms: bool = false
 var game_paused: bool = false
 var time: float = 0.0
@@ -34,21 +32,41 @@ var warp_to_point: Vector2 = Vector2.ZERO
 # Global camera limits array
 var global_camera_limits: Array = [0, 0, 0, 0]
 
+# Changes camera zoom. Bigger values zoom your game further
+var global_camera_zoom: float = 1.0
+var global_camera_zoom_to: float = 1.0
 
-"""
+
+"""------------------------------------------------------------------------------------
 Public readonly variables, meant to be accessed but not modified outside of this script
-"""
+------------------------------------------------------------------------------------"""
 var can_reset: bool = false
-var music_is_playing: bool = true
 enum {KEYBOARD, CONTROLLER}
 var global_input_device = KEYBOARD
 
 
-"""
+"""-------------------------------------------------------
 Private variables, meant to be handled only by this script
-"""
+-------------------------------------------------------"""
 var current_scene_name: String = ""
 var cur_pause_menu: Node = null
+
+# Death music states
+enum DEATH_MUSIC {
+	KEEP_PLAYING,
+	PAUSE_AND_PLAY,
+	ONLY_FADE_OUT,
+	FADE_OUT_AND_PLAY,
+	ONLY_SLOWDOWN,
+	SLOWDOWN_AND_PLAY
+}
+
+# Death music related variables
+var death_music_counter: float = 1.0
+var gameover_music_tween: Tween = null
+
+# Death music type. Change for different effects
+var death_music_type: DEATH_MUSIC = DEATH_MUSIC.FADE_OUT_AND_PLAY
 
 
 
@@ -69,6 +87,22 @@ func _physics_process(delta):
 	
 	# Adds the time and deaths to the titlebar
 	handle_titlebar()
+	
+	# Slowly zooms camera in/out
+	global_camera_zoom = lerp(global_camera_zoom, global_camera_zoom_to, 0.1)
+	
+	# Set music effects when the counter isn't its default value, signaling the
+	# player has died
+	if death_music_counter != 1.0:
+		match death_music_type:
+			DEATH_MUSIC.ONLY_FADE_OUT:
+				AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"), death_music_counter)
+			DEATH_MUSIC.FADE_OUT_AND_PLAY:
+				AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"), death_music_counter)
+			DEATH_MUSIC.ONLY_SLOWDOWN:
+				GLOBAL_MUSIC.set_pitch_scale(death_music_counter)
+			DEATH_MUSIC.SLOWDOWN_AND_PLAY:
+				GLOBAL_MUSIC.set_pitch_scale(death_music_counter)
 
 
 # We use this to check what type of input device we're using, which in turn
@@ -88,15 +122,19 @@ func _input(event):
 	if event.is_action_pressed("button_debug"):
 		toggle_debug_mode()
 	
-	if event.is_action_pressed("button_music"):
-		pause_music()
+	if event.is_action_pressed("button_fullgame_restart") and Input.is_key_pressed(KEY_CTRL):
+		full_game_restart()
 	
-	if event.is_action_pressed("button_fullscreen"):
+	if event.is_action_pressed("button_window_scaling") and Input.is_key_pressed(KEY_CTRL):
+		match global_camera_zoom_to:
+			1.0:
+				global_camera_zoom_to = 2.0
+			2.0:
+				global_camera_zoom_to = 1.0
+	
+	if event.is_action_pressed("button_fullscreen") and Input.is_key_pressed(KEY_CTRL):
 		GLOBAL_SETTINGS.FULLSCREEN = !GLOBAL_SETTINGS.FULLSCREEN
 		GLOBAL_SETTINGS.set_window_mode()
-	
-	if event.is_action_pressed("button_fullgame_restart"):
-		full_game_restart()
 	
 	if event.is_action_pressed("button_quitgame"):
 		game_quit()
@@ -154,6 +192,10 @@ func full_game_restart(to_scene: String = "") -> void:
 			get_tree().set_pause(false)
 			game_paused = false
 		
+		# Gameover music resetting. Kills music tween, resets counter, volume
+		# and pitch
+		reset_gameover_music()
+		
 		# Clear/reset our global arrays
 		triggered_events.clear()
 		dialog_events.clear()
@@ -175,9 +217,115 @@ func toggle_debug_mode() -> void:
 	if debug_mode:
 		GLOBAL_SOUNDS.play_sound("sndWarp") 
 
-# Pauses music using a keyboard shortcut
-func pause_music() -> void:
-	music_is_playing = !music_is_playing
+
+# Sets how the gameover should sound when the player has died
+func play_gameover_music():
+	
+	# Sets the music counter to the global music volume
+	death_music_counter = GLOBAL_SETTINGS.MUSIC_VOLUME
+	
+	# Selects death music type
+	match death_music_type:
+		
+		# Plays the regular death sound. No death music
+		DEATH_MUSIC.KEEP_PLAYING:
+			GLOBAL_SOUNDS.stop_sound("sndDeath")
+			GLOBAL_SOUNDS.play_sound("sndDeath")
+		
+		
+		# Plays death sound and death music. Stops level music
+		# Pauses the level music instantly
+		DEATH_MUSIC.PAUSE_AND_PLAY:
+			GLOBAL_SOUNDS.stop_sound("sndDeath")
+			GLOBAL_SOUNDS.play_sound("sndDeath")
+			GLOBAL_SOUNDS.play_sound("sndOnDeath")
+			GLOBAL_MUSIC.set_stream_paused(true)
+		
+		
+		# Plays death sound and slowly reduces music counter.
+		# When the counter is low enough, pauses the level music.
+		DEATH_MUSIC.ONLY_FADE_OUT:
+			GLOBAL_SOUNDS.stop_sound("sndDeath")
+			GLOBAL_SOUNDS.play_sound("sndDeath")
+			
+			if gameover_music_tween:
+				gameover_music_tween.kill()
+			
+			gameover_music_tween = get_tree().create_tween()
+			gameover_music_tween.tween_property(self, "death_music_counter", 0.0, 1.0)
+			
+			await gameover_music_tween.finished
+			GLOBAL_MUSIC.set_stream_paused(true)
+		
+		
+		# Plays death sound and slowly reduces music counter.
+		# When the counter is low enough, plays death music and pauses the
+		# level music. Gentler fade into death music
+		DEATH_MUSIC.FADE_OUT_AND_PLAY:
+			GLOBAL_SOUNDS.stop_sound("sndDeath")
+			GLOBAL_SOUNDS.play_sound("sndDeath")
+			
+			if gameover_music_tween:
+				gameover_music_tween.kill()
+			
+			gameover_music_tween = get_tree().create_tween()
+			gameover_music_tween.tween_property(self, "death_music_counter", 0.0, 1.0)
+			
+			await get_tree().create_timer(0.2).timeout
+			GLOBAL_SOUNDS.play_sound("sndOnDeath")
+			
+			await gameover_music_tween.finished
+			GLOBAL_MUSIC.set_stream_paused(true)
+		
+		
+		# Plays death sound and slowly reduces music counter.
+		# When the counter is low enough, manually sets it to a very low value
+		# (higher than 0 to avoid errors)
+		DEATH_MUSIC.ONLY_SLOWDOWN:
+			GLOBAL_SOUNDS.stop_sound("sndDeath")
+			GLOBAL_SOUNDS.play_sound("sndDeath")
+			
+			if gameover_music_tween:
+				gameover_music_tween.kill()
+			
+			gameover_music_tween = get_tree().create_tween()
+			gameover_music_tween.tween_property(self, "death_music_counter", 0.3, 1.0)
+			
+			await gameover_music_tween.finished
+			death_music_counter = 0.001
+			GLOBAL_MUSIC.set_stream_paused(true)
+		
+		
+		# Plays death sound and slowly reduces music counter.
+		# When the counter is low enough, manually sets it to a very low value
+		# (higher than 0 to avoid errors) and plays the death music
+		DEATH_MUSIC.SLOWDOWN_AND_PLAY:
+			GLOBAL_SOUNDS.stop_sound("sndDeath")
+			GLOBAL_SOUNDS.play_sound("sndDeath")
+			
+			if gameover_music_tween:
+				gameover_music_tween.kill()
+			
+			gameover_music_tween = get_tree().create_tween()
+			gameover_music_tween.tween_property(self, "death_music_counter", 0.3, 1.0)
+			
+			await gameover_music_tween.finished
+			death_music_counter = 0.001
+			GLOBAL_MUSIC.set_stream_paused(true)
+			GLOBAL_SOUNDS.play_sound("sndOnDeath")
+
+
+# Gameover music resetting. Kills music tween, resets counter, volume
+# and pitch. Stops death music and sound. Resumes regular music
+func reset_gameover_music() -> void:
+	if gameover_music_tween != null:
+		gameover_music_tween.kill()
+	death_music_counter = 1.0
+	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"), GLOBAL_SETTINGS.MUSIC_VOLUME)
+	GLOBAL_MUSIC.set_pitch_scale(1.0)
+	GLOBAL_SOUNDS.stop_sound("sndOnDeath")
+	GLOBAL_SOUNDS.stop_sound("sndDeath")
+	GLOBAL_MUSIC.set_stream_paused(false)
 
 
 # The "R" key. Resets the game if certain conditions are met
@@ -200,6 +348,15 @@ func handle_resetting(reset_key) -> void:
 	# To avoid R spamming, we check for a single-frame press. As long as we're
 	# allowed to reset and we press the proper button, we will reset
 	if reset_key.is_action_pressed("button_reset") and (can_reset):
+		
+		# Stops death music if playing
+		GLOBAL_SOUNDS.stop_sound("sndOnDeath")
+		
+		# Gameover music resetting. Kills music tween, resets counter, volume
+		# and pitch
+		reset_gameover_music()
+		
+		# Actual reset
 		reset()
 
 
@@ -285,7 +442,6 @@ func reset_HUD() -> void:
 func time_counter(delta):
 	if !game_paused and is_valid_room():
 			time += delta
-	
 
 
 # Takes a time parameter and returns it as a formatted string

@@ -6,7 +6,6 @@ const DATA_PATH := "user://Data/Settings.cfg"
 var MUSIC_VOLUME: float = 1.0
 var SOUND_VOLUME: float = 1.0
 var FULLSCREEN: bool = false
-var ZOOM_SCALING: float = 1.0
 var HUD_SCALING: float = 1.0
 var WINDOW_SCALING: float = 1.0
 var VSYNC: bool = false
@@ -16,7 +15,6 @@ var AUTORESET: bool = false
 const DEFAULT_MUSIC_VOLUME: float = 1.0
 const DEFAULT_SOUND_VOLUME: float = 1.0
 const DEFAULT_FULLSCREEN: bool = false
-const DEFAULT_ZOOM_SCALING: float = 1.0
 const DEFAULT_HUD_SCALING: float = 1.0
 const DEFAULT_WINDOW_SCALING: float = 1.0
 const DEFAULT_VSYNC: bool = false
@@ -56,7 +54,6 @@ func save_settings() -> void:
 	configFile.set_value("volume", "music_volume", MUSIC_VOLUME)
 	configFile.set_value("volume", "sound_volume", SOUND_VOLUME)
 	configFile.set_value("settings", "fullscreen", FULLSCREEN)
-	configFile.set_value("settings", "zoom_scaling", ZOOM_SCALING)
 	configFile.set_value("settings", "hud_scaling", HUD_SCALING)
 	configFile.set_value("settings", "window_scaling", WINDOW_SCALING)
 	configFile.set_value("settings", "vsync", VSYNC)
@@ -76,7 +73,6 @@ func load_settings() -> void:
 	MUSIC_VOLUME = configFile.get_value("volume", "music_volume", MUSIC_VOLUME)
 	SOUND_VOLUME = configFile.get_value("volume", "sound_volume", SOUND_VOLUME)
 	FULLSCREEN = configFile.get_value("settings", "fullscreen", FULLSCREEN)
-	ZOOM_SCALING = configFile.get_value("settings", "zoom_scaling", ZOOM_SCALING)
 	HUD_SCALING = configFile.get_value("settings", "hud_scaling", HUD_SCALING)
 	WINDOW_SCALING = configFile.get_value("settings", "window_scaling", WINDOW_SCALING)
 	VSYNC = configFile.get_value("settings", "vsync", VSYNC)
@@ -102,7 +98,6 @@ func default_settings() -> void:
 	MUSIC_VOLUME = DEFAULT_MUSIC_VOLUME
 	SOUND_VOLUME = DEFAULT_SOUND_VOLUME
 	FULLSCREEN = DEFAULT_FULLSCREEN
-	ZOOM_SCALING = DEFAULT_ZOOM_SCALING
 	HUD_SCALING = DEFAULT_HUD_SCALING
 	WINDOW_SCALING = DEFAULT_WINDOW_SCALING
 	VSYNC = DEFAULT_VSYNC

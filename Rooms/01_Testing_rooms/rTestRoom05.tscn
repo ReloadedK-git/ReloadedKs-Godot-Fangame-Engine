@@ -110,7 +110,7 @@ _data = {
 }
 point_count = 2
 
-[node name="rTemplate" type="Node2D"]
+[node name="rTestRoom05" type="Node2D"]
 
 [node name="Environment" type="Node2D" parent="."]
 

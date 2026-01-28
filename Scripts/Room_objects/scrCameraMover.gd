@@ -15,12 +15,9 @@ extends Polygon2D
 
 
 
+# Hides the visible polygon2d and uses its points for the polygon collider
 func _ready():
-	
-	# Hides the visible polygon2d
 	hide()
-	
-	# Gets collision points from the drawn polygon
 	camera_collision_polygon.polygon = camera_polygon.get_polygon()
 
 

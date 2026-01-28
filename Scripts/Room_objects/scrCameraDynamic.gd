@@ -45,11 +45,7 @@ func _ready():
 	else:
 		target_node = self
 	
-	# Camera zoom at start
-	if !ignore_global_zoom:
-		zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
-	else:
-		zoom = manual_zoom_amount
+	camera_zoom()
 	
 	# Invisible sprite, just for room creation
 	$Sprite2D.visible = false
@@ -75,6 +71,8 @@ func _ready():
 # Updates the camera target
 func _physics_process(_delta):
 	
+	camera_zoom()
+	
 	# Godot's "instance_exists"
 	# Gets objPlayer's global_position, stores it on a local variable, follows it while
 	# adding some linear interpolation
@@ -87,3 +85,13 @@ func _physics_process(_delta):
 		# get_xy, which no longer updates, but it still stored the player's
 		# last global_position, so we continue lerping to it
 		global_position = lerp(global_position, get_xy, focus_speed)
+
+
+
+func camera_zoom() -> void:
+	
+	# Camera zoom at start
+	if !ignore_global_zoom:
+		zoom = Vector2(GLOBAL_GAME.global_camera_zoom, GLOBAL_GAME.global_camera_zoom)
+	else:
+		zoom = manual_zoom_amount

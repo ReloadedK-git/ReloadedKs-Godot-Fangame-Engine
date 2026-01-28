@@ -48,7 +48,7 @@ func _ready():
 	
 	# Sets focus to the first option (we do this after setting the button's
 	# colors. Otherwise, the focus color will get overwritten)
-	$CanvasLayer/VBoxContainer/OptionsContainer/MusicVolume.grab_focus()
+	$CanvasLayer/VBoxContainer/OptionsContainer/ResumeGame.grab_focus()
 
 
 
@@ -93,6 +93,12 @@ func _on_items_menu_pressed():
 		queue_free()
 
 
+# Resume game
+func _on_resume_game_pressed():
+	get_viewport().set_input_as_handled()
+	quit_pause()
+
+
 # Music volume
 func _on_music_volume_gui_input(event):
 	if event.is_action_pressed("ui_right"):
@@ -127,19 +133,13 @@ func _on_quit_to_menu_pressed():
 	GLOBAL_GAME.full_game_restart(main_menu)
 
 
-# Resume game
-func _on_resume_game_pressed():
-	get_viewport().set_input_as_handled()
-	quit_pause()
-
-
 
 # Updates text labels to show the proper key ids
 func set_labels_text():
+	$CanvasLayer/VBoxContainer/OptionsContainer/ResumeGame/Label.text = "Resume Game"
 	$CanvasLayer/VBoxContainer/OptionsContainer/MusicVolume/Label.text = "Music Volume: " + str(round(music_volume * 100)) + "%"
 	$CanvasLayer/VBoxContainer/OptionsContainer/SoundVolume/Label.text = "Sound Volume: " + str(round(sound_volume * 100)) + "%"
 	$CanvasLayer/VBoxContainer/OptionsContainer/QuitToMenu/Label.text = "Quit to Main Menu"
-	$CanvasLayer/VBoxContainer/OptionsContainer/ResumeGame/Label.text = "Resume"
 
 
 # Updates the labels to their proper keys. Keys are returned as text from

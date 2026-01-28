@@ -36,12 +36,7 @@ func _ready():
 	else:
 		target_node = self
 	
-	# Sets initial zoom and scrolling speed
-	if !ignore_global_zoom:
-		zoom = Vector2(GLOBAL_SETTINGS.ZOOM_SCALING, GLOBAL_SETTINGS.ZOOM_SCALING)
-	else:
-		zoom = manual_zoom_amount
-	position_smoothing_speed = scrolling_speed
+	camera_zoom()
 	
 	# Hides the sprite
 	$Sprite2D.visible = false
@@ -49,6 +44,9 @@ func _ready():
 
 # Updates the camera target and enables position smoothing if disabled
 func _physics_process(_delta):
+	
+	camera_zoom()
+	
 	if is_instance_valid(target_node):
 		set_camera_target()
 	
@@ -61,8 +59,25 @@ func _physics_process(_delta):
 # center of the screen relative to the target's position
 func set_camera_target():
 	
-	var camera_width_zoom: float = camera_width / GLOBAL_SETTINGS.ZOOM_SCALING
-	var camera_height_zoom: float = camera_height / GLOBAL_SETTINGS.ZOOM_SCALING
+	var set_camera_zoom = func(zoom_amount: Vector2 = Vector2.ONE):
+		var camera_width_zoom: float = camera_width / zoom_amount.x
+		var camera_height_zoom: float = camera_height / zoom_amount.y
+		
+		global_position.x = floor(target_node.global_position.x / camera_width_zoom) * camera_width_zoom + (camera_width_zoom / 2)
+		global_position.y = floor(target_node.global_position.y / camera_height_zoom) * camera_height_zoom + (camera_height_zoom / 2)
 	
-	global_position.x = floor(target_node.global_position.x / camera_width_zoom) * camera_width_zoom + (camera_width_zoom / 2)
-	global_position.y = floor(target_node.global_position.y / camera_height_zoom) * camera_height_zoom + (camera_height_zoom / 2)
+	if !ignore_global_zoom:
+		set_camera_zoom.call(Vector2(GLOBAL_GAME.global_camera_zoom, GLOBAL_GAME.global_camera_zoom))
+	else:
+		set_camera_zoom.call(Vector2(manual_zoom_amount.x, manual_zoom_amount.y))
+
+
+
+func camera_zoom() -> void:
+	
+	# Sets initial zoom and scrolling speed
+	if !ignore_global_zoom:
+		zoom = Vector2(GLOBAL_GAME.global_camera_zoom, GLOBAL_GAME.global_camera_zoom)
+	else:
+		zoom = manual_zoom_amount
+	position_smoothing_speed = scrolling_speed

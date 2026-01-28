@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b31w5fm4w5857"]
+[gd_scene format=3 uid="uid://b31w5fm4w5857"]
 
 [ext_resource type="Script" uid="uid://bd7rey02fkcfl" path="res://Scripts/Room_objects/scrSavePoint.gd" id="1_ldsdy"]
 [ext_resource type="Texture2D" uid="uid://d1jo7vo305wif" path="res://Graphics/Sprites/Room_objects/sprSave.png" id="1_tdmdo"]
@@ -6,25 +6,36 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_50khl"]
 size = Vector2(28, 32)
 
-[node name="objSavePoint" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ms2ke"]
+size = Vector2(28, 32)
+
+[node name="objSavePoint" type="Node2D" unique_id=276356395]
 script = ExtResource("1_ldsdy")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=8047817]
 texture = ExtResource("1_tdmdo")
 hframes = 2
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Bullet" type="Area2D" parent="." unique_id=2023299280]
 collision_layer = 0
-collision_mask = 17
+collision_mask = 16
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bullet" unique_id=1568429100]
 shape = SubResource("RectangleShape2D_50khl")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Player" type="Area2D" parent="." unique_id=190267556]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=633897367]
+visible = false
+shape = SubResource("RectangleShape2D_ms2ke")
+
+[node name="Timer" type="Timer" parent="." unique_id=1233451710]
 one_shot = true
 autostart = true
 
-[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
-[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="body_entered" from="Bullet" to="." method="_on_bullet_body_entered"]
+[connection signal="body_entered" from="Player" to="." method="_on_player_body_entered"]
+[connection signal="body_exited" from="Player" to="." method="_on_player_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

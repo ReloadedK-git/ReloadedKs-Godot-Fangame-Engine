@@ -16,9 +16,7 @@ var vsync_on: bool = true
 var autoreset_on: bool = false
 
 # Scaling related
-var zoom_scaling: float = 1.0
 var HUD_scaling: float = 1.0
-var zoom_scaling_step: float = 1.0
 var HUD_scaling_step: float = 0.5
 var window_scaling: float = 1.0
 var window_scaling_step: float = 0.5
@@ -101,16 +99,6 @@ func _on_fullscreen_pressed():
 	GLOBAL_SETTINGS.FULLSCREEN = !GLOBAL_SETTINGS.FULLSCREEN
 	GLOBAL_SETTINGS.set_window_mode()
 
-# Zoom scale
-func _on_zoom_scale_gui_input(event):
-	if event.is_action_pressed("ui_right"):
-		if (zoom_scaling) < 2:
-			zoom_scaling += zoom_scaling_step
-	
-	if event.is_action_pressed("ui_left"):
-		if (zoom_scaling) > 1:
-			zoom_scaling -= zoom_scaling_step
-
 
 # HUD scale
 func _on_hud_scale_gui_input(event):
@@ -189,7 +177,6 @@ func load_from_global_settings():
 	music_volume = GLOBAL_SETTINGS.MUSIC_VOLUME
 	sound_volume = GLOBAL_SETTINGS.SOUND_VOLUME
 	fullscreen_on = GLOBAL_SETTINGS.FULLSCREEN
-	zoom_scaling = GLOBAL_SETTINGS.ZOOM_SCALING
 	HUD_scaling = GLOBAL_SETTINGS.HUD_SCALING
 	window_scaling = GLOBAL_SETTINGS.WINDOW_SCALING
 	vsync_on = GLOBAL_SETTINGS.VSYNC
@@ -201,7 +188,6 @@ func set_labels_text():
 	$SettingsContainer/MusicVolume/Label.text = "Music Volume: " + str(round(music_volume * 100)) + "%"
 	$SettingsContainer/SFXVolume/Label.text = "Sound Volume: " + str(round(sound_volume * 100)) + "%"
 	$SettingsContainer/Fullscreen/Label.text = "Fullscreen: " + str(bool_to_on_off(fullscreen_on))
-	$SettingsContainer/ZoomScale/Label.text = "Zoom Scale: " + str(zoom_scaling) + "x"
 	$SettingsContainer/HUDScale/Label.text = "HUD Scale: " + str(HUD_scaling) + "x"
 	$SettingsContainer/WindowScale/Label.text = "Window Scale: " + str(window_scaling) + "x"
 	$SettingsContainer/Vsync/Label.text = "Vsync: " + str(bool_to_on_off(vsync_on))
@@ -217,7 +203,6 @@ func save_on_exit():
 	# Updating the global settings file
 	GLOBAL_SETTINGS.MUSIC_VOLUME = music_volume
 	GLOBAL_SETTINGS.SOUND_VOLUME = sound_volume
-	GLOBAL_SETTINGS.ZOOM_SCALING = zoom_scaling
 	GLOBAL_SETTINGS.HUD_SCALING = HUD_scaling
 	GLOBAL_SETTINGS.WINDOW_SCALING = window_scaling
 	GLOBAL_SETTINGS.AUTORESET = autoreset_on
@@ -237,7 +222,6 @@ func reset_settings_to_default():
 	music_volume = GLOBAL_SETTINGS.DEFAULT_MUSIC_VOLUME
 	sound_volume = GLOBAL_SETTINGS.DEFAULT_SOUND_VOLUME
 	fullscreen_on = GLOBAL_SETTINGS.DEFAULT_FULLSCREEN
-	zoom_scaling = GLOBAL_SETTINGS.DEFAULT_ZOOM_SCALING
 	HUD_scaling = GLOBAL_SETTINGS.DEFAULT_HUD_SCALING
 	window_scaling = GLOBAL_SETTINGS.DEFAULT_WINDOW_SCALING
 	vsync_on = GLOBAL_SETTINGS.DEFAULT_VSYNC

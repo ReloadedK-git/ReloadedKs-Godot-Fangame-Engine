@@ -17,9 +17,6 @@ func _physics_process(_delta):
 	
 	volume_db = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music"))
 	
-	# For pausing or resuming the music. Check scrGlobalGame
-	set_stream_paused(!GLOBAL_GAME.music_is_playing)
-	
 	# Set the start and end positions for the music loop
 	set_loop_positions()
 

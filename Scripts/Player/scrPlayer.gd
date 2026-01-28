@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-"""
+"""----------------------------------------
 ---------- VARIABLE DECLARATIONS ---------- 
-"""
+----------------------------------------"""
 var gravity: int = 1000
 var v_speed: int = 470
 var h_speed: int = 150
@@ -11,11 +11,14 @@ var max_fall_speed: int = 470
 var s_jump_speed: int = 405
 var d_jump_speed: int = 350
 var jump_release_falloff: float = 0.45
+var horizontal_movement_direction: float = 0
+var vertical_movement_direction: float = 0
 var is_player_alive: bool = true
 var looking_at: int = 1
 var frozen: bool = false
 var d_jump: bool = true
 var inside_platform_jump: bool = false
+var can_walljump: bool = false
 var in_water: bool = false
 var is_catharsis_water: bool = false
 var v_speed_modifier: float = 1.0
@@ -26,11 +29,13 @@ var is_pushing_physics_object: bool = false
 var is_on_wind: bool = false
 var wind_velocity: Vector2 = Vector2.ZERO
 var stored_wind_velocity: Vector2 = Vector2.ZERO
+var sprite_offset: float = -1.1
 var create_bullet := preload("res://Objects/Player/objBullet.tscn")
 var jump_particle := preload("res://Objects/Player/objJumpParticle.tscn")
-@onready var animated_sprite = $playerSprites
+@onready var animated_sprite = $playerSpriteOrigin/playerSprites
 @onready var player_mask: CollisionShape2D = $playerMask
 @onready var water_collider: Area2D = $extraCollisions/Water
+@onready var sprite_origin = $playerSpriteOrigin
 
 # State machine's states
 enum STATE {
@@ -44,22 +49,36 @@ enum STATE {
 }
 
 # Initial state
-#var current_state: STATE = STATE.IDLE
 var current_state: STATE = STATE.ON_CREATION
 
+# Horizontal movement input behaviour
+# RIGHT_TAKES_PRIORITY: same as every classic fangame engine
+# FIRST_DIRECTION_KEEPS_PRIORITY: player keeps moving towards its initial direction
+# LAST_DIRECTION_TAKES_PRIORITY: last key press replaces the player direction
+# STOP_ON_BOTH: pressing both keys stops movement entirely
+enum MOVEMENT_TYPE {
+	RIGHT_TAKES_PRIORITY,
+	FIRST_DIRECTION_KEEPS_PRIORITY,
+	LAST_DIRECTION_TAKES_PRIORITY,
+	STOP_ON_BOTH
+}
+
+# Changes how the player should move when pressing both left and right
+var current_movement_type: MOVEMENT_TYPE = MOVEMENT_TYPE.RIGHT_TAKES_PRIORITY
 
 
-"""
+
+"""---------------------------------
 ---------- CREATION EVENT ----------
-"""
+---------------------------------"""
 func _ready():
 	
 	# If a savefile exists (we've saved at least once), we move the player to
-	# the saved position, and also set its sprite and orientation
+	# the saved position, and also orient its sprite and masks
 	if !GLOBAL_SAVELOAD.variableGameData.first_time_saving:
 		set_position_on_load()
-		animated_sprite.flip_h = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped < 0
-		looking_at = GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped
+		orient_player(GLOBAL_SAVELOAD.variableGameData.player_sprite_flipped)
+		animated_sprite.offset.x = sprite_offset
 	else:
 		# If we haven't saved before, it makes a special type of save which sets
 		# things up for the rest of the game. 
@@ -97,7 +116,7 @@ func _ready():
 	
 	# Turns hitbox visible if debug setting is enabled
 	if GLOBAL_GAME.debug_hitbox:
-		$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
+		$playerSpriteOrigin/ColorRect.visible = GLOBAL_GAME.debug_hitbox
 	
 	# Signal connections
 	GLOBAL_SIGNALS.player_jumped.connect(wind_reset.bind())
@@ -105,9 +124,10 @@ func _ready():
 
 
 
-"""
+
+"""-------------------------------
 ---------- INPUT EVENTS ----------
-"""
+-------------------------------"""
 func _unhandled_input(event: InputEvent) -> void:
 	
 	# Disables inputs when frozen (for dialogs events/cutscenes)
@@ -118,9 +138,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			# Changes to "jumping" if there's jumping input, grounded
 			STATE.IDLE:
 				if is_on_floor():
-					if Input.get_axis("button_left", "button_right"):
+					if handle_horizontal_input() != 0:
 						current_state = STATE.RUNNING
 					if event.is_action_pressed("button_jump"): 
+						d_jump = true
 						handle_jumping()
 						current_state = STATE.JUMPING
 			
@@ -129,9 +150,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			# Changes to "jumping" if there's jumping input, grounded
 			STATE.RUNNING:
 				if is_on_floor():
-					if !Input.get_axis("button_left", "button_right"):
+					if handle_horizontal_input() == 0:
 						current_state = STATE.IDLE
 					if event.is_action_pressed("button_jump"):
+						d_jump = true
 						handle_jumping()
 						current_state = STATE.JUMPING
 			
@@ -165,6 +187,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				var walljumping_action = func():
 					main_velocity.x = jump_direction.x * h_speed
 					main_velocity.y = -s_jump_speed
+					can_walljump = false
 					GLOBAL_SOUNDS.play_sound("sndJump")
 					
 					# Emit the "player_walljumped" signal
@@ -174,27 +197,32 @@ func _unhandled_input(event: InputEvent) -> void:
 				if Input.is_action_pressed("button_jump"):
 				
 					# Walljump to the right
-					if (Input.get_axis("button_left", "button_right") > 0) and (jump_direction == Vector2.RIGHT):
+					if Input.is_action_just_pressed("button_right") and jump_direction == Vector2.RIGHT:
+						horizontal_movement_direction = 1.0
 						walljumping_action.call()
 						current_state = STATE.JUMPING
 					
 					# Walljump to the left
-					if (Input.get_axis("button_left", "button_right") < 0) and (jump_direction == Vector2.LEFT):
+					if Input.is_action_just_pressed("button_left") and (jump_direction == Vector2.LEFT):
+						horizontal_movement_direction = -1.0
 						walljumping_action.call()
 						current_state = STATE.JUMPING
 				else:
-					# Not holding the jump button, but pressing left or right on the 
-					# opposite direction to the vine leaves it and stops the
+					# While not holding the jump button, pressing left or right on
+					# the opposite direction to the vine leaves it and stops the
 					# walljumping state.
+					var drop_walljump = func():
+						main_velocity.y = 0
+						can_walljump = false
+						current_state = STATE.FALLING
+					
 					# Drop right walljump
 					if (Input.get_axis("button_left", "button_right") < 0) and (jump_direction == Vector2.LEFT):
-						main_velocity.y = 0
-						current_state = STATE.FALLING
+						drop_walljump.call()
 						
 					# Drop left walljump
 					if (Input.get_axis("button_left", "button_right") > 0) and (jump_direction == Vector2.RIGHT):
-						main_velocity.y = 0
-						current_state = STATE.FALLING
+						drop_walljump.call()
 			
 			
 			# Changes to "falling" if there's jumping input
@@ -211,9 +239,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 
-"""
+
+"""-----------------------------------
 ---------- DEBUG KEY INPUTS ----------
-"""
+-----------------------------------"""
 # Handles all debug key toggles. Keys are hardcoded.
 func _unhandled_key_input(event: InputEvent):
 	
@@ -240,7 +269,7 @@ func _unhandled_key_input(event: InputEvent):
 			# Toggle hitbox view
 			if event.keycode == KEY_3:
 				GLOBAL_GAME.debug_hitbox = !GLOBAL_GAME.debug_hitbox
-				$playerMask/ColorRect.visible = GLOBAL_GAME.debug_hitbox
+				$playerSpriteOrigin/ColorRect.visible = GLOBAL_GAME.debug_hitbox
 				
 				# Sound for debug hitbox
 				if GLOBAL_GAME.debug_hitbox:
@@ -259,9 +288,10 @@ func _unhandled_key_input(event: InputEvent):
 
 
 
-"""
+
+"""----------------------------------
 ---------- MAIN LOGIC LOOP ----------
-"""
+----------------------------------"""
 func _physics_process(delta):
 	
 	# Method for handling velocity calculations. Should be called before
@@ -278,7 +308,9 @@ func _physics_process(delta):
 	reset_velocities()
 	
 	# Handles sprite, bullet and mask directions via input
-	orient_player()
+	if handle_horizontal_input() != 0:
+		orient_player(handle_horizontal_input())
+		animated_sprite.offset.x = sprite_offset
 	
 	# State machine
 	match current_state:
@@ -289,7 +321,7 @@ func _physics_process(delta):
 		# If on air, changes to "falling"
 		STATE.ON_CREATION:
 			if is_on_floor():
-				if Input.get_axis("button_left", "button_right"):
+				if handle_horizontal_input() != 0:
 					current_state = STATE.RUNNING
 				else:
 					current_state = STATE.IDLE
@@ -366,6 +398,8 @@ func _physics_process(delta):
 						current_state = STATE.RUNNING
 					else:
 						current_state = STATE.IDLE
+			if can_walljump:
+				current_state = STATE.WALLJUMPING
 			add_gravity(delta)
 	
 	
@@ -390,10 +424,8 @@ func _physics_process(delta):
 		STATE.CLIMBING:
 			animated_sprite.play("climbing")
 			
-			var direction_x = Input.get_axis("button_left", "button_right")
-			var direction_y = Input.get_axis("button_up", "button_down")
-			main_velocity.x = sign(direction_x) * h_speed
-			main_velocity.y = sign(direction_y) * h_speed
+			main_velocity.x = handle_horizontal_input() * h_speed
+			main_velocity.y = handle_vertical_input() * h_speed
 			
 			if main_velocity == Vector2.ZERO:
 				animated_sprite.pause()
@@ -406,7 +438,7 @@ func _physics_process(delta):
 	# If we are colliding with a climbable surface and we press "button_up" or
 	# "button_down", we stop our vertical velocity and enter the climbing state
 	# if we weren't there before
-	if (Input.is_action_pressed("button_up") or Input.is_action_pressed("button_down")) and can_climb:
+	if can_climb and (Input.is_action_pressed("button_up") or Input.is_action_pressed("button_down")):
 		if current_state != STATE.CLIMBING:
 			main_velocity.y = 0
 			current_state = STATE.CLIMBING
@@ -484,9 +516,10 @@ func _physics_process(delta):
 
 
 
-"""
+
+"""---------------------------------
 ---------- CUSTOM METHODS ----------
-"""
+---------------------------------"""
 # Sets velocity by adding every velocity vector variable
 func set_velocities() -> void:
 	velocity = main_velocity + wind_velocity
@@ -499,42 +532,100 @@ func reset_velocities() -> void:
 		main_velocity.y = 0
 
 
+# Sets input direction for handling horizontal movement
+func handle_horizontal_input():
+	match current_movement_type:
+		
+		# Right direction always takes priority. Resembles classic fangame engines
+		MOVEMENT_TYPE.RIGHT_TAKES_PRIORITY:
+			if Input.is_action_pressed("button_right"):
+				horizontal_movement_direction = 1.0
+			elif Input.is_action_pressed("button_left"):
+				horizontal_movement_direction = -1.0
+			else:
+				horizontal_movement_direction = 0.0
+		
+		
+		# If pressing "button_left" or "button_right", gets horizontal input and sets
+		# horizontal_movement_direction.
+		# Keeps horizontal_movement_direction even when pressing both directional
+		# keys. It can only reset if we stop pressing them both
+		MOVEMENT_TYPE.FIRST_DIRECTION_KEEPS_PRIORITY:
+			if Input.get_axis("button_left", "button_right") != 0:
+				horizontal_movement_direction = Input.get_axis("button_left", "button_right")
+			else:
+				if not Input.is_action_pressed("button_left") and not Input.is_action_pressed("button_right"):
+					horizontal_movement_direction = 0
+		
+		
+		# When pressing both directional keys at the same time, the last key
+		# pressed will take priority, changing to its direction
+		MOVEMENT_TYPE.LAST_DIRECTION_TAKES_PRIORITY:
+			if Input.is_action_pressed("button_right") and not Input.is_action_pressed("button_left"):
+				horizontal_movement_direction = 1.0
+			elif Input.is_action_just_pressed("button_left"):
+					horizontal_movement_direction = -1.0
+			
+			if Input.is_action_pressed("button_left") and not Input.is_action_pressed("button_right"):
+				horizontal_movement_direction = -1.0
+			elif Input.is_action_just_pressed("button_right"):
+					horizontal_movement_direction = 1.0
+			
+			if not Input.is_action_pressed("button_left") and not Input.is_action_pressed("button_right"):
+				horizontal_movement_direction = 0.0
+		
+		
+		# Stops movement when both left and right keys are pressed
+		MOVEMENT_TYPE.STOP_ON_BOTH:
+			horizontal_movement_direction = Input.get_axis("button_left", "button_right")
+	
+	return sign(horizontal_movement_direction)
+
+
+# Sets input direction for handling vertical movement
+func handle_vertical_input():
+	
+	# If pressing "button_up" or "button_down", gets vertical input and sets
+	# vertical_movement_direction.
+	# Keeps vertical_movement_direction even when pressing both directional
+	# keys. It can only reset if we stop pressing them both
+	if Input.get_axis("button_up", "button_down") != 0:
+		vertical_movement_direction = Input.get_axis("button_up", "button_down")
+	else:
+		if not Input.is_action_pressed("button_up") and not Input.is_action_pressed("button_down"):
+			vertical_movement_direction = 0
+	
+	return sign(vertical_movement_direction)
+
+
 # Handles horizontal movement
 func handle_horizontal_movement():
 	
 	# The amount of "floor friction" for ice physics
 	var ice_speed: float = 10
 	
-	# Get the input direction and handle the movement
-	var main_direction: float = Input.get_axis("button_left", "button_right")
-	
 	# Regular and ice physics horizontal velocity
 	if !is_ice_physics:
 		
 		# Adds horizontal velocity. Also handles controller stick deadzone (values
 		# go from -1.0 to 1.0)
-		main_velocity.x = sign(main_direction) * h_speed
+		main_velocity.x = handle_horizontal_input() * h_speed
 	else:
 		
 		# Adds horizontal velocity with acceleration/deceleration
-		if main_direction != 0:
-			main_velocity.x = move_toward(main_velocity.x, sign(main_direction) * h_speed, ice_speed)
+		if handle_horizontal_input() != 0:
+			main_velocity.x = move_toward(main_velocity.x, handle_horizontal_input() * h_speed, ice_speed)
 			on_ice_velocity = main_velocity.x
 		else:
 			main_velocity.x = move_toward(on_ice_velocity, 0, ice_speed / 3)
 			on_ice_velocity = main_velocity.x
 
 
-# Orient sprite direction, masks and bullets
-func orient_player() -> void:
-	
-	var direction_input: float = Input.get_axis("button_left", "button_right")
-	
-	if direction_input != 0:
-		animated_sprite.set_flip_h(direction_input < 0)
-		looking_at = roundi(direction_input)
-		$playerMask.position.x = roundi(direction_input)
-		$extraCollisions.scale.x = roundi(direction_input)
+# Orient sprite origin, masks and bullets
+func orient_player(direction) -> void:
+	sprite_origin.scale.x = direction
+	$extraCollisions.scale.x = direction
+	looking_at = direction
 
 
 # Handles gravity / falling
@@ -656,7 +747,15 @@ func on_death():
 		# We add a sibling node to the player, not a child node, since the
 		# player object gets freed!
 		add_sibling(blood_emitter_id)
-		GLOBAL_SOUNDS.play_sound("sndDeath")
+		
+		# Adds screen shaking. Feel free to comment the following lines if you
+		# don't like the effect
+		var screen_shake = load("res://Objects/System/objScreenShake.tscn")
+		var screen_shake_id = screen_shake.instantiate()
+		add_sibling(screen_shake_id)
+		
+		# Plays gameover music
+		GLOBAL_GAME.play_gameover_music()
 		
 		# Adds an extra death to the global death counter
 		GLOBAL_GAME.deaths += 1
@@ -721,9 +820,10 @@ func set_first_time_saving():
 
 
 
-"""
+
+"""-----------------------------------
 ---------- EXTRA COLLISIONS ----------
-"""
+-----------------------------------"""
 # Killers
 # Calls "on_death"
 func _on_killers_body_entered(_body: Node2D) -> void:
@@ -733,9 +833,11 @@ func _on_killers_body_entered(_body: Node2D) -> void:
 # Walljumps
 # Indicates whether the player is touching a walljump surface
 func _on_walljumps_body_entered(_body: Node2D) -> void:
+	can_walljump = true
 	if !is_on_floor():
 		current_state = STATE.WALLJUMPING
 func _on_walljumps_body_exited(_body: Node2D) -> void:
+	can_walljump = false
 	if current_state != STATE.JUMPING:
 		current_state = STATE.FALLING
 

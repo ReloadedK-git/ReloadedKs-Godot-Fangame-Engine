@@ -156,7 +156,7 @@ target_position = Vector2(0, 152)
 
 [node name="Sprite2D" parent="Hazards/objLaserStatic/laserComponents" index="1"]
 rotation = 1.5707964
-region_rect = Rect2(-12, 0, 160, 14)
+region_rect = Rect2(-55, 0, 160, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserStatic" index="1"]
 position = Vector2(0, 152)
@@ -169,7 +169,7 @@ target_position = Vector2(0, 184)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic/laserComponents" index="1"]
 rotation = 1.5707964
-region_rect = Rect2(-53, 0, 192, 14)
+region_rect = Rect2(-96, 0, 192, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic" index="1"]
 position = Vector2(0, 184)
@@ -182,7 +182,7 @@ target_position = Vector2(0, -344)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic2/laserComponents" index="1"]
 rotation = -1.5707964
-region_rect = Rect2(-85, 0, 352, 14)
+region_rect = Rect2(-27.5, 0, 352, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic2" index="1"]
 position = Vector2(0, -344)
@@ -195,7 +195,7 @@ target_position = Vector2(0, 152)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic3/laserComponents" index="1"]
 rotation = 1.5707964
-region_rect = Rect2(-13, 0, 160, 14)
+region_rect = Rect2(-56, 0, 160, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic3" index="1"]
 position = Vector2(0, 152)

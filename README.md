@@ -226,3 +226,26 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Disabled vsync by default.
 * Added "player_initial_sprite" to ***scrGlobalSaveload***.
 * Added ***scrGlobalSignals*** (GLOBAL_SIGNALS autoload).
+
+### v1.14 (28-01-2026)
+
+* Added 4 types of horizontal input modes for the ***objPlayer***.
+* Reworked masks for ***objPlayer*** (credits to *RndGuy*).
+* Fixed bug with ***objPlayer***'s walljumping (credits to *TheHamester*).
+* Fixed bug with ***objPlayer***'s masks not getting oriented on creation.
+* Fixed a small bug when d_jump was not recovered if jumping exactly on the same frame as landing.
+* Minor changes and additions to ***objPlayer***.
+* Fixed bug with ***objCameraFixed*** which didn't scroll correctly if ignore_global_zoom was enabled.
+* Added ***objParticlesManager*** as an autoload.
+* Minor fix for ***objJumpParticle***.
+* Added classic fangame death music, with proper credits.
+* Added new death music related settings in ***scrGlobalGame***.
+* Removed zoom scaling setting from the options menu.
+* Added debug key for zooming to the engine's input map.
+* Debug functions now require "Ctrl + function_key" to work.
+* Changed setting order for ***objPauseMenuMain***.
+* Added ***objRoomWrapper***.
+* Added several death music types to ***scrGlobalGame***.
+* Removed debug action and setting to pause music.
+* Added ***objScreenShake***, ***scrScreenShake*** and ***shScreenShake***.
+* Reworked ***objSavePoint***.

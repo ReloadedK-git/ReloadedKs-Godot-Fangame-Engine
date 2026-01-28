@@ -43,7 +43,7 @@ shader = ExtResource("9_jmqlv")
 shader_parameter/new_color = Color(0, 0.823529, 0, 1)
 shader_parameter/blinking = false
 
-[node name="rTemplate" type="Node2D"]
+[node name="rTestRoom04" type="Node2D"]
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -185,7 +185,7 @@ position = Vector2(40, 688)
 target_position = Vector2(664, 0)
 
 [node name="Sprite2D" parent="Hazards/objLaserDynamic/laserComponents" index="1"]
-region_rect = Rect2(-39.5, 0, 672, 14)
+region_rect = Rect2(-66, 0, 672, 14)
 
 [node name="beamTarget" parent="Hazards/objLaserDynamic" index="1"]
 position = Vector2(664, 0)

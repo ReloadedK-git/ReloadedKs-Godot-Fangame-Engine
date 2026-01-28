@@ -1,14 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://cst67ugl7jb7p"]
+[gd_scene load_steps=4 format=3 uid="uid://cst67ugl7jb7p"]
 
 [ext_resource type="Material" uid="uid://r060ph0sbxx2" path="res://Resources/Materials/matJumpParticle.tres" id="1_iqyat"]
-[ext_resource type="Script" path="res://Scripts/Player/scrJumpParticle.gd" id="1_thvsk"]
+[ext_resource type="Script" uid="uid://dp7n0rkng1gw4" path="res://Scripts/Player/scrJumpParticle.gd" id="1_thvsk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8j5y"]
+size = Vector2(4, 8)
 
 [node name="objJumpParticle" type="GPUParticles2D"]
 z_index = 1
 amount = 3
-process_material = ExtResource("1_iqyat")
 lifetime = 0.6
 explosiveness = 1.0
+process_material = ExtResource("1_iqyat")
 script = ExtResource("1_thvsk")
 
 [node name="Timer" type="Timer" parent="."]
@@ -16,4 +19,14 @@ wait_time = 0.6
 one_shot = true
 autostart = true
 
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 128
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_b8j5y")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
