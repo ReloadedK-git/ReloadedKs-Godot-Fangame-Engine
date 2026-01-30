@@ -249,3 +249,13 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Removed debug action and setting to pause music.
 * Added ***objScreenShake***, ***scrScreenShake*** and ***shScreenShake***.
 * Reworked ***objSavePoint***.
+
+### v1.14.1 (30-10-2026)
+
+* Fixed bug with ***objBloodEmitter*** not stopping death music if autoreset was enabled.
+* Fixed bug with ***scrGlobalGame*** not stopping death music for type FADE_OUT_AND_PLAY when resetting very quickly.
+* Fixed bug with ***objPlayer*** for input type RIGHT_TAKES_PRIORITY in which walljumps were not handled correctly.
+* You can now press the "Music Volume" and "Sound Volume" settings inside the options and pause menu. Doing so will mute/unmute their sound buses.
+* Label text for "Music Volume" and "Sound volume" no longer displays "Number.0 %" and shows "Number %" instead.
+* Changed opacity for ***objPlayer***'s debug collision mask.
+* Added debug setting for ***objPlayer***.

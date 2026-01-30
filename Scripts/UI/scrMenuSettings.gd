@@ -7,7 +7,9 @@ extends Control
 @onready var music_bus: int = AudioServer.get_bus_index("Music")
 @onready var sounds_bus: int = AudioServer.get_bus_index("Sounds")
 var music_volume: float = 1.0
+var stored_music_volume: float = 1.0
 var sound_volume: float = 1.0
+var stored_sound_volume: float = 1.0
 var volume_step: float = 0.1
 
 # Toggleable variables (fullscreen, vsync, autoreset)
@@ -39,6 +41,11 @@ func _ready():
 	
 	# Set the anchor positions for each button in focus
 	set_camera_anchor_positions()
+	
+	# Sets stored volume on creation
+	stored_music_volume = GLOBAL_GAME.menus_stored_music_volume
+	stored_sound_volume = GLOBAL_GAME.menus_stored_sound_volume
+
 
 
 # Key press checking (settings, quit)
@@ -50,6 +57,7 @@ func _physics_process(_delta):
 	# Re-updates fullscreen in case we press "F4" in the middle of the settings
 	# menu
 	fullscreen_on = GLOBAL_SETTINGS.FULLSCREEN
+
 
 
 # Updates anchor positions for the camera when an input is detected
@@ -65,12 +73,12 @@ func _input(event):
 			get_tree().change_scene_to_file(main_menu)
 			GLOBAL_SOUNDS.play_sound("sndPause")
 
-##################################################################################################################
 
-# Music volume
+
+# Sets music volume by steps of 10
 func _on_music_volume_gui_input(event):
 	if event.is_action_pressed("ui_right"):
-		if (music_volume) < 0.99:
+		if (music_volume) < 1.0:
 			music_volume += volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 	
@@ -79,11 +87,21 @@ func _on_music_volume_gui_input(event):
 			music_volume -= volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 
+# Mutes/unmutes music in a single button press
+func _on_music_volume_pressed() -> void:
+	GLOBAL_SOUNDS.play_sound("sndPause")
+	if music_volume != 0.0:
+		stored_music_volume = music_volume
+		music_volume = 0.0
+	else:
+		music_volume = stored_music_volume
+	AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 
-# Sounds volume
+
+# Sets sound volume by steps of 10
 func _on_sfx_volume_gui_input(event):
 	if event.is_action_pressed("ui_right"):
-		if (sound_volume) < 0.99:
+		if (sound_volume) < 1.0:
 			sound_volume += volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 	
@@ -91,6 +109,16 @@ func _on_sfx_volume_gui_input(event):
 		if (sound_volume - volume_step) >= 0.0:
 			sound_volume -= volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
+
+# Mutes/unmutes sounds in a single button press
+func _on_sfx_volume_pressed() -> void:
+	GLOBAL_SOUNDS.play_sound("sndPause")
+	if sound_volume != 0.0:
+		stored_sound_volume = sound_volume
+		sound_volume = 0.0
+	else:
+		sound_volume = stored_sound_volume
+	AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 
 
 # Fullscreen on/off
@@ -165,7 +193,7 @@ func _on_back_pressed():
 		get_tree().change_scene_to_file(main_menu)
 		GLOBAL_SOUNDS.play_sound("sndPause")
 
-##########################################################################################################
+
 
 # Loads data from the global settings file
 func load_from_global_settings():
@@ -185,8 +213,8 @@ func load_from_global_settings():
 
 # Sets and updates the text from each one of the button's labels
 func set_labels_text():
-	$SettingsContainer/MusicVolume/Label.text = "Music Volume: " + str(round(music_volume * 100)) + "%"
-	$SettingsContainer/SFXVolume/Label.text = "Sound Volume: " + str(round(sound_volume * 100)) + "%"
+	$SettingsContainer/MusicVolume/Label.text = "Music Volume: " + str(round(music_volume * 100)).trim_suffix(".0") + "%"
+	$SettingsContainer/SFXVolume/Label.text = "Sound Volume: " + str(round(sound_volume * 100)).trim_suffix(".0") + "%"
 	$SettingsContainer/Fullscreen/Label.text = "Fullscreen: " + str(bool_to_on_off(fullscreen_on))
 	$SettingsContainer/HUDScale/Label.text = "HUD Scale: " + str(HUD_scaling) + "x"
 	$SettingsContainer/WindowScale/Label.text = "Window Scale: " + str(window_scaling) + "x"
@@ -214,6 +242,10 @@ func save_on_exit():
 	# Saving (includes fullscreen and vsync, but we don't need to set them
 	# from here again)
 	GLOBAL_SETTINGS.save_settings()
+	
+	# Stores music and sounds volume
+	GLOBAL_GAME.menus_stored_music_volume = stored_music_volume
+	GLOBAL_GAME.menus_stored_sound_volume = stored_sound_volume
 
 
 # Sets the values back to their default ones (menu settings first, then global

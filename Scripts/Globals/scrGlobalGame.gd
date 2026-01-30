@@ -36,6 +36,10 @@ var global_camera_limits: Array = [0, 0, 0, 0]
 var global_camera_zoom: float = 1.0
 var global_camera_zoom_to: float = 1.0
 
+#  Stored music and sound volume
+var menus_stored_music_volume: float = 1.0
+var menus_stored_sound_volume: float = 1.0
+
 
 """------------------------------------------------------------------------------------
 Public readonly variables, meant to be accessed but not modified outside of this script
@@ -272,7 +276,8 @@ func play_gameover_music():
 			gameover_music_tween.tween_property(self, "death_music_counter", 0.0, 1.0)
 			
 			await get_tree().create_timer(0.2).timeout
-			GLOBAL_SOUNDS.play_sound("sndOnDeath")
+			if !is_instance_valid(GLOBAL_INSTANCES.objPlayerID):
+				GLOBAL_SOUNDS.play_sound("sndOnDeath")
 			
 			await gameover_music_tween.finished
 			GLOBAL_MUSIC.set_stream_paused(true)
@@ -312,7 +317,8 @@ func play_gameover_music():
 			await gameover_music_tween.finished
 			death_music_counter = 0.001
 			GLOBAL_MUSIC.set_stream_paused(true)
-			GLOBAL_SOUNDS.play_sound("sndOnDeath")
+			if !is_instance_valid(GLOBAL_INSTANCES.objPlayerID):
+				GLOBAL_SOUNDS.play_sound("sndOnDeath")
 
 
 # Gameover music resetting. Kills music tween, resets counter, volume

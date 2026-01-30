@@ -46,4 +46,5 @@ func _on_timer_blink_timeout():
 # Resets automatically, if the global setting is set to "true"
 func _on_timer_autoreset_timeout():
 	if GLOBAL_SETTINGS.AUTORESET:
+		GLOBAL_GAME.reset_gameover_music()
 		GLOBAL_GAME.reset()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://cinj525l66hoo"]
+[gd_scene format=3 uid="uid://cinj525l66hoo"]
 
 [ext_resource type="Script" uid="uid://cs0j0kvct6xf7" path="res://Scripts/Player/scrPlayer.gd" id="1_i4y4g"]
 [ext_resource type="Texture2D" uid="uid://3vvx835ga47v" path="res://Graphics/Sprites/Player/sprPlayerClimb.png" id="2_cyx51"]
@@ -214,7 +214,7 @@ size = Vector2(13, 23)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_05aji"]
 size = Vector2(11, 21)
 
-[node name="objPlayer" type="CharacterBody2D" groups=["Player"]]
+[node name="objPlayer" type="CharacterBody2D" unique_id=1815537295 groups=["Player"]]
 z_index = 2
 collision_mask = 6
 slide_on_ceiling = false
@@ -225,7 +225,7 @@ platform_on_leave = 2
 platform_floor_layers = 4294967046
 script = ExtResource("1_i4y4g")
 
-[node name="playerMask" type="CollisionShape2D" parent="."]
+[node name="playerMask" type="CollisionShape2D" parent="." unique_id=2020812408]
 editor_description = "Should only detect:
 -Walls
 -Platforms"
@@ -234,14 +234,14 @@ position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_x466q")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
-[node name="playerSpriteOrigin" type="Node2D" parent="."]
+[node name="playerSpriteOrigin" type="Node2D" parent="." unique_id=1854279713]
 
-[node name="playerSprites" type="AnimatedSprite2D" parent="playerSpriteOrigin"]
+[node name="playerSprites" type="AnimatedSprite2D" parent="playerSpriteOrigin" unique_id=1863006503]
 sprite_frames = SubResource("SpriteFrames_vrq0l")
 animation = &"idle"
 offset = Vector2(-1.5, 0)
 
-[node name="ColorRect" type="ColorRect" parent="playerSpriteOrigin"]
+[node name="ColorRect" type="ColorRect" parent="playerSpriteOrigin" unique_id=765335441]
 visible = false
 z_index = 1
 offset_left = -5.5
@@ -249,119 +249,119 @@ offset_top = -5.0
 offset_right = 5.5
 offset_bottom = 16.0
 pivot_offset = Vector2(11, 0)
-color = Color(1, 0, 1, 0.498039)
+color = Color(1, 0, 1, 1)
 
-[node name="extraCollisions" type="Node2D" parent="."]
+[node name="extraCollisions" type="Node2D" parent="." unique_id=1152556706]
 
-[node name="Platforms" type="Area2D" parent="extraCollisions"]
+[node name="Platforms" type="Area2D" parent="extraCollisions" unique_id=1799857618]
 collision_layer = 0
 collision_mask = 4
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Platforms"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Platforms" unique_id=1825799225]
 visible = false
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_5vob8")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="Killers" type="Area2D" parent="extraCollisions"]
+[node name="Killers" type="Area2D" parent="extraCollisions" unique_id=636078242]
 collision_layer = 0
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Killers"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Killers" unique_id=1965474844]
 visible = false
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_5vob8")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="Water" type="Area2D" parent="extraCollisions"]
+[node name="Water" type="Area2D" parent="extraCollisions" unique_id=1761330320]
 collision_layer = 0
 collision_mask = 128
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Water"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Water" unique_id=2029296607]
 visible = false
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_nadji")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="IsCrushed" type="Area2D" parent="extraCollisions"]
+[node name="IsCrushed" type="Area2D" parent="extraCollisions" unique_id=780608143]
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IsCrushed"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IsCrushed" unique_id=237430056]
 visible = false
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_ewgw8")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="Walljumps" type="Area2D" parent="extraCollisions"]
+[node name="Walljumps" type="Area2D" parent="extraCollisions" unique_id=1115566900]
 collision_layer = 0
 collision_mask = 512
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Walljumps"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Walljumps" unique_id=483806935]
 visible = false
 position = Vector2(6, 5.5)
 shape = SubResource("RectangleShape2D_x6gqu")
 debug_color = Color(0, 1, 0.0156863, 0.419608)
 
-[node name="SheepBlocks" type="Area2D" parent="extraCollisions"]
+[node name="SheepBlocks" type="Area2D" parent="extraCollisions" unique_id=2071051306]
 collision_layer = 0
 collision_mask = 1024
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/SheepBlocks"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/SheepBlocks" unique_id=558546056]
 visible = false
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_mo373")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="PlatformSnap" type="Area2D" parent="extraCollisions"]
+[node name="PlatformSnap" type="Area2D" parent="extraCollisions" unique_id=1984902933]
 collision_layer = 0
 collision_mask = 4
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/PlatformSnap"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/PlatformSnap" unique_id=881671743]
 visible = false
 position = Vector2(0, 15.453)
 shape = SubResource("RectangleShape2D_i4y4g")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="ClimbSurface" type="Area2D" parent="extraCollisions"]
+[node name="ClimbSurface" type="Area2D" parent="extraCollisions" unique_id=442715502]
 collision_layer = 0
 collision_mask = 2048
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/ClimbSurface"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/ClimbSurface" unique_id=1901775960]
 visible = false
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_qff8s")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="IceBlocks" type="Area2D" parent="extraCollisions"]
+[node name="IceBlocks" type="Area2D" parent="extraCollisions" unique_id=48821900]
 collision_layer = 0
 collision_mask = 4096
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IceBlocks"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/IceBlocks" unique_id=962641827]
 visible = false
 position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_0m0v4")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="PhysicsObject" type="Area2D" parent="extraCollisions"]
+[node name="PhysicsObject" type="Area2D" parent="extraCollisions" unique_id=1588100665]
 collision_layer = 0
 collision_mask = 8192
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/PhysicsObject"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/PhysicsObject" unique_id=746896454]
 visible = false
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_y6okb")
 debug_color = Color(1, 0.00784314, 0.0509804, 0.419608)
 
-[node name="Wind" type="Area2D" parent="extraCollisions"]
+[node name="Wind" type="Area2D" parent="extraCollisions" unique_id=168891824]
 collision_layer = 0
 collision_mask = 16384
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Wind"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="extraCollisions/Wind" unique_id=1310319675]
 visible = false
 position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_05aji")

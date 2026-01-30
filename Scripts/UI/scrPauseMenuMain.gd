@@ -8,7 +8,9 @@ extends Control
 var items_menu := preload("res://Objects/UI/objPauseMenuItems.tscn")
 var button_color_unfocused: Color = Color(0, 0, 0)
 var music_volume: float = 1.0
+var stored_music_volume: float = 1.0
 var sound_volume: float = 1.0
+var stored_sound_volume: float = 1.0
 var volume_step: float = 0.1
 
 
@@ -31,6 +33,8 @@ func _ready():
 	
 	music_volume = GLOBAL_SETTINGS.MUSIC_VOLUME
 	sound_volume = GLOBAL_SETTINGS.SOUND_VOLUME
+	stored_music_volume = GLOBAL_GAME.menus_stored_music_volume
+	stored_sound_volume = GLOBAL_GAME.menus_stored_sound_volume
 	
 	# Sets text and color for the button labels
 	set_labels_text()
@@ -99,10 +103,10 @@ func _on_resume_game_pressed():
 	quit_pause()
 
 
-# Music volume
+# Sets music volume by steps of 10
 func _on_music_volume_gui_input(event):
 	if event.is_action_pressed("ui_right"):
-		if (music_volume) < 0.99:
+		if (music_volume) < 1.0:
 			music_volume += volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 	
@@ -111,11 +115,21 @@ func _on_music_volume_gui_input(event):
 			music_volume -= volume_step
 			AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 
+# Mutes/unmutes music in a single button press
+func _on_music_volume_pressed() -> void:
+	GLOBAL_SOUNDS.play_sound("sndPause")
+	if music_volume != 0.0:
+		stored_music_volume = music_volume
+		music_volume = 0.0
+	else:
+		music_volume = stored_music_volume
+	AudioServer.set_bus_volume_db(music_bus, linear_to_db(music_volume))
 
-# Sound volume
+
+# Sets sound volume by steps of 10
 func _on_sound_volume_gui_input(event):
 	if event.is_action_pressed("ui_right"):
-		if (sound_volume) < 0.99:
+		if (sound_volume) < 1.0:
 			sound_volume += volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 	
@@ -123,6 +137,16 @@ func _on_sound_volume_gui_input(event):
 		if (sound_volume - volume_step) >= 0.0:
 			sound_volume -= volume_step
 			AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
+
+# Mutes/unmutes sounds in a single button press
+func _on_sound_volume_pressed() -> void:
+	GLOBAL_SOUNDS.play_sound("sndPause")
+	if sound_volume != 0.0:
+		stored_sound_volume = sound_volume
+		sound_volume = 0.0
+	else:
+		sound_volume = stored_sound_volume
+	AudioServer.set_bus_volume_db(sounds_bus, linear_to_db(sound_volume))
 
 
 # Quit to menu
@@ -137,8 +161,8 @@ func _on_quit_to_menu_pressed():
 # Updates text labels to show the proper key ids
 func set_labels_text():
 	$CanvasLayer/VBoxContainer/OptionsContainer/ResumeGame/Label.text = "Resume Game"
-	$CanvasLayer/VBoxContainer/OptionsContainer/MusicVolume/Label.text = "Music Volume: " + str(round(music_volume * 100)) + "%"
-	$CanvasLayer/VBoxContainer/OptionsContainer/SoundVolume/Label.text = "Sound Volume: " + str(round(sound_volume * 100)) + "%"
+	$CanvasLayer/VBoxContainer/OptionsContainer/MusicVolume/Label.text = "Music Volume: " + str(round(music_volume * 100)).trim_suffix(".0") + "%"
+	$CanvasLayer/VBoxContainer/OptionsContainer/SoundVolume/Label.text = "Sound Volume: " + str(round(sound_volume * 100)).trim_suffix(".0") + "%"
 	$CanvasLayer/VBoxContainer/OptionsContainer/QuitToMenu/Label.text = "Quit to Main Menu"
 
 
@@ -163,6 +187,10 @@ func quit_pause():
 	GLOBAL_SETTINGS.MUSIC_VOLUME = music_volume
 	GLOBAL_SETTINGS.SOUND_VOLUME = sound_volume
 	GLOBAL_SETTINGS.save_settings()
+	
+	# Stores music and sounds volume
+	GLOBAL_GAME.menus_stored_music_volume = stored_music_volume
+	GLOBAL_GAME.menus_stored_sound_volume = stored_sound_volume
 	
 	# Unset pause, unpause game
 	GLOBAL_GAME.game_paused = false

@@ -1,25 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6e8hsgoxslt3"]
+[gd_scene format=3 uid="uid://c6e8hsgoxslt3"]
 
 [ext_resource type="Script" uid="uid://dm8aghbk4arec" path="res://Scripts/UI/scrPauseMenuMain.gd" id="1_l70pg"]
 [ext_resource type="FontFile" uid="uid://4m283seugry" path="res://Graphics/Fonts/NFPixels-Regular.otf" id="2_3paqw"]
 [ext_resource type="PackedScene" uid="uid://614aveijpptq" path="res://Objects/UI/objMenuButton.tscn" id="3_6y6sc"]
 
-[node name="objPauseMenuMain" type="Control" groups=["Pause"]]
+[node name="objPauseMenuMain" type="Control" unique_id=647564066 groups=["Pause"]]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_l70pg")
 main_menu = "res://Rooms/00_Title_and_menus/rMenuMain.tscn"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=874042540]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1637130026]
 custom_minimum_size = Vector2(800, 608)
 offset_right = 800.0
 offset_bottom = 608.0
 color = Color(0, 0, 0, 0.588235)
 
-[node name="ViewItems" type="Label" parent="CanvasLayer"]
+[node name="ViewItems" type="Label" parent="CanvasLayer" unique_id=324603181]
 offset_left = 64.0
 offset_top = 528.0
 offset_right = 736.0
@@ -33,7 +33,7 @@ text = "[Z] View Items"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1892873417]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -50,7 +50,7 @@ size_flags_vertical = 4
 theme_override_constants/separation = 60
 alignment = 1
 
-[node name="GamePaused" type="Label" parent="CanvasLayer/VBoxContainer"]
+[node name="GamePaused" type="Label" parent="CanvasLayer/VBoxContainer" unique_id=873485674]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -61,11 +61,11 @@ text = "- Game Paused -"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OptionsContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer"]
+[node name="OptionsContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=718239560]
 layout_mode = 2
 theme_override_constants/separation = 60
 
-[node name="ResumeGame" parent="CanvasLayer/VBoxContainer/OptionsContainer" instance=ExtResource("3_6y6sc")]
+[node name="ResumeGame" parent="CanvasLayer/VBoxContainer/OptionsContainer" unique_id=169729643 instance=ExtResource("3_6y6sc")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../QuitToMenu")
@@ -74,7 +74,7 @@ focus_neighbor_bottom = NodePath("../MusicVolume")
 action_mode = 0
 _text = "Resume Game"
 
-[node name="MusicVolume" parent="CanvasLayer/VBoxContainer/OptionsContainer" instance=ExtResource("3_6y6sc")]
+[node name="MusicVolume" parent="CanvasLayer/VBoxContainer/OptionsContainer" unique_id=1056846057 instance=ExtResource("3_6y6sc")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../ResumeGame")
@@ -83,7 +83,7 @@ focus_neighbor_bottom = NodePath("../SoundVolume")
 action_mode = 0
 _text = "Music Volume"
 
-[node name="SoundVolume" parent="CanvasLayer/VBoxContainer/OptionsContainer" instance=ExtResource("3_6y6sc")]
+[node name="SoundVolume" parent="CanvasLayer/VBoxContainer/OptionsContainer" unique_id=1685300077 instance=ExtResource("3_6y6sc")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../MusicVolume")
@@ -92,7 +92,7 @@ focus_neighbor_bottom = NodePath("../QuitToMenu")
 action_mode = 0
 _text = "Sound Volume"
 
-[node name="QuitToMenu" parent="CanvasLayer/VBoxContainer/OptionsContainer" instance=ExtResource("3_6y6sc")]
+[node name="QuitToMenu" parent="CanvasLayer/VBoxContainer/OptionsContainer" unique_id=622553797 instance=ExtResource("3_6y6sc")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../SoundVolume")
@@ -103,5 +103,7 @@ _text = "Quit to Main Menu"
 
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/OptionsContainer/ResumeGame" to="." method="_on_resume_game_pressed"]
 [connection signal="gui_input" from="CanvasLayer/VBoxContainer/OptionsContainer/MusicVolume" to="." method="_on_music_volume_gui_input"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/OptionsContainer/MusicVolume" to="." method="_on_music_volume_pressed"]
 [connection signal="gui_input" from="CanvasLayer/VBoxContainer/OptionsContainer/SoundVolume" to="." method="_on_sound_volume_gui_input"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/OptionsContainer/SoundVolume" to="." method="_on_sound_volume_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/OptionsContainer/QuitToMenu" to="." method="_on_quit_to_menu_pressed"]
