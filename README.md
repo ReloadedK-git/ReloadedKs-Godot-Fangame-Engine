@@ -250,7 +250,7 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Added ***objScreenShake***, ***scrScreenShake*** and ***shScreenShake***.
 * Reworked ***objSavePoint***.
 
-### v1.14.1 (30-10-2026)
+### v1.14.1 (30-01-2026)
 
 * Fixed bug with ***objBloodEmitter*** not stopping death music if autoreset was enabled.
 * Fixed bug with ***scrGlobalGame*** not stopping death music for type FADE_OUT_AND_PLAY when resetting very quickly.
@@ -259,3 +259,7 @@ You can check the [engine's documentation](https://github.com/ReloadedK-git/Relo
 * Label text for "Music Volume" and "Sound volume" no longer displays "Number.0 %" and shows "Number %" instead.
 * Changed opacity for ***objPlayer***'s debug collision mask.
 * Added debug setting for ***objPlayer***.
+
+### v1.14.2 (02-02-2026)
+
+* Fixed bug with ***objPlayer*** for input type RIGHT_TAKES_PRIORITY in which walljumps were not handled correctly.

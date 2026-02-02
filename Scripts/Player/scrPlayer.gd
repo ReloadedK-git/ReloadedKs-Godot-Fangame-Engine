@@ -545,15 +545,20 @@ func handle_horizontal_input():
 		
 		# Right direction always takes priority. Resembles classic fangame engines
 		MOVEMENT_TYPE.RIGHT_TAKES_PRIORITY:
-			if not can_walljump:
-				if Input.is_action_pressed("button_right"):
-					horizontal_movement_direction = 1.0
-				elif Input.is_action_pressed("button_left"):
-					horizontal_movement_direction = -1.0
-				else:
-					horizontal_movement_direction = 0.0
+			if Input.is_action_pressed("button_right"):
+				horizontal_movement_direction = 1.0
+			elif Input.is_action_pressed("button_left"):
+				horizontal_movement_direction = -1.0
 			else:
-				current_movement_type = MOVEMENT_TYPE.RIGHT_TAKES_PRIORITY_FOR_WALLJUMPING
+				horizontal_movement_direction = 0.0
+			
+			# For walljumping, we need to be touching a vine while not grounded.
+			# If so, we reset our movement direction and change into a transitional
+			# walljump state
+			if can_walljump:
+				if not is_on_floor():
+					horizontal_movement_direction = 0.0
+					current_movement_type = MOVEMENT_TYPE.RIGHT_TAKES_PRIORITY_FOR_WALLJUMPING
 		
 		
 		# A temporary state which gets accessed only when the movement type is
@@ -569,6 +574,7 @@ func handle_horizontal_input():
 					if not Input.is_action_pressed("button_left") and not Input.is_action_pressed("button_right"):
 						horizontal_movement_direction = 0
 			else:
+				horizontal_movement_direction = 0.0
 				current_movement_type = MOVEMENT_TYPE.RIGHT_TAKES_PRIORITY
 		
 		
